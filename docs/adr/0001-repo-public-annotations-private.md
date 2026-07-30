@@ -1,0 +1,7 @@
+# Public repo, private application history
+
+**Context:** The repo must be public — the scan workflow runs ~1,230 times/month (15-min cron during Bay Area work hours, 2-hour cron otherwise; this run count is arithmetic from the cron schedule, not measured). GitHub bills each run rounded up to the whole minute, and real per-run wall time (checkout, `setup-python`, sequential source fetches, git push) is *estimated* — not measured — at 40–90s, putting likely usage around 1,500–2,500 billed minutes/month. That's at or over GitHub's 2,000-minute private-repo free tier, so public is the only zero-cost option barring actual measurement showing otherwise. But the workflow commits `jobs.json` back to the repo on every run, and `jobs.json` was on track to carry `applied_at`/`hidden` annotations — i.e. which companies/roles the owner has applied to — which would become permanent, public, forkable git history.
+
+**Decision:** Keep the repo public for the Actions minutes. Split `applied_at` and `hidden` out of the tracked, public `jobs.json` into a separate, gitignored local file. The fetched job records themselves (title, company, location, score) and `notified_at` stay in the public, committed store — none of that is sensitive. Only the owner's personal application activity is kept out of git history entirely.
+
+**Consequence:** Anything in the private annotations file doesn't survive a fresh clone or a different machine without being copied over manually — this is a deliberate trade for keeping application history off public record, not an oversight.

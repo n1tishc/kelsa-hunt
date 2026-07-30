@@ -1,0 +1,10 @@
+{
+  "greenhouse": [
+    "anthropic", "databricks", "stripe", "figma",
+    "scaleai", "airtable", "vercel", "attentive"
+  ],
+  "lever": [],
+  "ashby": [
+    "notion", "benchling", "ramp", "plaid"
+  ]
+}
