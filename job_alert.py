@@ -158,6 +158,8 @@ def _mixed_us_fragments(location):
         return ["Remote (US)"]
     components = [part.strip() for part in location.split(",") if part.strip()]
     fragments = []
+    strong_evidence = False
+    weak_fragment_count = 0
     index = 0
     while index < len(components):
         component = components[index]
@@ -173,6 +175,16 @@ def _mixed_us_fragments(location):
                 and _has_explicit_us_evidence(candidate)
             ):
                 fragments.append(candidate)
+                strong_evidence = True
+            index += 2
+            continue
+        if (
+            index + 1 == len(components) - 1
+            and " ".join(component.lower().split()) in US_LOCALITY_ALIASES
+            and US_JURISDICTION_NAME.fullmatch(components[index + 1])
+        ):
+            fragments.append(f"{component}, {components[index + 1]}")
+            strong_evidence = True
             index += 2
             continue
         if (
@@ -184,10 +196,25 @@ def _mixed_us_fragments(location):
             )
         ):
             fragments.append(component)
+            if (
+                US_COUNTRY.search(component)
+                or US_JURISDICTION_CODE.search(component)
+            ):
+                strong_evidence = True
+            else:
+                weak_fragment_count += 1
         index += 1
     if not fragments:
-        fragments.extend(match.group(0) for match in US_COUNTRY.finditer(location))
-    return fragments
+        country_fragments = [
+            match.group(0) for match in US_COUNTRY.finditer(location)
+        ]
+        fragments.extend(country_fragments)
+        strong_evidence = bool(country_fragments)
+    if strong_evidence or (
+        weak_fragment_count >= 2 and not NON_US_MARKER.search(location)
+    ):
+        return fragments
+    return []
 
 
 def _location_parts(locations):
