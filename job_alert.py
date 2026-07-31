@@ -684,11 +684,23 @@ def post_discord(embeds, webhook, dry=False):
                 break
             except urllib.error.HTTPError as e:
                 if e.code == 429:
-                    wait = float(json.loads(e.read() or b"{}").get("retry_after", 2))
+                    try:
+                        wait = float(
+                            json.loads(e.read() or b"{}").get("retry_after", 2)
+                        )
+                    except (AttributeError, TypeError, ValueError):
+                        print(
+                            "  ! discord malformed rate-limit response",
+                            file=sys.stderr,
+                        )
+                        return False
                     print(f"  rate limited, sleeping {wait}s")
                     time.sleep(wait + 0.3)
                     continue
                 print(f"  ! discord {e.code}", file=sys.stderr)
+                return False
+            except (urllib.error.URLError, TimeoutError) as e:
+                print(f"  ! discord transport: {e}", file=sys.stderr)
                 return False
         else:
             print("  ! discord rate-limit retries exhausted", file=sys.stderr)

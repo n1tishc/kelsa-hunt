@@ -51,6 +51,45 @@ class DiscordDeliveryTests(unittest.TestCase):
 
         self.assertFalse(delivered)
 
+    def test_transport_failure_is_reported_to_the_caller(self):
+        with (
+            mock.patch(
+                "urllib.request.urlopen",
+                side_effect=urllib.error.URLError("offline"),
+            ),
+            mock.patch("time.sleep"),
+        ):
+            delivered = job_alert.post_discord(
+                [{"title": "Example"}],
+                "https://discord.invalid/webhook",
+            )
+
+        self.assertFalse(delivered)
+
+    def test_malformed_rate_limit_response_is_reported_as_failed(self):
+        def malformed_rate_limit(*_args, **_kwargs):
+            raise urllib.error.HTTPError(
+                "https://discord.invalid/webhook",
+                429,
+                "Too Many Requests",
+                {},
+                io.BytesIO(b"not-json"),
+            )
+
+        with (
+            mock.patch(
+                "urllib.request.urlopen",
+                side_effect=malformed_rate_limit,
+            ),
+            mock.patch("time.sleep"),
+        ):
+            delivered = job_alert.post_discord(
+                [{"title": "Example"}],
+                "https://discord.invalid/webhook",
+            )
+
+        self.assertFalse(delivered)
+
 
 class NotificationStateTests(unittest.TestCase):
     def test_marking_a_candidate_prevents_its_cross_posts_from_refiring(self):
