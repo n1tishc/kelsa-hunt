@@ -85,6 +85,36 @@ class NotificationStateTests(unittest.TestCase):
 
         self.assertEqual(store.candidates(), [])
 
+    def test_marking_a_candidate_stamps_foreign_views_of_the_same_opening(self):
+        payload = {
+            "jobs": {
+                "simplify:example": {
+                    "uid": "simplify:example",
+                    "title": "Software Engineer, New Grad",
+                    "company": "Example",
+                    "locations": ["San Francisco, CA"],
+                    "url": "https://example.com/jobs?gh_jid=12345",
+                },
+                "gh:example:12345": {
+                    "uid": "gh:example:12345",
+                    "title": "Software Engineer, New Grad",
+                    "company": "Example",
+                    "locations": ["London, UK"],
+                    "url": "https://job-boards.greenhouse.io/example/jobs/12345",
+                },
+            }
+        }
+
+        with tempfile.TemporaryDirectory() as directory:
+            store_path = pathlib.Path(directory) / "jobs.json"
+            store_path.write_text(json.dumps(payload))
+            store = job_alert.Store(store_path)
+
+        store.mark_notified(store.candidates(), timestamp=123)
+        store.jobs["gh:example:12345"]["locations"] = ["San Francisco, CA"]
+
+        self.assertEqual(store.candidates(), [])
+
 
 if __name__ == "__main__":
     unittest.main()

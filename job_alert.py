@@ -500,7 +500,10 @@ class Store:
         marked = 0
         for rec in self.jobs.values():
             view = _us_record(rec)
-            if view is not None and dedup_key(view) in candidate_keys:
+            if (
+                dedup_key(rec) in candidate_keys
+                or (view is not None and dedup_key(view) in candidate_keys)
+            ):
                 rec["notified_at"] = notified_at
                 marked += 1
         return marked
