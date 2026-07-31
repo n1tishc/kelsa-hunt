@@ -12,6 +12,7 @@ class UsLocationsTests(unittest.TestCase):
             (["Remote"], []),
             (["Global"], []),
             (["Remote in Canada"], []),
+            (["Remote — contact us"], []),
             (["London, UK"], []),
             (["Remote in US"], ["Remote in US"]),
             (["Remote - U.S.A."], ["Remote - U.S.A."]),
@@ -174,7 +175,7 @@ class StoreUsRecordsTests(unittest.TestCase):
             max_age_days=0,
         )
 
-        self.assertEqual(candidates[0]["locations"], ["US"])
+        self.assertEqual(candidates[0]["locations"], ["Remote (US)"])
 
 
 class UsLocationCoverageTests(unittest.TestCase):
@@ -227,6 +228,12 @@ class UsLocationCoverageTests(unittest.TestCase):
     def test_common_delimiters_keep_only_explicit_us_locations(self):
         cases = [
             (["SF"], ["SF"]),
+            (["San Jose"], ["San Jose"]),
+            (["Mountain View"], ["Mountain View"]),
+            (["Palo Alto"], ["Palo Alto"]),
+            (["Sunnyvale"], ["Sunnyvale"]),
+            (["Oakland"], ["Oakland"]),
+            (["Berkeley"], ["Berkeley"]),
             (["San Francisco HQ"], ["San Francisco HQ"]),
             (["London", "Bengaluru", "Singapore"], []),
             (
@@ -242,7 +249,8 @@ class UsLocationCoverageTests(unittest.TestCase):
                 ["New York, NY"],
             ),
             (["US / Canada"], ["US"]),
-            (["Remote (US/Canada)"], ["US"]),
+            (["Remote (US/Canada)"], ["Remote (US)"]),
+            (["Remote (Canada/US)"], ["Remote (US)"]),
             (["Sydney OR Singapore"], []),
             (["Brisbane"], []),
             (["Brisbane, Australia"], []),
@@ -250,6 +258,11 @@ class UsLocationCoverageTests(unittest.TestCase):
             (["Tbilisi, Georgia"], []),
             (["Toronto, CA"], []),
             (["Bengaluru, IN"], []),
+            (["Remote Singapore, CA"], []),
+            (["London, CA"], []),
+            (["Singapore, CA"], []),
+            (["Washington, UK"], []),
+            (["Washington, England"], []),
             (
                 ["Belmont, Australia", "Denver, CO"],
                 ["Denver, CO"],

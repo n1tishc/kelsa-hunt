@@ -66,8 +66,8 @@ BAY_TERMS = [
 
 REMOTE_OK = re.compile(r"\bremote\b", re.I)
 US_COUNTRY = re.compile(
-    r"(?<![A-Za-z])(?:united\s+states(?:\s+of\s+america)?|u\.?s\.?(?:a\.?)?)(?![A-Za-z])",
-    re.I,
+    r"(?<![A-Za-z])(?:(?i:united\s+states(?:\s+of\s+america)?)|"
+    r"U\.?S\.?(?:A\.?)?)(?![A-Za-z])",
 )
 US_JURISDICTION_NAMES = (
     "Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado",
@@ -102,17 +102,20 @@ MULTI_LOCATION_SEPARATOR = re.compile(
     r"\s*[|•;]\s*|\s+/\s+|(?<!,)\s+or\s+",
     re.I,
 )
-US_LOCALITY_ALIASES = {
+US_LOCALITY_ALIASES = ({term.lower() for term in BAY_TERMS} - {
+    "belmont", "brisbane",
+}) | {
     "sf", "nyc", "la", "san francisco", "san francisco hq",
     "south san francisco", "sf bay", "bay area", "silicon valley",
     "new york city office",
 }
 KNOWN_NON_US_LOCALITIES = {
-    "bengaluru", "bangalore", "brisbane", "tbilisi", "toronto",
+    "bengaluru", "bangalore", "brisbane", "london", "singapore",
+    "tbilisi", "toronto",
 }
 NON_US_MARKER = re.compile(
     r"\b(?:APAC|EMEA|LATAM|global|Australia|Brazil|Canada|China|England|"
-    r"Europe|France|Germany|India|Ireland|Japan|Singapore|Spain|"
+    r"Europe|France|Germany|India|Ireland|Japan|London|Singapore|Spain|"
     r"United Kingdom|UK)\b",
     re.I,
 )
@@ -144,6 +147,8 @@ def _has_explicit_us_evidence(location):
 
 
 def _mixed_us_fragments(location):
+    if REMOTE_OK.search(location) and "/" in location and US_COUNTRY.search(location):
+        return ["Remote (US)"]
     components = [part.strip() for part in location.split(",") if part.strip()]
     fragments = []
     index = 0
@@ -154,13 +159,20 @@ def _mixed_us_fragments(location):
             and US_JURISDICTION_CODE_TOKEN.match(components[index + 1])
         ):
             candidate = f"{component}, {components[index + 1]}"
-            if _has_explicit_us_evidence(candidate):
+            if (
+                not NON_US_MARKER.search(component)
+                and _has_explicit_us_evidence(candidate)
+            ):
                 fragments.append(candidate)
             index += 2
             continue
         if (
             not NON_US_MARKER.search(component)
-            and _has_explicit_us_evidence(component)
+            and (
+                US_COUNTRY.search(component)
+                or US_JURISDICTION_CODE.search(component)
+                or " ".join(component.lower().split()) in US_LOCALITY_ALIASES
+            )
         ):
             fragments.append(component)
         index += 1
