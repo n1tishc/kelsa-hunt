@@ -263,6 +263,10 @@ class UsLocationCoverageTests(unittest.TestCase):
             (["Singapore, CA"], []),
             (["Washington, UK"], []),
             (["Washington, England"], []),
+            (["Vancouver, CA"], []),
+            (["Vancouver, WA"], []),
+            (["Mexico City, CA"], []),
+            (["California, Mexico"], []),
             (
                 ["Belmont, Australia", "Denver, CO"],
                 ["Denver, CO"],

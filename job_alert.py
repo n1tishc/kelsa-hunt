@@ -110,12 +110,13 @@ US_LOCALITY_ALIASES = ({term.lower() for term in BAY_TERMS} - {
     "new york city office",
 }
 KNOWN_NON_US_LOCALITIES = {
-    "bengaluru", "bangalore", "brisbane", "london", "singapore",
-    "tbilisi", "toronto",
+    "bengaluru", "bangalore", "brisbane", "london", "mexico city",
+    "singapore", "tbilisi", "toronto", "vancouver",
 }
 NON_US_MARKER = re.compile(
     r"\b(?:APAC|EMEA|LATAM|global|Australia|Brazil|Canada|China|England|"
-    r"Europe|France|Germany|India|Ireland|Japan|London|Singapore|Spain|"
+    r"Europe|France|Germany|India|Ireland|Japan|London|(?<!New )Mexico|"
+    r"Singapore|Spain|"
     r"United Kingdom|UK)\b",
     re.I,
 )
