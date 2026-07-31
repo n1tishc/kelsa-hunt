@@ -90,6 +90,29 @@ class DiscordDeliveryTests(unittest.TestCase):
 
         self.assertFalse(delivered)
 
+    def test_invalid_numeric_rate_limit_delay_is_reported_as_failed(self):
+        for retry_after in (-1, "nan", "inf"):
+            with self.subTest(retry_after=retry_after):
+                failure = urllib.error.HTTPError(
+                    "https://discord.invalid/webhook",
+                    429,
+                    "Too Many Requests",
+                    {},
+                    io.BytesIO(
+                        json.dumps({"retry_after": retry_after}).encode()
+                    ),
+                )
+                with mock.patch(
+                    "urllib.request.urlopen",
+                    side_effect=failure,
+                ):
+                    delivered = job_alert.post_discord(
+                        [{"title": "Example"}],
+                        "https://discord.invalid/webhook",
+                    )
+
+                self.assertFalse(delivered)
+
 
 class NotificationStateTests(unittest.TestCase):
     def test_marking_a_candidate_prevents_its_cross_posts_from_refiring(self):

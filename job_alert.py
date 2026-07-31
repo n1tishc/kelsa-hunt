@@ -16,6 +16,7 @@ Commands:
 
 import argparse
 import json
+import math
 import os
 import pathlib
 import re
@@ -688,6 +689,8 @@ def post_discord(embeds, webhook, dry=False):
                         wait = float(
                             json.loads(e.read() or b"{}").get("retry_after", 2)
                         )
+                        if wait < 0 or not math.isfinite(wait):
+                            raise ValueError("invalid retry_after")
                     except (AttributeError, TypeError, ValueError):
                         print(
                             "  ! discord malformed rate-limit response",
