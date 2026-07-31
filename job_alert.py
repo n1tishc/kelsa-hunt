@@ -493,6 +493,18 @@ class Store:
             out.append(row)
         return dedup(out)
 
+    def mark_notified(self, candidates, timestamp=None):
+        """Stamp every stored Cross-post represented by the Candidates."""
+        candidate_keys = {dedup_key(rec) for rec in candidates}
+        notified_at = now() if timestamp is None else timestamp
+        marked = 0
+        for rec in self.jobs.values():
+            view = _us_record(rec)
+            if view is not None and dedup_key(view) in candidate_keys:
+                rec["notified_at"] = notified_at
+                marked += 1
+        return marked
+
 
 # ==========================================================================
 # Fetchers  — each returns (records, ok)
@@ -674,7 +686,10 @@ def post_discord(embeds, webhook, dry=False):
                     time.sleep(wait + 0.3)
                     continue
                 print(f"  ! discord {e.code}", file=sys.stderr)
-                break
+                return False
+        else:
+            print("  ! discord rate-limit retries exhausted", file=sys.stderr)
+            return False
         time.sleep(1.0)
     return True
 
@@ -704,6 +719,24 @@ def extract_gh_id(url):
     return None
 
 
+def dedup_key(record):
+    """Return the current Cross-post identity key for a Record."""
+    gh_id = extract_gh_id(record.get("url"))
+    if gh_id:
+        return ("gh", gh_id)
+    title = re.sub(
+        r"[^a-z0-9 ]", " ", (record.get("title") or "").lower()
+    )
+    title = re.sub(
+        r"\b(i|1|new grad|new graduate|entry level|early career)\b",
+        " ",
+        title,
+    )
+    title = " ".join(title.split())
+    location = (record.get("locations") or ["?"])[0].lower()
+    return ((record.get("company") or "").lower(), title, location)
+
+
 def dedup(rows):
     """
     Collapse the same role posted twice. A Greenhouse job id extracted from
@@ -711,19 +744,9 @@ def dedup(rows):
     when available; otherwise fall back to company + location + a title
     stripped of punctuation and level markers. Keeps the highest score.
     """
-    def key(r):
-        gh_id = extract_gh_id(r.get("url"))
-        if gh_id:
-            return ("gh", gh_id)
-        t = re.sub(r"[^a-z0-9 ]", " ", (r.get("title") or "").lower())
-        t = re.sub(r"\b(i|1|new grad|new graduate|entry level|early career)\b", " ", t)
-        t = " ".join(t.split())
-        loc = (r.get("locations") or ["?"])[0].lower()
-        return ((r.get("company") or "").lower(), t, loc)
-
     best = {}
     for r in rows:
-        k = key(r)
+        k = dedup_key(r)
         if k not in best or r["score"] > best[k]["score"]:
             best[k] = r
     out = list(best.values())
@@ -802,18 +825,14 @@ def cmd_scan(args, store):
     show(rows)
 
     if args.seed:
-        ts = now()
-        for r in rows:
-            store.jobs[r["uid"]]["notified_at"] = ts
+        store.mark_notified(rows)
         print("seeded — marked as notified without sending")
     elif rows:
         sent = post_discord([build_embed(r) for r in rows],
                             os.environ.get("DISCORD_WEBHOOK", ""),
                             dry=args.dry_run)
         if sent:
-            ts = now()
-            for r in rows:
-                store.jobs[r["uid"]]["notified_at"] = ts
+            store.mark_notified(rows)
 
     if not args.dry_run:
         store.save()
@@ -837,9 +856,7 @@ def cmd_query(args, store):
                             os.environ.get("DISCORD_WEBHOOK", ""),
                             dry=args.dry_run)
         if sent and not args.dry_run:
-            ts = now()
-            for r in rows:
-                store.jobs[r["uid"]]["notified_at"] = ts
+            store.mark_notified(rows)
             store.save()
 
 
