@@ -107,7 +107,7 @@ US_LOCALITY_ALIASES = ({term.lower() for term in BAY_TERMS} - {
 }) | {
     "sf", "nyc", "la", "san francisco", "san francisco hq",
     "south san francisco", "sf bay", "bay area", "silicon valley",
-    "new york city office",
+    "atlanta", "new york", "new york city", "new york city office",
 }
 KNOWN_NON_US_LOCALITIES = {
     "bengaluru", "bangalore", "brisbane", "london", "mexico city",
@@ -129,20 +129,26 @@ def _has_explicit_us_evidence(location):
     normalized = " ".join(location.lower().split())
     country_match = US_COUNTRY.search(location)
     first_component = normalized.split(",", 1)[0]
-    if first_component in KNOWN_NON_US_LOCALITIES and not country_match:
-        return False
-    jurisdiction_names = {
-        match.group(0).lower()
-        for match in US_JURISDICTION_NAME.finditer(location)
-    }
-    jurisdiction_name_match = bool(
-        jurisdiction_names - {"georgia"}
-        or ("georgia" in jurisdiction_names and country_match)
+    locality_probe = re.sub(
+        r"^remote(?:\s+in)?(?:\s*[-–—:])?\s*",
+        "",
+        first_component,
     )
+    if locality_probe in KNOWN_NON_US_LOCALITIES and not country_match:
+        return False
+    jurisdiction_name_match = False
+    for match in US_JURISDICTION_NAME.finditer(location):
+        name = match.group(0).lower()
+        suffix = location[match.end():].strip(" ,-/–—")
+        if name == "georgia" and not country_match:
+            continue
+        if country_match or not suffix:
+            jurisdiction_name_match = True
+            break
     return bool(
         country_match
         or jurisdiction_name_match
-        or US_JURISDICTION_CODE.search(location)
+        or US_JURISDICTION_CODE.search(location.replace("D.C.", "DC"))
         or normalized in US_LOCALITY_ALIASES
     )
 
@@ -157,7 +163,9 @@ def _mixed_us_fragments(location):
         component = components[index]
         if (
             index + 1 < len(components)
-            and US_JURISDICTION_CODE_TOKEN.match(components[index + 1])
+            and US_JURISDICTION_CODE_TOKEN.match(
+                components[index + 1].replace("D.C.", "DC")
+            )
         ):
             candidate = f"{component}, {components[index + 1]}"
             if (
@@ -196,9 +204,7 @@ def us_locations(locations):
     """Return source locations with explicit evidence of US eligibility."""
     filtered = []
     for part in _location_parts(locations):
-        if not _has_explicit_us_evidence(part):
-            continue
-        if NON_US_MARKER.search(part):
+        if NON_US_MARKER.search(part) or not _has_explicit_us_evidence(part):
             filtered.extend(_mixed_us_fragments(part))
         else:
             filtered.append(part)

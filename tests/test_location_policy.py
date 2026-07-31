@@ -267,6 +267,17 @@ class UsLocationCoverageTests(unittest.TestCase):
             (["Vancouver, WA"], []),
             (["Mexico City, CA"], []),
             (["California, Mexico"], []),
+            (["Remote Vancouver, WA"], []),
+            (["Washington, South Africa"], []),
+            (["Washington, South Korea"], []),
+            (["California, Colombia"], []),
+            (["Portland, Oregon"], ["Portland, Oregon"]),
+            (["Washington, D.C."], ["Washington, D.C."]),
+            (["Atlanta, Georgia"], ["Atlanta"]),
+            (
+                ["San Francisco, New York, Seattle, Toronto"],
+                ["San Francisco", "New York"],
+            ),
             (
                 ["Belmont, Australia", "Denver, CO"],
                 ["Denver, CO"],
