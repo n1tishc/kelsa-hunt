@@ -25,6 +25,7 @@ import sqlite3
 import sys
 import time
 import urllib.error
+import urllib.parse
 import urllib.request
 from datetime import datetime, timezone
 
@@ -478,6 +479,11 @@ class Store:
         """Filter the store. This is the query-time filtering step."""
         out = []
         cutoff = now() - max_age_days * 86400
+        notified_groups = {
+            dedup_key(rec)
+            for rec in self.jobs.values()
+            if rec.get("notified_at")
+        }
         for source_rec in self.jobs.values():
             rec = _us_record(source_rec)
             if rec is None:
@@ -488,7 +494,7 @@ class Store:
                 continue
             if rec.get("closed_at") and not include_closed:
                 continue
-            if unnotified_only and rec.get("notified_at"):
+            if unnotified_only and dedup_key(source_rec) in notified_groups:
                 continue
             if not is_bay_area(source_rec.get("locations") or [], allow_remote):
                 continue
@@ -727,59 +733,165 @@ def post_discord(embeds, webhook, dry=False):
 # Commands
 # ==========================================================================
 
-GH_ID_PATTERNS = (
-    re.compile(r"gh_jid=(\d+)"),        # e.g. stripe.com/jobs/search?gh_jid=123
-    re.compile(r"[?&]token=(\d+)"),     # e.g. boards.greenhouse.io/embed/job_app?token=123
-    re.compile(r"/jobs/(\d+)\b"),       # e.g. job-boards.greenhouse.io/<slug>/jobs/123
-)
+def _parsed_record_url(record):
+    try:
+        parsed = urllib.parse.urlsplit(record.get("url") or "")
+    except ValueError:
+        return "", [], {}
+    path = [urllib.parse.unquote(part) for part in parsed.path.split("/") if part]
+    return parsed.hostname or "", path, urllib.parse.parse_qs(parsed.query)
 
 
-def extract_gh_id(url):
-    """
-    Pull the underlying Greenhouse job id out of a URL, whatever shape it's
-    wrapped in. Simplify sometimes links to the board URL directly, and
-    sometimes wraps the same id in a company-site query param instead — so
-    string-equality on the URL itself isn't enough to recognize a cross-post.
-    """
-    for pat in GH_ID_PATTERNS:
-        m = pat.search(url or "")
-        if m:
-            return m.group(1)
+def _structured_uid(record, prefix, field_count):
+    parts = (record.get("uid") or "").split(":")
+    if len(parts) == field_count + 1 and parts[0] == prefix and all(parts[1:]):
+        return parts[1:]
     return None
+
+
+def _greenhouse_identity(record):
+    structured = _structured_uid(record, "gh", 2)
+    if structured:
+        return ("greenhouse", structured[1])
+    host, path, query = _parsed_record_url(record)
+    if query.get("gh_jid"):
+        return ("greenhouse", query["gh_jid"][0])
+    if host in {"boards.greenhouse.io", "job-boards.greenhouse.io"}:
+        if query.get("token"):
+            return ("greenhouse", query["token"][0])
+        if "jobs" in path:
+            index = path.index("jobs")
+            if index + 1 < len(path) and path[index + 1].isdigit():
+                return ("greenhouse", path[index + 1])
+    return None
+
+
+def _lever_identity(record):
+    structured = _structured_uid(record, "lever", 2)
+    if structured:
+        return ("lever", structured[0], structured[1])
+    host, path, _ = _parsed_record_url(record)
+    if host in {"jobs.lever.co", "jobs.eu.lever.co"} and len(path) >= 2:
+        return ("lever", path[0], path[1])
+    return None
+
+
+def _ashby_identity(record):
+    structured = _structured_uid(record, "ashby", 2)
+    if structured:
+        return ("ashby", structured[0], structured[1])
+    host, path, _ = _parsed_record_url(record)
+    if host == "jobs.ashbyhq.com" and len(path) >= 2:
+        return ("ashby", path[0], path[1])
+    return None
+
+
+def _workday_identity(record):
+    structured = _structured_uid(record, "workday", 3)
+    if structured:
+        tenant, site, opening_id = structured
+        return ("workday", tenant.lower(), site, opening_id)
+    host, path, _ = _parsed_record_url(record)
+    if not host.endswith(".myworkdayjobs.com"):
+        return None
+    tenant = host.split(".", 1)[0].lower()
+    if len(path) >= 6 and path[:2] == ["wday", "cxs"] and "job" in path:
+        site = path[3]
+    elif "job" in path:
+        job_index = path.index("job")
+        if not job_index:
+            return None
+        site = path[job_index - 1]
+    else:
+        return None
+    match = re.search(r"(?:^|_)([A-Za-z0-9-]+)$", path[-1])
+    if not match:
+        return None
+    return ("workday", tenant, site, match.group(1))
+
+
+def _smartrecruiters_identity(record):
+    structured = _structured_uid(record, "smartrecruiters", 2)
+    if structured:
+        return ("smartrecruiters", structured[0], structured[1])
+    host, path, _ = _parsed_record_url(record)
+    if (
+        host == "api.smartrecruiters.com"
+        and len(path) >= 5
+        and path[:2] == ["v1", "companies"]
+        and path[3] == "postings"
+    ):
+        return ("smartrecruiters", path[2], path[4])
+    if host == "jobs.smartrecruiters.com" and len(path) >= 2:
+        match = re.match(r"(\d+)-", path[1])
+        if match:
+            return ("smartrecruiters", path[0], match.group(1))
+    return None
+
+
+def _workable_identity(record):
+    structured = _structured_uid(record, "workable", 2)
+    if structured:
+        return ("workable", structured[1])
+    host, path, _ = _parsed_record_url(record)
+    if host == "apply.workable.com" and len(path) >= 2 and path[0] == "j":
+        return ("workable", path[1])
+    return None
+
+
+def _recruitee_identity(record):
+    structured = _structured_uid(record, "recruitee", 2)
+    if structured:
+        return ("recruitee", structured[0].lower(), structured[1])
+    host, path, _ = _parsed_record_url(record)
+    if host.endswith(".recruitee.com") and len(path) >= 2 and path[0] == "o":
+        tenant = host.removesuffix(".recruitee.com").lower()
+        return ("recruitee", tenant, path[1])
+    return None
+
+
+OPENING_IDENTITY_REGISTRY = (
+    _greenhouse_identity,
+    _lever_identity,
+    _ashby_identity,
+    _workday_identity,
+    _smartrecruiters_identity,
+    _workable_identity,
+    _recruitee_identity,
+)
 
 
 def dedup_key(record):
     """Return the current Cross-post identity key for a Record."""
-    gh_id = extract_gh_id(record.get("url"))
-    if gh_id:
-        return ("gh", gh_id)
-    title = re.sub(
-        r"[^a-z0-9 ]", " ", (record.get("title") or "").lower()
-    )
-    title = re.sub(
-        r"\b(i|1|new grad|new graduate|entry level|early career)\b",
-        " ",
-        title,
-    )
-    title = " ".join(title.split())
-    location = (record.get("locations") or ["?"])[0].lower()
-    return ((record.get("company") or "").lower(), title, location)
+    for resolve_identity in OPENING_IDENTITY_REGISTRY:
+        identity = resolve_identity(record)
+        if identity is not None:
+            return identity
+    return ("record", record.get("uid"))
 
 
 def dedup(rows):
     """
-    Collapse the same role posted twice. A Greenhouse job id extracted from
-    the URL is the strongest signal (same req, different source) and is used
-    when available; otherwise fall back to company + location + a title
-    stripped of punctuation and level markers. Keeps the highest score.
+    Collapse proven Cross-posts. Unknown Records retain source-specific
+    identity and therefore remain singleton groups. Keeps the highest score.
     """
     best = {}
     for r in rows:
         k = dedup_key(r)
-        if k not in best or r["score"] > best[k]["score"]:
-            best[k] = r
-    out = list(best.values())
-    out.sort(key=lambda r: (-r["score"], -(r.get("posted") or 0)))
+        rank = (
+            -r["score"],
+            -(r.get("posted") or r.get("first_seen") or 0),
+            r.get("uid") or "",
+        )
+        current = best.get(k)
+        if current is None or rank < current[0]:
+            best[k] = (rank, r)
+    out = [entry[1] for entry in best.values()]
+    out.sort(key=lambda r: (
+        -r["score"],
+        -(r.get("posted") or r.get("first_seen") or 0),
+        r.get("uid") or "",
+    ))
     return out
 
 

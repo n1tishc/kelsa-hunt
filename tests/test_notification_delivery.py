@@ -123,14 +123,14 @@ class NotificationStateTests(unittest.TestCase):
                     "title": "Software Engineer, New Grad",
                     "company": "Example",
                     "locations": ["London, UK", "San Francisco, CA"],
-                    "url": "https://aggregator.invalid/example-role",
+                    "url": "https://example.com/jobs?gh_jid=12345",
                 },
                 "gh:example:12345": {
                     "uid": "gh:example:12345",
                     "title": "Software Engineer I",
                     "company": "Example",
                     "locations": ["San Francisco, CA"],
-                    "url": "https://company.invalid/example-role",
+                    "url": "https://job-boards.greenhouse.io/example/jobs/12345",
                 },
             }
         }
