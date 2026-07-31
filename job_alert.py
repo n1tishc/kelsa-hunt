@@ -15,6 +15,7 @@ Commands:
 """
 
 import argparse
+import copy
 import json
 import math
 import os
@@ -376,12 +377,14 @@ class Store:
     def __init__(self, path=STORE_FILE):
         self.path = path
         self.jobs = {}
+        self._canonical_jobs = {}
         self.load()
 
     def load(self):
         if self.path.exists():
             data = json.loads(self.path.read_text())
             self.jobs = data.get("jobs", {})
+            self._canonical_jobs = copy.deepcopy(self.jobs)
         # Migrate a v1 seen.json if present: those uids were already pinged.
         elif LEGACY_STATE.exists():
             legacy = json.loads(LEGACY_STATE.read_text()).get("seen", [])
@@ -400,6 +403,11 @@ class Store:
                 if uid in self.jobs:
                     self.jobs[uid].update(ann)
 
+        # `last_seen` was a per-scan heartbeat. Dropping it here makes existing
+        # stores migrate once; future observations no longer churn the store.
+        for rec in self.jobs.values():
+            rec.pop("last_seen", None)
+
     def save(self):
         annotations = {}
         jobs = {}
@@ -417,9 +425,13 @@ class Store:
             # Sort keys so git diffs stay small and readable.
             "jobs": dict(sorted(jobs.items())),
         }
-        self.path.write_text(json.dumps(payload, indent=0, sort_keys=True))
+        changed = jobs != self._canonical_jobs
+        if changed:
+            self.path.write_text(json.dumps(payload, indent=0, sort_keys=True))
+            self._canonical_jobs = copy.deepcopy(jobs)
         ANNOTATIONS_FILE.write_text(
             json.dumps(dict(sorted(annotations.items())), indent=0, sort_keys=True))
+        return changed
 
     def upsert(self, rec):
         """Merge a freshly fetched record, preserving our own annotations."""
@@ -429,7 +441,6 @@ class Store:
         merged = dict(existing)
         merged.update(rec)
         merged["first_seen"] = existing.get("first_seen", ts)
-        merged["last_seen"] = ts
         merged["closed_at"] = None          # present in feed => still open
         # Never clobber our own annotations.
         for k in ("notified_at", "applied_at", "hidden"):
@@ -853,8 +864,8 @@ def cmd_scan(args, store):
             store.mark_notified(rows)
 
     if not args.dry_run:
-        store.save()
-        print(f"saved {store.path.name}")
+        changed = store.save()
+        print(f"saved {store.path.name}" if changed else "store unchanged")
 
 
 def cmd_query(args, store):
@@ -922,7 +933,7 @@ def cmd_export(args, store):
     con.execute("""CREATE TABLE jobs (
         uid TEXT PRIMARY KEY, title TEXT, company TEXT, locations TEXT,
         url TEXT, source TEXT, category TEXT, degrees TEXT,
-        posted INT, first_seen INT, last_seen INT,
+        posted INT, first_seen INT,
         closed_at INT, notified_at INT, applied_at INT,
         score INT, reason TEXT)""")
     rows = []
@@ -933,10 +944,10 @@ def cmd_export(args, store):
             uid, r.get("title"), r.get("company"),
             "; ".join(r.get("locations") or []), r.get("url"), r.get("source"),
             r.get("category"), "; ".join(r.get("degrees") or []),
-            r.get("posted"), r.get("first_seen"), r.get("last_seen"),
+            r.get("posted"), r.get("first_seen"),
             r.get("closed_at"), r.get("notified_at"), r.get("applied_at"),
             score, reason))
-    con.executemany("INSERT INTO jobs VALUES (%s)" % ",".join("?" * 16), rows)
+    con.executemany("INSERT INTO jobs VALUES (%s)" % ",".join("?" * 15), rows)
     con.commit()
     con.close()
     print(f"wrote {out} ({len(rows)} US-eligible rows)")
