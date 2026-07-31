@@ -11,7 +11,7 @@ Commands:
     query     re-filter stored data locally, no fetch
     stats     summary of the store
     applied   mark a role as applied to
-    export    dump the store to SQLite for ad-hoc SQL
+    export    dump the US-only Derived View to SQLite for ad-hoc SQL
 """
 
 import argparse
@@ -65,18 +65,90 @@ BAY_TERMS = [
 ]
 
 REMOTE_OK = re.compile(r"\bremote\b", re.I)
-REMOTE_BAD = re.compile(
-    r"emea|apac|europe|canada|india|uk\b|united kingdom|latam|ireland|germany",
+US_COUNTRY = re.compile(
+    r"(?<![A-Za-z])(?:united\s+states(?:\s+of\s+america)?|u\.?s\.?(?:a\.?)?)(?![A-Za-z])",
+    re.I,
+)
+US_JURISDICTION_NAMES = (
+    "Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado",
+    "Connecticut", "Delaware", "Florida", "Georgia", "Hawaii", "Idaho",
+    "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana",
+    "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota",
+    "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada",
+    "New Hampshire", "New Jersey", "New Mexico", "New York",
+    "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon",
+    "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota",
+    "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington",
+    "West Virginia", "Wisconsin", "Wyoming", "District of Columbia",
+    "American Samoa", "Guam", "Northern Mariana Islands", "Puerto Rico",
+    "U.S. Virgin Islands", "United States Minor Outlying Islands",
+)
+US_JURISDICTION_NAME = re.compile(
+    r"\b(?:" + "|".join(map(re.escape, US_JURISDICTION_NAMES)) + r")\b",
+    re.I,
+)
+US_JURISDICTION_CODES = (
+    "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA",
+    "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD",
+    "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ",
+    "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC",
+    "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY",
+    "DC", "AS", "GU", "MP", "PR", "VI", "UM",
+)
+US_JURISDICTION_CODE = re.compile(
+    r"(?:^|,\s*|[-–—]\s*)(?:" + "|".join(US_JURISDICTION_CODES) + r")(?:\b|$)"
+)
+MULTI_LOCATION_SEPARATOR = re.compile(
+    r"\s*[|•;]\s*|\s+/\s+|(?<!,)\s+or\s+",
+    re.I,
+)
+US_LOCALITY_ALIASES = {
+    *(term.lower() for term in BAY_TERMS),
+    "sf", "nyc", "la", "san francisco hq", "new york city office",
+}
+NON_US_MARKER = re.compile(
+    r"\b(?:APAC|EMEA|LATAM|global|Australia|Brazil|Canada|China|England|"
+    r"Europe|France|Germany|India|Ireland|Japan|Singapore|Spain|"
+    r"United Kingdom|UK)\b",
     re.I,
 )
 
 
+def _has_explicit_us_evidence(location):
+    normalized = " ".join(location.lower().split())
+    return bool(
+        US_COUNTRY.search(location)
+        or US_JURISDICTION_NAME.search(location)
+        or US_JURISDICTION_CODE.search(location)
+        or normalized in US_LOCALITY_ALIASES
+    )
+
+
+def us_locations(locations):
+    """Return source locations with explicit evidence of US eligibility."""
+    parts = []
+    for location in locations:
+        parts.extend(
+            part.strip() for part in MULTI_LOCATION_SEPARATOR.split(location)
+            if part.strip()
+        )
+    filtered = []
+    for part in parts:
+        if not _has_explicit_us_evidence(part):
+            continue
+        if NON_US_MARKER.search(part):
+            filtered.append("United States (multi-location role)")
+        else:
+            filtered.append(part)
+    return list(dict.fromkeys(filtered))
+
+
 def is_bay_area(locations, allow_remote=True):
-    for loc in locations:
+    for loc in us_locations(locations):
         low = loc.lower()
-        if any(t in low for t in BAY_TERMS):
+        if low == "sf" or any(t in low for t in BAY_TERMS):
             return True
-        if allow_remote and REMOTE_OK.search(low) and not REMOTE_BAD.search(low):
+        if allow_remote and REMOTE_OK.search(low):
             return True
     return False
 
@@ -253,12 +325,26 @@ class Store:
                 n += 1
         return n
 
+    def us_records(self):
+        """Return US-eligible Record copies for user-visible Derived Views."""
+        records = []
+        for rec in self.jobs.values():
+            if rec.get("migrated"):
+                continue
+            locations = us_locations(rec.get("locations") or [])
+            if not locations:
+                continue
+            row = dict(rec)
+            row["locations"] = locations
+            records.append(row)
+        return records
+
     def candidates(self, min_score=5, allow_remote=True, include_closed=False,
                    unnotified_only=True, max_age_days=MAX_AGE_DAYS):
         """Filter the store. This is the query-time filtering step."""
         out = []
         cutoff = now() - max_age_days * 86400
-        for rec in self.jobs.values():
+        for rec in self.us_records():
             if rec.get("migrated") or rec.get("hidden"):
                 continue
             if not rec.get("title"):
@@ -680,9 +766,8 @@ def cmd_export(args, store):
         closed_at INT, notified_at INT, applied_at INT,
         score INT, reason TEXT)""")
     rows = []
-    for uid, r in store.jobs.items():
-        if r.get("migrated"):
-            continue
+    for r in store.us_records():
+        uid = r.get("uid")
         _, score, reason = classify(r.get("title", ""), r.get("degrees"))
         rows.append((
             uid, r.get("title"), r.get("company"),
@@ -694,7 +779,7 @@ def cmd_export(args, store):
     con.executemany("INSERT INTO jobs VALUES (%s)" % ",".join("?" * 16), rows)
     con.commit()
     con.close()
-    print(f"wrote {out} ({len(rows)} rows)")
+    print(f"wrote {out} ({len(rows)} US-eligible rows)")
     print("try:  sqlite3 jobs.db \"select company,title from jobs "
           "where score>=10 and closed_at is null limit 20\"")
 
@@ -732,7 +817,7 @@ def main():
     a.add_argument("--force", action="store_true",
                    help="allow marking more than 3 matches at once")
 
-    sub.add_parser("export", help="dump to SQLite")
+    sub.add_parser("export", help="dump US-eligible records to SQLite")
 
     args = ap.parse_args()
     if not args.cmd:

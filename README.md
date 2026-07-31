@@ -39,6 +39,11 @@ to Discord.
 Scores: **10** = explicit new-grad wording, **5** = junior marker (`Engineer I`,
 `Associate`, MTS), **3** = bachelors-eligible only. Embed colour tracks score.
 
+Location filtering fails closed: local roles need a recognized US locality, state,
+territory, or country marker, and remote roles must explicitly say US/USA/United States
+or name a US state/territory. Bare `Remote`, global, unknown, and foreign-only roles are
+stored in history but never queried or notified as Candidates.
+
 Run `--dry-run --min-score 3` for a week and watch what lands in the maybe pile
 before you tighten anything.
 

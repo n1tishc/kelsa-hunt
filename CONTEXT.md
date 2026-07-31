@@ -8,6 +8,17 @@ A personal Bay Area new-grad/entry-level SWE + MLE job alerter. Fetches postings
 A single job posting as fetched from a source, keyed by `uid`. Stored permanently once seen, regardless of whether it currently matches any filter.
 _Avoid_: Listing, posting (when referring to the stored object specifically)
 
+**Canonical Store**:
+The authoritative, permanent public ledger of every Record the system has seen. Other
+representations—such as dashboard data, exports, and reports—are Derived Views that can
+always be regenerated from the Canonical Store and never become competing sources of
+truth.
+
+**Derived View**:
+A disposable representation computed from the Canonical Store for a particular use,
+such as browsing or analysis. It may contain only a subset or a reshaping of Records,
+but it owns no state and can be deleted and rebuilt without information loss.
+
 **Score**:
 A 0/3/5/10 rating `classify()` assigns a Record's title (and degree requirements) expressing how confident the match is. Computed at query time from the stored title, never persisted as the source of truth — so re-scoring after a rule change is retroactive over full history.
 _Avoid_: Rank, weight
@@ -18,8 +29,20 @@ The three tiers `classify()` produces: **10** (explicit new-grad wording), **5**
 **Notification Threshold**:
 The `--min-score` a Record's Score must clear to be pushed to Discord. Decided default posture: **storage is recall-first** (every Record is kept no matter its Score), **notification is precision-first with some tolerated noise** — default threshold sits at Score Band 5, admitting junior-marker matches alongside explicit new-grad ones, while Band 3 stays a manual `query --min-score 3` sweep rather than an auto-notify tier.
 
-**Bay Area** (location scope):
-The `BAY_TERMS` city list (SF plus peninsula/south-bay/east-bay: San Jose, Mountain View, Palo Alto, Sunnyvale, Oakland, Berkeley, etc.) — additions to this are data changes, not design decisions. Remote is in-scope by an **exclusionary** rule, not an inclusionary one: a bare `"Remote"` string with no country/state qualifier at all is treated as in-scope (assumed domestic, since fully-global remote reqs almost always say "Remote (Global)" or name eligible countries explicitly), and only an *explicit* foreign/regional marker (EMEA, APAC, Canada, India, UK, LatAm, Ireland, Germany) knocks a listing out. Decided deliberately over the inclusionary alternative (require an explicit "US" string) because ATS postings frequently omit "US" on domestic-only remote roles, and requiring it would silently drop legitimate matches.
+**US eligibility boundary** (location scope):
+Every user-visible Derived View and every notification fails closed on country: a Record
+must have explicit US evidence (`US`, `USA`, `United States`, a US state/territory, or a
+recognized US locality). Bare `Remote`, global, unknown, and foreign-only locations are
+out of scope. A multi-location posting remains eligible when at least one location is in
+the US, but the Derived View displays only its US locations; the Canonical Store retains
+the source's complete location list. This replaces the earlier permissive assumption that
+an unqualified `Remote` location was domestic.
+
+**Bay Area** (notification-locality scope):
+The `BAY_TERMS` city list (SF plus peninsula/south-bay/east-bay: San Jose, Mountain View,
+Palo Alto, Sunnyvale, Oakland, Berkeley, etc.) — additions to this are data changes, not
+design decisions. Local notifications still use this narrower area; remote notifications
+must also satisfy the US eligibility boundary above.
 
 **MTS (Member of Technical Staff)**:
 The generic IC title used by SF AI labs (e.g. Anthropic, one of the configured Greenhouse sources) at *every* seniority level, not just entry-level — the seniority signal lives in the job description (years of experience), which `classify()` never reads (title-only). Because there is no title-only way to separate a junior MTS req from a senior one, the classifier deliberately treats **any** MTS title as a junior-positive signal (+5) and accepts the resulting noise (occasional senior MTS pings), since the alternative — gating or dropping the bonus — would guarantee missing genuine entry-level lab roles rather than just occasionally over-including senior ones. This is a permanent, accepted limitation of title-only classification, not a bug to fix later.
