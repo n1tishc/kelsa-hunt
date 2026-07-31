@@ -124,6 +124,60 @@ class StoreUsRecordsTests(unittest.TestCase):
         self.assertEqual(candidates[0]["locations"], ["SF"])
         self.assertEqual(store.jobs["mixed"]["locations"], source_locations)
 
+    def test_mixed_country_us_remote_remains_a_candidate(self):
+        payload = {
+            "jobs": {
+                "mixed-remote": {
+                    "uid": "mixed-remote",
+                    "title": "Software Engineer New Grad",
+                    "company": "Example",
+                    "locations": ["London, England UK, Remote - US"],
+                }
+            }
+        }
+
+        with tempfile.TemporaryDirectory() as directory:
+            store_path = pathlib.Path(directory) / "jobs.json"
+            store_path.write_text(json.dumps(payload))
+            store = job_alert.Store(store_path)
+
+        candidates = store.candidates(
+            min_score=5,
+            allow_remote=True,
+            unnotified_only=False,
+            max_age_days=0,
+        )
+
+        self.assertEqual(candidates[0]["locations"], ["Remote - US"])
+
+    def test_slash_delimited_us_remote_remains_a_candidate(self):
+        payload = {
+            "jobs": {
+                "slash-remote": {
+                    "uid": "slash-remote",
+                    "title": "Software Engineer New Grad",
+                    "company": "Example",
+                    "locations": ["Remote (US/Canada)"],
+                }
+            }
+        }
+
+        with tempfile.TemporaryDirectory() as directory:
+            store_path = pathlib.Path(directory) / "jobs.json"
+            store_path.write_text(json.dumps(payload))
+            store = job_alert.Store(store_path)
+
+        candidates = store.candidates(
+            min_score=5,
+            allow_remote=True,
+            unnotified_only=False,
+            max_age_days=0,
+        )
+
+        self.assertEqual(candidates[0]["locations"], ["US"])
+
+
+class UsLocationCoverageTests(unittest.TestCase):
     def test_every_state_and_territory_name_and_code_is_explicit_us_evidence(self):
         jurisdictions = [
             ("Alabama", "AL"), ("Alaska", "AK"), ("Arizona", "AZ"),
@@ -151,8 +205,16 @@ class StoreUsRecordsTests(unittest.TestCase):
         ]
 
         for name, code in jurisdictions:
+            named_location = (
+                "Atlanta, Georgia, United States"
+                if name == "Georgia"
+                else name
+            )
             with self.subTest(name=name):
-                self.assertEqual(job_alert.us_locations([name]), [name])
+                self.assertEqual(
+                    job_alert.us_locations([named_location]),
+                    [named_location],
+                )
             coded_location = f"Exampleville, {code}"
             with self.subTest(code=code):
                 self.assertEqual(
@@ -180,20 +242,25 @@ class StoreUsRecordsTests(unittest.TestCase):
                 ["New York, NY"],
             ),
             (["US / Canada"], ["US"]),
+            (["Remote (US/Canada)"], ["US"]),
             (["Sydney OR Singapore"], []),
+            (["Brisbane"], []),
             (["Brisbane, Australia"], []),
             (["Alameda Rio, Brazil"], []),
+            (["Tbilisi, Georgia"], []),
+            (["Toronto, CA"], []),
+            (["Bengaluru, IN"], []),
             (
                 ["Belmont, Australia", "Denver, CO"],
                 ["Denver, CO"],
             ),
             (
                 ["US, Canada"],
-                ["United States (multi-location role)"],
+                ["US"],
             ),
             (
                 ["London, England UK, Remote - US"],
-                ["United States (multi-location role)"],
+                ["Remote - US"],
             ),
         ]
 

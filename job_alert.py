@@ -103,8 +103,12 @@ MULTI_LOCATION_SEPARATOR = re.compile(
     re.I,
 )
 US_LOCALITY_ALIASES = {
-    *(term.lower() for term in BAY_TERMS),
-    "sf", "nyc", "la", "san francisco hq", "new york city office",
+    "sf", "nyc", "la", "san francisco", "san francisco hq",
+    "south san francisco", "sf bay", "bay area", "silicon valley",
+    "new york city office",
+}
+KNOWN_NON_US_LOCALITIES = {
+    "bengaluru", "bangalore", "brisbane", "tbilisi", "toronto",
 }
 NON_US_MARKER = re.compile(
     r"\b(?:APAC|EMEA|LATAM|global|Australia|Brazil|Canada|China|England|"
@@ -112,32 +116,77 @@ NON_US_MARKER = re.compile(
     r"United Kingdom|UK)\b",
     re.I,
 )
+US_JURISDICTION_CODE_TOKEN = re.compile(
+    r"^(?:" + "|".join(US_JURISDICTION_CODES) + r")(?:\b.*)?$"
+)
 
 
 def _has_explicit_us_evidence(location):
     normalized = " ".join(location.lower().split())
+    country_match = US_COUNTRY.search(location)
+    first_component = normalized.split(",", 1)[0]
+    if first_component in KNOWN_NON_US_LOCALITIES and not country_match:
+        return False
+    jurisdiction_names = {
+        match.group(0).lower()
+        for match in US_JURISDICTION_NAME.finditer(location)
+    }
+    jurisdiction_name_match = bool(
+        jurisdiction_names - {"georgia"}
+        or ("georgia" in jurisdiction_names and country_match)
+    )
     return bool(
-        US_COUNTRY.search(location)
-        or US_JURISDICTION_NAME.search(location)
+        country_match
+        or jurisdiction_name_match
         or US_JURISDICTION_CODE.search(location)
         or normalized in US_LOCALITY_ALIASES
     )
 
 
-def us_locations(locations):
-    """Return source locations with explicit evidence of US eligibility."""
+def _mixed_us_fragments(location):
+    components = [part.strip() for part in location.split(",") if part.strip()]
+    fragments = []
+    index = 0
+    while index < len(components):
+        component = components[index]
+        if (
+            index + 1 < len(components)
+            and US_JURISDICTION_CODE_TOKEN.match(components[index + 1])
+        ):
+            candidate = f"{component}, {components[index + 1]}"
+            if _has_explicit_us_evidence(candidate):
+                fragments.append(candidate)
+            index += 2
+            continue
+        if (
+            not NON_US_MARKER.search(component)
+            and _has_explicit_us_evidence(component)
+        ):
+            fragments.append(component)
+        index += 1
+    if not fragments:
+        fragments.extend(match.group(0) for match in US_COUNTRY.finditer(location))
+    return fragments
+
+
+def _location_parts(locations):
     parts = []
     for location in locations:
         parts.extend(
             part.strip() for part in MULTI_LOCATION_SEPARATOR.split(location)
             if part.strip()
         )
+    return parts
+
+
+def us_locations(locations):
+    """Return source locations with explicit evidence of US eligibility."""
     filtered = []
-    for part in parts:
+    for part in _location_parts(locations):
         if not _has_explicit_us_evidence(part):
             continue
         if NON_US_MARKER.search(part):
-            filtered.append("United States (multi-location role)")
+            filtered.extend(_mixed_us_fragments(part))
         else:
             filtered.append(part)
     return list(dict.fromkeys(filtered))
@@ -148,9 +197,23 @@ def is_bay_area(locations, allow_remote=True):
         low = loc.lower()
         if low == "sf" or any(t in low for t in BAY_TERMS):
             return True
-        if allow_remote and REMOTE_OK.search(low):
-            return True
+    if allow_remote and any(
+        REMOTE_OK.search(part) and us_locations([part])
+        for part in _location_parts(locations)
+    ):
+        return True
     return False
+
+
+def _us_record(rec):
+    if rec.get("migrated"):
+        return None
+    locations = us_locations(rec.get("locations") or [])
+    if not locations:
+        return None
+    row = dict(rec)
+    row["locations"] = locations
+    return row
 
 
 # ==========================================================================
@@ -327,24 +390,20 @@ class Store:
 
     def us_records(self):
         """Return US-eligible Record copies for user-visible Derived Views."""
-        records = []
-        for rec in self.jobs.values():
-            if rec.get("migrated"):
-                continue
-            locations = us_locations(rec.get("locations") or [])
-            if not locations:
-                continue
-            row = dict(rec)
-            row["locations"] = locations
-            records.append(row)
-        return records
+        return [
+            row for rec in self.jobs.values()
+            if (row := _us_record(rec)) is not None
+        ]
 
     def candidates(self, min_score=5, allow_remote=True, include_closed=False,
                    unnotified_only=True, max_age_days=MAX_AGE_DAYS):
         """Filter the store. This is the query-time filtering step."""
         out = []
         cutoff = now() - max_age_days * 86400
-        for rec in self.us_records():
+        for source_rec in self.jobs.values():
+            rec = _us_record(source_rec)
+            if rec is None:
+                continue
             if rec.get("migrated") or rec.get("hidden"):
                 continue
             if not rec.get("title"):
@@ -353,7 +412,7 @@ class Store:
                 continue
             if unnotified_only and rec.get("notified_at"):
                 continue
-            if not is_bay_area(rec.get("locations") or [], allow_remote):
+            if not is_bay_area(source_rec.get("locations") or [], allow_remote):
                 continue
             keep, score, reason = classify(
                 rec["title"], rec.get("degrees"), rec.get("category"))
