@@ -3,10 +3,6 @@
 <!-- wayfinder:domain-modeling -->
 Parent: [Map: Kelsa-hunt as one coherent tool](../map.md)
 
-## Claimed by
-
-Codex `/root` with the user, 2026-07-31.
-
 ## Question
 
 How does one shared predicate enforce the decided US eligibility boundary across
@@ -31,6 +27,26 @@ Implementation must use one production predicate rather than copying the throwaw
 prototype's heuristic. Cover country tokens, every state/territory and postal
 abbreviation, common source delimiters, mixed-country postings, and ambiguous strings
 with table-driven tests. Ambiguity fails closed.
+
+## Resolution
+
+Resolved with the user on 2026-07-31.
+
+`us_locations()` is the shared, table-tested policy boundary. It recognizes explicit
+US country tokens, every state and territory name/code, and the documented locality
+aliases; bare remote, global, foreign-only, and ambiguous values fail closed. Mixed
+postings retain only structurally supported US options, including explicit US remote
+options, without rewriting the Canonical Store.
+
+`Store.us_records()` supplies non-mutating Derived Views, and `Store.candidates()` uses
+the same filtered view before applying Bay Area or explicit-US-remote eligibility. The
+SQLite export and dashboard prototype consume `Store.us_records()` rather than carrying
+their own location heuristic.
+
+At resolution, all location-policy tests and the full test suite pass. The production
+store remains 12,918 canonical Records; its derived US view contains 10,418 Records,
+with zero bare-remote locations and zero retained known foreign markers. Neither
+`jobs.json` nor `sources.json` was changed.
 
 ## Discovered from
 
