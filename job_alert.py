@@ -188,6 +188,26 @@ def _mixed_us_fragments(location):
             index += 2
             continue
         if (
+            index == len(components) - 1
+            and component.lower() != "georgia"
+            and US_JURISDICTION_NAME.fullmatch(component)
+        ):
+            previous = components[index - 1] if index else ""
+            if (
+                previous
+                and not NON_US_MARKER.search(previous)
+                and not US_COUNTRY.search(previous)
+                and not US_JURISDICTION_CODE_TOKEN.fullmatch(
+                    previous.replace("D.C.", "DC")
+                )
+            ):
+                fragments.append(f"{previous}, {component}")
+            else:
+                fragments.append(component)
+            strong_evidence = True
+            index += 1
+            continue
+        if (
             not NON_US_MARKER.search(component)
             and (
                 US_COUNTRY.search(component)

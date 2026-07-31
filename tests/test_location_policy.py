@@ -283,6 +283,12 @@ class UsLocationCoverageTests(unittest.TestCase):
             (["Palo Alto, Netherlands"], []),
             (["New York, UK"], []),
             (["San Francisco, UK"], []),
+            (["London, UK, California"], ["California"]),
+            (["London, UK, Texas"], ["Texas"]),
+            (
+                ["Toronto, Canada, Seattle, Washington"],
+                ["Seattle, Washington"],
+            ),
             (
                 ["Belmont, Australia", "Denver, CO"],
                 ["Denver, CO"],
