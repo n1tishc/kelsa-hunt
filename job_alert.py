@@ -821,6 +821,98 @@ def fetch_ashby(slug):
     return out, True
 
 
+def fetch_smartrecruiters(slug, page_size=100):
+    base = f"https://api.smartrecruiters.com/v1/companies/{slug}/postings"
+    offset = 0
+    postings = []
+    try:
+        while True:
+            data = get_json(f"{base}?limit={page_size}&offset={offset}")
+            if not isinstance(data, dict):
+                raise ValueError("malformed response")
+            content = data.get("content")
+            total = data.get("totalFound")
+            if not isinstance(content, list) or not isinstance(total, int):
+                raise ValueError("malformed response")
+            postings.extend(content)
+            offset += len(content)
+            if offset >= total:
+                break
+            if not content:
+                raise ValueError("pagination stopped before totalFound")
+
+        out = []
+        for posting in postings:
+            if not isinstance(posting, dict) or not posting.get("id"):
+                raise ValueError("malformed posting")
+            needs_detail = not (
+                posting.get("name")
+                and isinstance(posting.get("company"), dict)
+                and posting["company"].get("name")
+                and isinstance(posting.get("location"), dict)
+                and posting.get("postingUrl")
+            )
+            detail = {}
+            if needs_detail:
+                ref = posting.get("ref")
+                if not isinstance(ref, str) or not ref.startswith("https://"):
+                    raise ValueError("posting has no public detail URL")
+                detail = get_json(ref)
+                if not isinstance(detail, dict):
+                    raise ValueError("malformed posting detail")
+            normalized = dict(detail)
+            normalized.update(posting)
+            for field in ("company", "location", "department"):
+                detail_value = detail.get(field)
+                posting_value = posting.get(field)
+                if isinstance(detail_value, dict) and isinstance(posting_value, dict):
+                    normalized[field] = {**detail_value, **posting_value}
+            if (
+                not normalized.get("name")
+                or not isinstance(normalized.get("company"), dict)
+                or not normalized["company"].get("name")
+                or not isinstance(normalized.get("location"), dict)
+            ):
+                raise ValueError("posting is missing required fields")
+
+            location = normalized["location"]
+            full_location = location.get("fullLocation") or ""
+            if not full_location:
+                parts = [location.get("city"), location.get("region")]
+                country = location.get("country")
+                if isinstance(country, str) and country.lower() == "us":
+                    country = "United States"
+                parts.append(country)
+                full_location = ", ".join(part for part in parts if part)
+                if location.get("remote") and not location.get("city"):
+                    full_location = f"Remote, {full_location}" if full_location else "Remote"
+
+            released = normalized.get("releasedDate")
+            posted = 0
+            if released:
+                posted = int(datetime.fromisoformat(
+                    released.replace("Z", "+00:00")
+                ).timestamp())
+            company = normalized["company"]
+            department = normalized.get("department") or {}
+            out.append({
+                "uid": f"smartrecruiters:{slug}:{posting['id']}",
+                "title": normalized["name"],
+                "company": company.get("name") or slug.replace("-", " ").title(),
+                "locations": [full_location] if full_location else [],
+                "url": normalized.get("postingUrl") or normalized.get("applyUrl", ""),
+                "posted": posted,
+                "degrees": [],
+                "category": department.get("label", ""),
+                "source": "SmartRecruiters",
+                "feed_active": True,
+            })
+        return out, True
+    except Exception as e:
+        print(f"  ! smartrecruiters/{slug}: {e}", file=sys.stderr)
+        return [], False
+
+
 # ==========================================================================
 # Discord
 # ==========================================================================
@@ -1113,12 +1205,24 @@ def configured_source_fetches(sources):
             host="api.ashbyhq.com",
             fetch=lambda slug=slug: fetch_ashby(slug),
         ))
+    for slug in sources.get("smartrecruiters", []):
+        fetches.append(SourceFetch(
+            name=f"smartrecruiters/{slug}",
+            prefix=f"smartrecruiters:{slug}:",
+            host="api.smartrecruiters.com",
+            fetch=lambda slug=slug: fetch_smartrecruiters(slug),
+        ))
     return fetches
 
 
 def cmd_scan(args, store, source_fetches=None):
     command_started = time.monotonic()
-    sources = {"greenhouse": [], "lever": [], "ashby": []}
+    sources = {
+        "greenhouse": [],
+        "lever": [],
+        "ashby": [],
+        "smartrecruiters": [],
+    }
     if source_fetches is None:
         if SOURCES_FILE.exists():
             sources.update(json.loads(SOURCES_FILE.read_text()))

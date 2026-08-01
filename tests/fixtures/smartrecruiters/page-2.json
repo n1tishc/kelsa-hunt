@@ -1,0 +1,21 @@
+{
+  "offset": 2,
+  "limit": 2,
+  "totalFound": 3,
+  "content": [
+    {
+      "id": "744000100000003",
+      "uuid": "33333333-3333-4333-8333-333333333333",
+      "name": "Associate Machine Learning Engineer",
+      "company": {"identifier": "ExampleCo", "name": "Example Co"},
+      "releasedDate": "2026-07-29T09:15:00Z",
+      "location": {
+        "country": "us",
+        "remote": true,
+        "fullLocation": "Remote, United States"
+      },
+      "department": {"id": "ml", "label": "Machine Learning"},
+      "ref": "https://api.smartrecruiters.com/v1/companies/ExampleCo/postings/744000100000003"
+    }
+  ]
+}

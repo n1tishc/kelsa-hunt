@@ -52,10 +52,11 @@ before you tighten anything.
 
 ## Adding sources
 
-`sources.json` takes Greenhouse, Lever, and Ashby board slugs — the slug is
-the path segment in the board URL (`job-boards.greenhouse.io/SLUG`,
-`jobs.lever.co/SLUG`, `jobs.ashbyhq.com/SLUG`). Add companies as you notice
-them missing. Some companies migrate between ATSs over time — if a
+`sources.json` takes Greenhouse, Lever, Ashby, and SmartRecruiters board slugs.
+The slug is the company segment in the board URL (`job-boards.greenhouse.io/SLUG`,
+`jobs.lever.co/SLUG`, `jobs.ashbyhq.com/SLUG`, or
+`jobs.smartrecruiters.com/SLUG`). Add companies as you notice them missing. Some
+companies migrate between ATSs over time — if a
 configured slug starts returning zero jobs, check whether the company moved
 boards rather than assuming the role's just gone.
 
