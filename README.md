@@ -1,8 +1,8 @@
 # Bay Area new-grad job alerter
 
-Polls the Simplify community new-grad feed plus any Greenhouse/Lever boards
-you list, filters to Bay Area entry-level SWE/MLE roles, and pushes new hits
-to Discord.
+Polls the Simplify community new-grad feed plus configured Greenhouse, Lever,
+Ashby, and SmartRecruiters boards, filters to Bay Area entry-level SWE/MLE roles,
+and pushes new hits to Discord.
 
 ## Setup
 

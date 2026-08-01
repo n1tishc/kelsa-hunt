@@ -1,11 +1,29 @@
 {
   "greenhouse": [
-    "anthropic", "databricks", "stripe", "figma",
-    "scaleai", "airtable", "vercel", "attentive"
+    "anthropic", "databricks", "stripe", "figma", "scaleai", "airtable",
+    "vercel", "attentive", "robinhood", "gusto", "brex", "cloudflare",
+    "asana", "lyft", "reddit", "nuro", "datadog", "twilio", "mongodb",
+    "samsara", "pinterest", "gitlab", "flexport", "affirm", "algolia",
+    "amplitude", "braze", "checkr", "circleci", "cockroachlabs",
+    "contentful", "coursera", "cribl", "elastic", "epicgames", "fivetran",
+    "gofundme", "hightouch", "instabase", "intercom", "klaviyo",
+    "launchdarkly", "bitwarden", "blend", "carta", "celonis", "chime",
+    "earnin", "fastly", "lattice", "mixpanel", "opentable", "pagerduty",
+    "postscript", "qualtrics", "rubrik", "sisense", "smartsheet", "sofi",
+    "toast", "workato", "ziprecruiter", "duolingo", "fireblocks",
+    "humaninterest", "khanacademy", "newrelic", "sendbird", "smartasset",
+    "udemy", "upwork", "yext", "zscaler"
   ],
-  "lever": [],
+  "lever": [
+    "palantir"
+  ],
   "ashby": [
-    "notion", "benchling", "ramp", "plaid"
+    "notion", "benchling", "ramp", "plaid", "linear", "vanta", "posthog",
+    "moderntreasury", "anyscale", "perplexity", "runway", "harvey",
+    "decagon", "cognition", "sierra", "cursor", "baseten", "modal",
+    "pinecone", "langchain", "llamaindex", "supabase", "neon",
+    "materialize", "motherduck", "semgrep", "crusoe", "skydio", "pylon",
+    "orb", "openai"
   ],
   "smartrecruiters": [
     "Visa"
