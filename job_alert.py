@@ -18,6 +18,7 @@ import argparse
 import collections
 import concurrent.futures
 import copy
+import hashlib
 import json
 import math
 import os
@@ -44,6 +45,10 @@ SOURCES_FILE = HERE / "sources.json"
 SIMPLIFY_URL = (
     "https://raw.githubusercontent.com/SimplifyJobs/New-Grad-Positions"
     "/dev/.github/scripts/listings.json"
+)
+AMBICUITY_URL = (
+    "https://raw.githubusercontent.com/ambicuity/New-Grad-Jobs"
+    "/main/docs/jobs.json"
 )
 
 UA = {"User-Agent": "Mozilla/5.0 (compatible; job-alert/2.0)"}
@@ -696,6 +701,82 @@ def get_json(url, timeout=10):
             if attempt or not isinstance(error.reason, TimeoutError):
                 raise
             time.sleep(random.uniform(0.1, 0.5))
+
+
+def fetch_ambicuity():
+    try:
+        data = get_json(AMBICUITY_URL)
+        if not isinstance(data, dict):
+            raise ValueError("malformed response")
+        meta = data.get("meta")
+        jobs = data.get("jobs")
+        if (
+            not isinstance(meta, dict)
+            or not isinstance(meta.get("generated_at"), str)
+            or not isinstance(meta.get("total_jobs"), int)
+            or not isinstance(jobs, list)
+            or meta["total_jobs"] != len(jobs)
+        ):
+            raise ValueError("malformed response")
+
+        out = []
+        for job in jobs:
+            if not isinstance(job, dict):
+                raise ValueError("malformed record")
+            required = (
+                job.get("id"),
+                job.get("title"),
+                job.get("location"),
+                job.get("url"),
+                job.get("posted_at"),
+                job.get("source"),
+            )
+            if not all(isinstance(value, str) and value for value in required):
+                raise ValueError("record is missing required fields")
+            company = job.get("company") or ""
+            if not isinstance(company, str):
+                raise ValueError("record has malformed company")
+            if not isinstance(job.get("is_closed"), bool):
+                raise ValueError("record has malformed closed state")
+
+            category = job.get("category") or ""
+            if isinstance(category, dict):
+                category = category.get("name") or ""
+            if not isinstance(category, str):
+                raise ValueError("record has malformed category")
+            flags = job.get("flags") or {}
+            if not isinstance(flags, dict):
+                raise ValueError("record has malformed flags")
+
+            posted_at = datetime.fromisoformat(
+                job["posted_at"].replace("Z", "+00:00")
+            )
+            if posted_at.tzinfo is None:
+                posted_at = posted_at.replace(tzinfo=timezone.utc)
+
+            out.append({
+                "uid": (
+                    f"ambicuity:{job['id']}:"
+                    f"{hashlib.sha256(job['url'].encode()).hexdigest()[:32]}"
+                ),
+                "title": job["title"],
+                "company": company,
+                "locations": [job["location"]],
+                "url": job["url"],
+                "posted": int(posted_at.timestamp()),
+                "degrees": [],
+                "category": category,
+                "sponsorship": (
+                    "No sponsorship" if flags.get("no_sponsorship") else ""
+                ),
+                "aggregator_source": job["source"],
+                "source": "Ambicuity",
+                "feed_active": not job["is_closed"],
+            })
+        return out, True
+    except Exception as e:
+        print(f"  ! ambicuity: {e}", file=sys.stderr)
+        return [], False
 
 
 def fetch_simplify():
@@ -1374,6 +1455,13 @@ def configured_source_fetches(sources):
             fetch=fetch_simplify,
         )
     ]
+    if "ambicuity/New-Grad-Jobs" in sources.get("ambicuity", []):
+        fetches.append(SourceFetch(
+            name="ambicuity",
+            prefix="ambicuity:",
+            host="raw.githubusercontent.com",
+            fetch=fetch_ambicuity,
+        ))
     for slug in sources.get("greenhouse", []):
         fetches.append(SourceFetch(
             name=f"greenhouse/{slug}",
@@ -1428,6 +1516,7 @@ def cmd_scan(args, store, source_fetches=None):
         "smartrecruiters": [],
         "workable": [],
         "recruitee": [],
+        "ambicuity": [],
     }
     if source_fetches is None:
         if SOURCES_FILE.exists():

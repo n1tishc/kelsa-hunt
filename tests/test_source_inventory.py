@@ -52,12 +52,13 @@ class VerifiedSourceInventoryTests(unittest.TestCase):
 
         fetches = job_alert.configured_source_fetches(sources)
         configured_names = {source.name for source in fetches}
-        self.assertEqual(len(fetches), 109)
+        self.assertEqual(len(fetches), 110)
         self.assertIn("greenhouse/zscaler", configured_names)
         self.assertIn("lever/palantir", configured_names)
         self.assertIn("ashby/openai", configured_names)
         self.assertIn("workable/renewhome", configured_names)
         self.assertIn("recruitee/aetherflux", configured_names)
+        self.assertIn("ambicuity", configured_names)
 
 
 if __name__ == "__main__":

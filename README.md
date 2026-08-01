@@ -1,8 +1,8 @@
 # Bay Area new-grad job alerter
 
-Polls the Simplify community new-grad feed plus configured Greenhouse, Lever,
-Ashby, SmartRecruiters, Workable, and Recruitee boards, filters to Bay Area
-entry-level SWE/MLE roles, and pushes new hits to Discord.
+Polls the Simplify and Ambicuity community new-grad feeds plus configured
+Greenhouse, Lever, Ashby, SmartRecruiters, Workable, and Recruitee boards, filters
+to Bay Area entry-level SWE/MLE roles, and pushes new hits to Discord.
 
 ## Setup
 
@@ -63,6 +63,11 @@ complete published collections rather than paginated pages. Add companies as you
 notice them missing. Some companies migrate between ATSs over time — if a
 configured slug starts returning zero jobs, check whether the company moved
 boards rather than assuming the role's just gone.
+
+Ambicuity is enabled by the `ambicuity/New-Grad-Jobs` entry. Its Records remain
+source-specific in the Canonical Store. A derived Cross-post Group forms only when
+the direct employer URL exposes an Opening Identity recognized by the ATS registry;
+similar company, title, or location text never triggers production deduplication.
 
 ## Applied tracking stays private
 
