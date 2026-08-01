@@ -215,7 +215,11 @@ class RecruiteeEndToEndTests(unittest.TestCase):
                 contextlib.redirect_stdout(io.StringIO()),
             ):
                 store = job_alert.Store(store_path)
-                job_alert.cmd_scan(args, store)
+                with self.assertRaisesRegex(
+                    RuntimeError,
+                    "Discord delivery failed",
+                ):
+                    job_alert.cmd_scan(args, store)
                 persisted = job_alert.Store(store_path)
                 candidates = persisted.candidates()
 
