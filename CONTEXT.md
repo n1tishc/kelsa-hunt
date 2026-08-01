@@ -1,6 +1,10 @@
 # kelsa-hunt
 
-A personal Bay Area new-grad/entry-level SWE + MLE job alerter. Fetches postings from Simplify plus configured Greenhouse/Lever boards, keeps every record it has ever seen, and pings Discord about the ones worth looking at.
+A personal US-scoped new-grad/entry-level SWE + MLE job alerter. Fetches Records
+from Simplify, Ambicuity, and configured Greenhouse, Lever, Ashby,
+SmartRecruiters, Workable, and Recruitee boards; keeps every Record it has ever
+seen; presents a strict-US public ledger; and pings Discord about the ones worth
+looking at.
 
 ## Language
 
@@ -18,6 +22,22 @@ truth.
 A disposable representation computed from the Canonical Store for a particular use,
 such as browsing or analysis. It may contain only a subset or a reshaping of Records,
 but it owns no state and can be deleted and rebuilt without information loss.
+
+**Public Job Ledger**:
+The read-only GitHub Pages Derived View built from the Canonical Store after a meaningful
+Store change. It exposes only allowlisted public fields and strict-US locations. It never
+contains private application annotations and is not committed back to the repository.
+
+**Source Inventory**:
+The configured board/feed entries in `sources.json`, plus the built-in Simplify feed.
+Adding an entry increases coverage; removing or editing an entry changes configuration
+but never deletes historical Records from the Canonical Store.
+
+**Expansion Gate**:
+The growth guardrail state that prevents an increase in Source Inventory after the
+Canonical Store, round-trip timing, or packed Git history reaches a hard limit. It does
+not stop existing Source Fetches, notifications, persistence, or dashboard deployment,
+and it never migrates or prunes Records automatically.
 
 **Score**:
 A 0/3/5/10 rating `classify()` assigns a Record's title (and degree requirements) expressing how confident the match is. Computed at query time from the stored title, never persisted as the source of truth — so re-scoring after a rule change is retroactive over full history.
@@ -87,5 +107,8 @@ closure evidence. Failures are isolated: they never imply that another source fa
 and never mark the failed source's Records Closed.
 
 **Candidate**:
-A Record that currently passes `Store.candidates()` — i.e. it clears the Notification Threshold, is Bay Area, isn't closed, and (usually) hasn't been notified yet. A Candidate is a filtered *view* over Records, not a stored state.
+A Record that currently passes `Store.candidates()` — i.e. it clears the Notification
+Threshold, is either Bay Area or explicitly US-remote, isn't closed, satisfies the age
+gate, and (usually) hasn't been notified yet. A Candidate is a filtered *view* over
+Records, not a stored state.
 _Avoid_: Match (ambiguous with the general English sense)

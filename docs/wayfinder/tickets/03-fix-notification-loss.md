@@ -25,6 +25,19 @@ Evidence found while diagnosing: Quora "Machine Learning Engineer New Grad", Gen
 Fix both, and record in the answer whether the fix changes what `candidates()` returns
 (it should not — only what gets stamped).
 
+## Resolution
+
+Implemented and regression-tested on 2026-07-31.
+
+- Discord transport, HTTP, and exhausted rate-limit failures now return failure to the
+  caller. A rejected page is never reported as successfully delivered.
+- Notification state is applied through proven Opening Identity: every stored member of
+  a delivered Cross-post Group receives the same `notified_at` checkpoint.
+- `Store.candidates()` still returns one representative per proven Cross-post Group; the
+  fix changed persistence and failure reporting, not the Candidate view's cardinality.
+- Multi-page delivery persists each accepted page before attempting the next, so a later
+  failure retries only the remaining Candidates.
+
 ## Blocked by
 
 _(nothing — frontier)_
