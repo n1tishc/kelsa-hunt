@@ -67,7 +67,10 @@ def assess_growth(serialized_bytes, timing_check_medians, packed_git_bytes=None)
         gate_reasons.append("Canonical Store is at or above 25 MiB")
     if (
         timing_check_medians
-        and timing_check_medians[-1] >= TIMING_WARNING_SECONDS
+        and any(
+            median >= TIMING_WARNING_SECONDS
+            for median in timing_check_medians
+        )
     ):
         warnings.append(
             "median load-plus-save time is at or above 1.6 seconds"

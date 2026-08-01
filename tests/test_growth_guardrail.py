@@ -80,7 +80,7 @@ class GrowthBoundaryTests(unittest.TestCase):
         )
         self.assertEqual(
             (recovered.warning_reasons, recovered.gate_reasons),
-            ((), ()),
+            (("median load-plus-save time is at or above 1.6 seconds",), ()),
         )
 
     def test_timing_measurement_runs_five_round_trips_twice_without_mutation(self):
