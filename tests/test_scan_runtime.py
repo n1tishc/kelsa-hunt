@@ -21,6 +21,7 @@ class ConcurrentSourceFetchTests(unittest.TestCase):
         active_total = 0
         maximum_by_host = collections.Counter()
         maximum_total = 0
+        concurrent_wave = threading.Barrier(8, timeout=2)
 
         def controlled_fetch(host, uid):
             def fetch():
@@ -33,7 +34,7 @@ class ConcurrentSourceFetchTests(unittest.TestCase):
                         maximum_by_host[host],
                         active_by_host[host],
                     )
-                time.sleep(0.03)
+                concurrent_wave.wait()
                 with lock:
                     active_total -= 1
                     active_by_host[host] -= 1
@@ -69,6 +70,59 @@ class ConcurrentSourceFetchTests(unittest.TestCase):
                 8,
                 {"first.example": 4, "second.example": 4},
             ),
+        )
+
+    def test_busy_host_cannot_starve_a_healthy_different_host(self):
+        release_slow = threading.Event()
+        fast_finished = threading.Event()
+        slow_started = 0
+        lock = threading.Lock()
+
+        def slow_fetch(index):
+            def fetch():
+                nonlocal slow_started
+                with lock:
+                    slow_started += 1
+                release_slow.wait(timeout=2)
+                return [{"uid": f"slow:{index}"}], True
+
+            return fetch
+
+        def fast_fetch():
+            fast_finished.set()
+            return [{"uid": "fast:1"}], True
+
+        sources = [
+            job_alert.SourceFetch(
+                name=f"slow/{index}",
+                prefix=f"slow:{index}:",
+                host="slow.example",
+                fetch=slow_fetch(index),
+            )
+            for index in range(8)
+        ]
+        sources.append(job_alert.SourceFetch(
+            name="fast/1",
+            prefix="fast:1:",
+            host="fast.example",
+            fetch=fast_fetch,
+        ))
+
+        worker = threading.Thread(target=job_alert.fetch_sources, args=(sources,))
+        worker.start()
+        fast_completed_while_slow_was_blocked = fast_finished.wait(timeout=1)
+        with lock:
+            slow_started_before_release = slow_started
+        release_slow.set()
+        worker.join(timeout=2)
+
+        self.assertEqual(
+            (
+                fast_completed_while_slow_was_blocked,
+                slow_started_before_release <= 4,
+                worker.is_alive(),
+            ),
+            (True, True, False),
         )
 
     def test_previously_non_empty_source_retries_empty_then_requires_verification(self):

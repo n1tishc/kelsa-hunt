@@ -6,10 +6,11 @@ to Discord.
 
 ## Setup
 
-1. **Make the repo public.** GitHub Actions minutes are unlimited on public
-   repos. On a private repo a 15-minute cron burns ~2,880 min/month, which
-   blows past the 2,000-minute free tier. Nothing here is sensitive — the
-   webhook lives in Secrets, not in the code.
+1. **Keep the repo public.** The best-effort schedule targets about 690 runs
+   per month, with an operational ceiling of 1,000 runner-minutes. Public
+   Actions runners keep that capacity outside a private-repo minutes budget.
+   Fetched Records are intentionally public; the Discord webhook stays in
+   Secrets and personal application annotations stay gitignored.
 
 2. **Create the Discord webhook.** In your server: Channel → Edit Channel →
    Integrations → Webhooks → New Webhook → Copy URL. No bot, no OAuth.

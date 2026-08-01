@@ -1,7 +1,17 @@
 # Public repo, private application history
 
-**Context:** The repo must be public — the scan workflow runs ~1,230 times/month (15-min cron during Bay Area work hours, 2-hour cron otherwise; this run count is arithmetic from the cron schedule, not measured). GitHub bills each run rounded up to the whole minute, and real per-run wall time (checkout, `setup-python`, sequential source fetches, git push) is *estimated* — not measured — at 40–90s, putting likely usage around 1,500–2,500 billed minutes/month. That's at or over GitHub's 2,000-minute private-repo free tier, so public is the only zero-cost option barring actual measurement showing otherwise. But the workflow commits `jobs.json` back to the repo on every run, and `jobs.json` was on track to carry `applied_at`/`hidden` annotations — i.e. which companies/roles the owner has applied to — which would become permanent, public, forkable git history.
+**Context:** At decision time, the workflow was configured for about 1,230 runs/month (15-minute working-hours cron, two-hour otherwise), and its 40–90 second runtime was estimated rather than measured. That put the projected private-repo usage near or above the included minutes budget. The workflow also commits `jobs.json`, and that public ledger was on track to carry `applied_at`/`hidden` annotations—which companies and roles the owner had applied to—into permanent, forkable Git history.
 
 **Decision:** Keep the repo public for the Actions minutes. Split `applied_at` and `hidden` out of the tracked, public `jobs.json` into a separate, gitignored local file. The fetched job records themselves (title, company, location, score) and `notified_at` stay in the public, committed store — none of that is sensitive. Only the owner's personal application activity is kept out of git history entirely.
 
 **Consequence:** Anything in the private annotations file doesn't survive a fresh clone or a different machine without being copied over manually — this is a deliberate trade for keeping application history off public record, not an oversight.
+
+## Runtime update — 2026-07-31
+
+The original cadence and cost projection are superseded. The workflow now targets about
+690 best-effort runs/month (30-minute weekday working hours, two-hour otherwise), uses
+bounded concurrent Source Fetches, and has an operational ceiling of 1,000 runner-minutes.
+The public-repo decision therefore no longer rests on the old claim that the private
+minutes allowance would necessarily be exceeded. It remains the chosen operating model:
+fetched Records are intentionally public, while the annotation split above remains the
+privacy boundary.

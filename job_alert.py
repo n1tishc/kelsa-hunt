@@ -15,6 +15,7 @@ Commands:
 """
 
 import argparse
+import collections
 import concurrent.futures
 import copy
 import json
@@ -25,13 +26,14 @@ import random
 import re
 import sqlite3
 import sys
-import threading
 import time
 import urllib.error
 import urllib.parse
 import urllib.request
-from datetime import datetime, timezone
+from collections.abc import Callable
 from dataclasses import dataclass
+from datetime import datetime, timezone
+from enum import Enum
 
 HERE = pathlib.Path(__file__).parent
 STORE_FILE = HERE / "jobs.json"
@@ -540,17 +542,30 @@ class SourceFetch:
     name: str
     prefix: str
     host: str
-    fetch: object
+    fetch: Callable[[], tuple[list[dict], bool]]
+
+
+class SourceFetchStatus(Enum):
+    OK = "ok"
+    FAILED = "failed"
+    VERIFY = "verify"
 
 
 @dataclass(frozen=True)
 class SourceFetchResult:
     source: SourceFetch
-    records: list
-    ok: bool
+    records: list[dict]
+    status: SourceFetchStatus
     duration: float
     error: str = ""
-    verification_required: bool = False
+
+    @property
+    def ok(self):
+        return self.status is SourceFetchStatus.OK
+
+    @property
+    def verification_required(self):
+        return self.status is SourceFetchStatus.VERIFY
 
 
 def _validate_source_records(records):
@@ -560,69 +575,107 @@ def _validate_source_records(records):
         raise ValueError("malformed record")
 
 
+def _failed_source_result(source, started, error, verification=False):
+    return SourceFetchResult(
+        source=source,
+        records=[],
+        status=(
+            SourceFetchStatus.VERIFY
+            if verification
+            else SourceFetchStatus.FAILED
+        ),
+        duration=time.monotonic() - started,
+        error=str(error),
+    )
+
+
 def fetch_sources(sources, previously_non_empty=()):
     """Run Source Fetch adapters concurrently with per-host isolation."""
     previously_non_empty = set(previously_non_empty)
-    host_gates = {
-        source.host: threading.BoundedSemaphore(4)
-        for source in sources
-    }
 
     def run(source):
         started = time.monotonic()
         try:
-            with host_gates[source.host]:
-                records, ok = source.fetch()
-                _validate_source_records(records)
-                if ok and not records:
-                    was_previously_non_empty = (
-                        source.prefix in previously_non_empty
+            records, ok = source.fetch()
+            _validate_source_records(records)
+            if ok and not records:
+                was_previously_non_empty = source.prefix in previously_non_empty
+                if was_previously_non_empty:
+                    try:
+                        records, ok = source.fetch()
+                        _validate_source_records(records)
+                    except Exception as error:
+                        return _failed_source_result(
+                            source,
+                            started,
+                            f"empty snapshot retry failed: {error}",
+                            verification=True,
+                        )
+                if not ok or not records:
+                    reason = (
+                        "empty snapshot after retry"
+                        if was_previously_non_empty
+                        else "new source returned empty snapshot"
                     )
-                    if was_previously_non_empty:
-                        try:
-                            records, ok = source.fetch()
-                            _validate_source_records(records)
-                        except Exception as error:
-                            return SourceFetchResult(
-                                source=source,
-                                records=[],
-                                ok=False,
-                                duration=time.monotonic() - started,
-                                error=f"empty snapshot retry failed: {error}",
-                                verification_required=True,
-                            )
-                    if not ok or not records:
-                        reason = (
-                            "empty snapshot after retry"
-                            if was_previously_non_empty
-                            else "new source returned empty snapshot"
-                        )
-                        return SourceFetchResult(
-                            source=source,
-                            records=[],
-                            ok=False,
-                            duration=time.monotonic() - started,
-                            error=reason,
-                            verification_required=True,
-                        )
+                    return _failed_source_result(
+                        source,
+                        started,
+                        reason,
+                        verification=True,
+                    )
             return SourceFetchResult(
                 source=source,
                 records=records,
-                ok=bool(ok),
+                status=(
+                    SourceFetchStatus.OK
+                    if ok
+                    else SourceFetchStatus.FAILED
+                ),
                 duration=time.monotonic() - started,
             )
         except Exception as error:
-            return SourceFetchResult(
-                source=source,
-                records=[],
-                ok=False,
-                duration=time.monotonic() - started,
-                error=str(error),
-            )
+            return _failed_source_result(source, started, error)
+
+    pending_by_host = {}
+    for index, source in enumerate(sources):
+        pending_by_host.setdefault(source.host, collections.deque()).append(
+            (index, source)
+        )
+    active_by_host = collections.Counter()
+    results = [None] * len(sources)
 
     with concurrent.futures.ThreadPoolExecutor(max_workers=8) as executor:
-        futures = [executor.submit(run, source) for source in sources]
-        return [future.result() for future in futures]
+        futures = {}
+
+        def submit_available():
+            while len(futures) < 8:
+                submitted = False
+                for host, pending in pending_by_host.items():
+                    if not pending or active_by_host[host] >= 4:
+                        continue
+                    index, source = pending.popleft()
+                    future = executor.submit(run, source)
+                    futures[future] = (index, host)
+                    active_by_host[host] += 1
+                    submitted = True
+                    if len(futures) == 8:
+                        break
+                if not submitted:
+                    break
+
+        submit_available()
+        while futures:
+            done, _ = concurrent.futures.wait(
+                futures,
+                return_when=concurrent.futures.FIRST_COMPLETED,
+            )
+            for future in done:
+                index, host = futures.pop(future)
+                active_by_host[host] -= 1
+                results[index] = future.result()
+            submit_available()
+
+    return results
 
 def get_json(url, timeout=10):
     req = urllib.request.Request(url, headers=UA)
