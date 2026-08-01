@@ -79,6 +79,21 @@ Then open <http://127.0.0.1:8765>. `dashboard-dist/` is gitignored. The builder
 reads raw `jobs.json` through an explicit public-field allowlist, so local
 `applied_at` and `hidden` annotations cannot enter the artifact.
 
+## Canonical Store growth guardrail
+
+Every scan reports Record count, serialized bytes, and Store load/save timing.
+The separate `growth-guardrail` workflow runs monthly from a full-history,
+packed checkout and whenever `sources.json` changes. It warns at 20 MiB,
+a 1.6-second five-round-trip median, or 200 MiB packed Git history. Further
+source-count growth is blocked at 25 MiB, two consecutive 2-second medians, or
+250 MiB packed history; existing scans, storage, notifications, and dashboard
+deployments continue.
+
+Make `growth-guardrail` a required check in branch protection if source changes
+arrive through pull requests. When the gate activates, the stated next response
+is deterministic 16-way UID sharding. The check never migrates, prunes, or
+rewrites the Canonical Store or Git history automatically.
+
 ## Adding sources
 
 `sources.json` takes Greenhouse, Lever, Ashby, SmartRecruiters, Workable, and

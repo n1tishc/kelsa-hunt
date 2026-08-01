@@ -36,6 +36,8 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 from enum import Enum
 
+import growth_guardrail
+
 HERE = pathlib.Path(__file__).parent
 STORE_FILE = HERE / "jobs.json"
 ANNOTATIONS_FILE = HERE / "annotations.json"
@@ -391,9 +393,13 @@ class Store:
         self.path = path
         self.jobs = {}
         self._canonical_jobs = {}
+        self.load_duration_seconds = 0.0
+        self.save_duration_seconds = 0.0
+        self.serialized_bytes = 0
         self.load()
 
     def load(self):
+        started = time.perf_counter()
         if self.path.exists():
             data = json.loads(self.path.read_text())
             self.jobs = data.get("jobs", {})
@@ -420,8 +426,13 @@ class Store:
         # stores migrate once; future observations no longer churn the store.
         for rec in self.jobs.values():
             rec.pop("last_seen", None)
+        self.serialized_bytes = (
+            self.path.stat().st_size if self.path.exists() else 0
+        )
+        self.load_duration_seconds = time.perf_counter() - started
 
     def save(self):
+        started = time.perf_counter()
         annotations = {}
         jobs = {}
         for uid, rec in self.jobs.items():
@@ -444,6 +455,10 @@ class Store:
             self._canonical_jobs = copy.deepcopy(jobs)
         ANNOTATIONS_FILE.write_text(
             json.dumps(dict(sorted(annotations.items())), indent=0, sort_keys=True))
+        self.serialized_bytes = (
+            self.path.stat().st_size if self.path.exists() else 0
+        )
+        self.save_duration_seconds = time.perf_counter() - started
         return changed
 
     def upsert(self, rec):
@@ -1685,6 +1700,19 @@ def cmd_scan(args, store, source_fetches=None):
     if not args.dry_run:
         changed = store.save()
         print(f"saved {store.path.name}" if changed else "store unchanged")
+    print(
+        f"store metrics: records={len(store.jobs)} "
+        f"serialized_bytes={store.serialized_bytes} "
+        f"load_seconds={store.load_duration_seconds:.4f} "
+        f"save_seconds={store.save_duration_seconds:.4f}"
+    )
+    growth = growth_guardrail.assess_growth(
+        store.serialized_bytes,
+        timing_check_medians=(),
+    )
+    if growth.warning_reasons or growth.gate_reasons:
+        for line in growth_guardrail.assessment_lines(growth):
+            print(line)
     print(f"scan total: {time.monotonic() - command_started:.2f}s")
     if delivery_failed:
         raise RuntimeError(
