@@ -15,19 +15,23 @@ Commands:
 """
 
 import argparse
+import concurrent.futures
 import copy
 import json
 import math
 import os
 import pathlib
+import random
 import re
 import sqlite3
 import sys
+import threading
 import time
 import urllib.error
 import urllib.parse
 import urllib.request
 from datetime import datetime, timezone
+from dataclasses import dataclass
 
 HERE = pathlib.Path(__file__).parent
 STORE_FILE = HERE / "jobs.json"
@@ -531,10 +535,114 @@ class Store:
 # Fetchers  — each returns (records, ok)
 # ==========================================================================
 
-def get_json(url, timeout=30):
+@dataclass(frozen=True)
+class SourceFetch:
+    name: str
+    prefix: str
+    host: str
+    fetch: object
+
+
+@dataclass(frozen=True)
+class SourceFetchResult:
+    source: SourceFetch
+    records: list
+    ok: bool
+    duration: float
+    error: str = ""
+    verification_required: bool = False
+
+
+def _validate_source_records(records):
+    if not isinstance(records, list):
+        raise ValueError("malformed records collection")
+    if any(not isinstance(record, dict) or not record.get("uid") for record in records):
+        raise ValueError("malformed record")
+
+
+def fetch_sources(sources, previously_non_empty=()):
+    """Run Source Fetch adapters concurrently with per-host isolation."""
+    previously_non_empty = set(previously_non_empty)
+    host_gates = {
+        source.host: threading.BoundedSemaphore(4)
+        for source in sources
+    }
+
+    def run(source):
+        started = time.monotonic()
+        try:
+            with host_gates[source.host]:
+                records, ok = source.fetch()
+                _validate_source_records(records)
+                if ok and not records:
+                    was_previously_non_empty = (
+                        source.prefix in previously_non_empty
+                    )
+                    if was_previously_non_empty:
+                        try:
+                            records, ok = source.fetch()
+                            _validate_source_records(records)
+                        except Exception as error:
+                            return SourceFetchResult(
+                                source=source,
+                                records=[],
+                                ok=False,
+                                duration=time.monotonic() - started,
+                                error=f"empty snapshot retry failed: {error}",
+                                verification_required=True,
+                            )
+                    if not ok or not records:
+                        reason = (
+                            "empty snapshot after retry"
+                            if was_previously_non_empty
+                            else "new source returned empty snapshot"
+                        )
+                        return SourceFetchResult(
+                            source=source,
+                            records=[],
+                            ok=False,
+                            duration=time.monotonic() - started,
+                            error=reason,
+                            verification_required=True,
+                        )
+            return SourceFetchResult(
+                source=source,
+                records=records,
+                ok=bool(ok),
+                duration=time.monotonic() - started,
+            )
+        except Exception as error:
+            return SourceFetchResult(
+                source=source,
+                records=[],
+                ok=False,
+                duration=time.monotonic() - started,
+                error=str(error),
+            )
+
+    with concurrent.futures.ThreadPoolExecutor(max_workers=8) as executor:
+        futures = [executor.submit(run, source) for source in sources]
+        return [future.result() for future in futures]
+
+def get_json(url, timeout=10):
     req = urllib.request.Request(url, headers=UA)
-    with urllib.request.urlopen(req, timeout=timeout) as r:
-        return json.loads(r.read().decode("utf-8"))
+    for attempt in range(2):
+        try:
+            with urllib.request.urlopen(req, timeout=timeout) as response:
+                return json.loads(response.read().decode("utf-8"))
+        except urllib.error.HTTPError as error:
+            retryable = error.code == 429 or 500 <= error.code < 600
+            if attempt or not retryable:
+                raise
+            time.sleep(random.uniform(0.1, 0.5))
+        except TimeoutError:
+            if attempt:
+                raise
+            time.sleep(random.uniform(0.1, 0.5))
+        except urllib.error.URLError as error:
+            if attempt or not isinstance(error.reason, TimeoutError):
+                raise
+            time.sleep(random.uniform(0.1, 0.5))
 
 
 def fetch_simplify():
@@ -921,42 +1029,71 @@ def show(rows, limit=50):
         print(f"  ... and {len(rows) - limit} more")
 
 
-def cmd_scan(args, store):
-    sources = {"greenhouse": [], "lever": [], "ashby": []}
-    if SOURCES_FILE.exists():
-        sources.update(json.loads(SOURCES_FILE.read_text()))
-
-    fetched, ok_prefixes = [], []
-
-    recs, ok = fetch_simplify()
-    print(f"simplify: {len(recs)} listings ({'ok' if ok else 'FAILED'})")
-    fetched += recs
-    if ok:
-        ok_prefixes.append("simplify:")
-
+def configured_source_fetches(sources):
+    """Build Source Fetch adapters for the configured inventory."""
+    fetches = [
+        SourceFetch(
+            name="simplify",
+            prefix="simplify:",
+            host="raw.githubusercontent.com",
+            fetch=fetch_simplify,
+        )
+    ]
     for slug in sources.get("greenhouse", []):
-        recs, ok = fetch_greenhouse(slug)
-        print(f"  greenhouse/{slug}: {len(recs)}")
-        fetched += recs
-        if ok:
-            ok_prefixes.append(f"gh:{slug}:")
-        time.sleep(0.3)
-
+        fetches.append(SourceFetch(
+            name=f"greenhouse/{slug}",
+            prefix=f"gh:{slug}:",
+            host="boards-api.greenhouse.io",
+            fetch=lambda slug=slug: fetch_greenhouse(slug),
+        ))
     for slug in sources.get("lever", []):
-        recs, ok = fetch_lever(slug)
-        print(f"  lever/{slug}: {len(recs)}")
-        fetched += recs
-        if ok:
-            ok_prefixes.append(f"lever:{slug}:")
-        time.sleep(0.3)
-
+        fetches.append(SourceFetch(
+            name=f"lever/{slug}",
+            prefix=f"lever:{slug}:",
+            host="api.lever.co",
+            fetch=lambda slug=slug: fetch_lever(slug),
+        ))
     for slug in sources.get("ashby", []):
-        recs, ok = fetch_ashby(slug)
-        print(f"  ashby/{slug}: {len(recs)}")
-        fetched += recs
-        if ok:
-            ok_prefixes.append(f"ashby:{slug}:")
-        time.sleep(0.3)
+        fetches.append(SourceFetch(
+            name=f"ashby/{slug}",
+            prefix=f"ashby:{slug}:",
+            host="api.ashbyhq.com",
+            fetch=lambda slug=slug: fetch_ashby(slug),
+        ))
+    return fetches
+
+
+def cmd_scan(args, store, source_fetches=None):
+    command_started = time.monotonic()
+    sources = {"greenhouse": [], "lever": [], "ashby": []}
+    if source_fetches is None:
+        if SOURCES_FILE.exists():
+            sources.update(json.loads(SOURCES_FILE.read_text()))
+        source_fetches = configured_source_fetches(sources)
+
+    previously_non_empty = {
+        source.prefix
+        for source in source_fetches
+        if any(uid.startswith(source.prefix) for uid in store.jobs)
+    }
+    fetch_started = time.monotonic()
+    results = fetch_sources(source_fetches, previously_non_empty)
+    fetched, ok_prefixes = [], []
+    for result in results:
+        if result.ok:
+            fetched.extend(result.records)
+            ok_prefixes.append(result.source.prefix)
+            status = "ok"
+        elif result.verification_required:
+            status = "VERIFY"
+        else:
+            status = "FAILED"
+        detail = f" — {result.error}" if result.error else ""
+        print(
+            f"{result.source.name}: {len(result.records)} listings "
+            f"({status}, {result.duration:.2f}s){detail}"
+        )
+    print(f"fetch total: {time.monotonic() - fetch_started:.2f}s")
 
     live = set()
     for rec in fetched:
@@ -988,6 +1125,7 @@ def cmd_scan(args, store):
     if not args.dry_run:
         changed = store.save()
         print(f"saved {store.path.name}" if changed else "store unchanged")
+    print(f"scan total: {time.monotonic() - command_started:.2f}s")
 
 
 def cmd_query(args, store):
