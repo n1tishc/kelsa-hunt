@@ -214,7 +214,11 @@ class GrowthWorkflowTests(unittest.TestCase):
         workflow = workflow_path.read_text()
 
         self.assertIn('cron: "23 9 1 * *"', workflow)
-        self.assertIn("pull_request:", workflow)
+        self.assertRegex(workflow, r"(?m)^  pull_request:\s*$")
+        self.assertNotRegex(
+            workflow,
+            r"(?ms)^  pull_request:\s*\n\s+paths:",
+        )
         self.assertIn("sources.json", workflow)
         self.assertIn("fetch-depth: 0", workflow)
         self.assertIn("git gc", workflow)
