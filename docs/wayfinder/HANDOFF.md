@@ -1,80 +1,88 @@
-# Handoff — 2026-07-30
+# Handoff — 2026-08-01
 
-Session state for whoever picks this up next. Read [map.md](map.md) first for the
-actual destination/decisions; this file is just "what happened and what's next,"
-not part of the wayfinder artifact set itself. Delete or archive it once its
-contents are stale.
+Current operational and implementation state for the next session. Read
+[map.md](map.md), `CONTEXT.md`, and
+[`docs/adr/0001-repo-public-annotations-private.md`](../adr/0001-repo-public-annotations-private.md)
+for the settled product and domain decisions.
 
-## What's done
+## Current state
 
-- **Discord silence diagnosed.** Not a bug — see the Notes section of `map.md`.
-  Don't re-derive it.
-- **Cron reliability measured, not assumed.** Ticket
-  [08](tickets/08-runtime-and-minutes-budget.md) now states the measured
-  `gh run list` numbers instead of an inferred claim about GitHub deprioritizing
-  short schedules.
-- **Knowledge graph built** over `docs/wayfinder/` via `/graphify` — outputs in
-  `graphify-out/` (`graph.html` to open in a browser, `GRAPH_REPORT.md` for the
-  audit, `graph.json` for machine queries). Its last build had 34 nodes, 66 edges,
-  5 communities, and health OK, but it now predates the completed 05–07 research
-  and should be regenerated before treating its counts/edges as current. This is
-  separate from the wayfinder map itself (see map.md's Out of scope section).
-- **Frontier research tickets 05, 06, and 07 completed.**
-  - [05](research/05-ats-platform-survey.md) recommends SmartRecruiters, Workable,
-    and Recruitee; Workday remains outside the GET-only boundary.
-  - [06](research/06-target-company-list.md) now verifies 105 boards the current
-    fetchers can consume and proposes 93 net additions, not yet applied. LendingClub
-    was removed after its board returned 404 during the runtime benchmark.
-  - [07](research/07-aggregator-feeds.md) replaces the earlier guessed overlap with
-    a real snapshot comparison and recommends only `ambicuity/New-Grad-Jobs`, after
-    ticket 09.
-- **[Decide the committed store's shape](tickets/01-committed-store-shape.md)
-  resolved.** Keep one `jobs.json` Canonical Store, remove `last_seen`, suppress
-  no-op metadata commits, and derive dashboard/export artifacts. The measured
-  post-expansion projection is roughly 31,765 Records / 15.2 MB.
-- **`docs/wayfinder/` and `graphify-out/` are both untracked** (`git status`
-  confirms) — nothing has been committed. Ask before committing; not yet requested.
-- **[Dashboard shape and data path](tickets/10-dashboard-shape.md) resolved.** Use
-  variant A's simple spreadsheet ledger. It defaults to open, explicitly US-eligible
-  Records at Score 3+, while complete history and all Scores remain filterable. Actions
-  generates the compact JSON and page as an uncommitted Pages deployment artifact only
-  after meaningful Canonical Store changes.
-- **The location boundary changed deliberately.** Bare `Remote` is no longer assumed
-  domestic. Every visible view and notification must require explicit US evidence;
-  mixed-location Records may qualify but expose only US locations. The prototype applies
-  this rule; production enforcement is tracked in
-  [ticket 14](tickets/14-enforce-us-location-eligibility.md).
-- **[Excel ticket 11](tickets/11-does-excel-survive.md) resolved: cut it.** The dashboard
-  completely covers the requested read-only searchable record. Editable notes or
-  application tracking would be a separate private workflow, not an export.
+- The planned implementation sequence is complete through GitHub issue #11. The final
+  guardrail correction was merged in [PR #12](https://github.com/n1tishc/kelsa-hunt/pull/12).
+- The repository is public and `main` is the default branch.
+- GitHub Pages is enabled with the custom Actions workflow. The public strict-US ledger
+  is live at <https://n1tishc.github.io/kelsa-hunt/>. A verified 2026-08-01 manual run
+  completed `scan`, `dashboard`, and `deploy` successfully.
+- The Canonical Store currently contains 24,650 Records, serialized to 11,068,104 bytes,
+  and was last updated at `2026-08-01T18:51:52+00:00`.
+- The active Source Inventory is 110 feeds: 109 entries in `sources.json`, plus the
+  built-in Simplify feed. It covers Greenhouse, Lever, Ashby, SmartRecruiters, Workable,
+  Recruitee, Ambicuity, and Simplify.
+- The most recent local growth check reported Store timing medians of roughly 0.21
+  seconds and no active Store-size or timing gate. Packed Git size is authoritative only
+  in the full-history monthly Actions run, not an unpacked local checkout.
+- The complete test suite contains 90 tests and passed after issue #11 and its required
+  check correction.
 
-## What's in progress / blocked
+## Implemented behavior
 
-- **[Set the run-time and Actions-minutes budget](tickets/08-runtime-and-minutes-budget.md)
-  resolved.** Fetch every source with eight workers, a 10-second request timeout and
-  isolated retry policy; use a best-effort 30-minute workday / two-hour otherwise
-  cadence. Capacity is 150 sources and 1,000 runner-minutes/month.
-- **[Verify Discord delivery end-to-end](tickets/02-verify-discord-delivery.md)
-  resolved.** Discord accepted exactly one scratch-store embed with HTTP 204 and the
-  user confirmed that it visibly arrived. The production store was untouched.
-- **Ticket 09 is not yet on the frontier.** Ticket 07 is resolved, but
-  [ticket 03](tickets/03-fix-notification-loss.md) still blocks the Cross-post
-  identity decision.
-- **[Strict-US ticket 14](tickets/14-enforce-us-location-eligibility.md) is open.**
-  Production still uses the old permissive remote predicate even though `CONTEXT.md`
-  now records the replacement policy.
-- No source expansion has been applied to `sources.json`, and no aggregator fetcher
-  has been implemented. The research results are decision inputs, not code changes.
+- **Stable Canonical Store:** unchanged scans do not rewrite `jobs.json`; Records remain
+  permanent, and source-scoped closure/reopening transitions remain reversible.
+- **Strict-US boundary:** notifications, queries, exports, and dashboard data share the
+  same fail-closed US policy. Bare remote, global, unknown, and foreign-only locations
+  stay in history but do not enter user-visible Derived Views.
+- **Proven Cross-post identity:** source Records stay separate. Only recognized,
+  platform-scoped Opening Identities form Cross-post Groups; notification state covers
+  every proven sibling.
+- **Reliable scans:** eight workers fetch concurrently, with at most four requests per
+  host, a ten-second request budget, isolated retries, and no closure evidence from a
+  failed or suspiciously empty source.
+- **Expanded coverage:** SmartRecruiters, Workable, Recruitee, and Ambicuity adapters are
+  active alongside the original feeds and verified company inventory.
+- **Lossless Discord delivery:** small Batches use rich embeds; larger Batches use ordered,
+  paged digests. Each accepted page is checkpointed, and a rejected page fails visibly
+  without stamping undelivered Candidates.
+- **Public Job Ledger:** a meaningful Store change builds an ephemeral, allowlisted,
+  strict-US Pages artifact. Generated dashboard data is never committed, and private
+  `annotations.json` state cannot enter it.
+- **Growth guardrail:** normal scans report Record count, serialized bytes, and load/save
+  duration. The dedicated workflow runs on every pull request, on Source Inventory pushes,
+  monthly from packed full history, and manually. Its next response is deterministic
+  16-way UID sharding; it never auto-migrates, prunes, or rewrites history.
 
-## Suggested next steps
+## Operations
 
-1. Implement the shared strict-US predicate in
-   [ticket 14](tickets/14-enforce-us-location-eligibility.md), then reuse it for both
-   Candidate selection and dashboard derivation.
-2. If the user approves the already-identified fixes, implement and regression-test
-   [ticket 03](tickets/03-fix-notification-loss.md). That unlocks
-   [ticket 09](tickets/09-dedup-across-many-sources.md).
-3. **Standing open items still awaiting the user:**
-   - Whether to fix the two silent-notification-loss bugs now (ticket
-     [03](tickets/03-fix-notification-loss.md)) — offered, no go-ahead yet.
-   - Whether to commit `docs/wayfinder/` and `graphify-out/` to git.
+- `job-alert` runs approximately every 30 minutes during weekday Bay Area working hours
+  and every two hours outside that window and on weekends. GitHub cron is best effort.
+- `job-alert` commits meaningful `jobs.json` changes directly to `main`; dashboard and
+  Pages deployment follow only when that persistence step reports a change.
+- A ruleset that globally requires pull requests or status checks on `main` can block
+  those bot state commits. Do not enable such a rule without first giving the persistence
+  identity an explicit supported bypass or moving Canonical Store persistence to a
+  separate state branch. The `check` job still runs on every PR even when it is not a
+  mandatory repository rule.
+- Pages uses **GitHub Actions** as its publishing source. Do not install the suggested
+  Jekyll or Static HTML starter workflows; `.github/workflows/alert.yml` already owns the
+  build and deployment.
+- The Discord webhook belongs only in the `DISCORD_WEBHOOK` Actions secret. Never place
+  it in source, documentation, logs, or committed configuration.
+
+## Remaining optional work
+
+No planned implementation ticket remains. Future work should begin only from an observed
+need. The known optional areas are:
+
+1. Move automated Canonical Store commits to a dedicated state branch or use a narrowly
+   scoped automation identity so `main` can be strictly protected without breaking scans.
+2. Decide whether private applied/hidden tracking needs a durable workflow beyond the
+   local gitignored `annotations.json` file.
+3. Add historical analytics or sponsorship filtering only if normal dashboard use shows
+   a concrete need.
+4. Regenerate the root `graphify-out/` knowledge graph before relying on its reported
+   34-node/66-edge snapshot; it still describes the pre-implementation 2026-07-30 state.
+
+## Documentation status
+
+- `docs/wayfinder/`, the prototype, research, and graph outputs are committed.
+- The Wayfinder tickets preserve the decision trail; `map.md` records the settled route.
+- `README.md` is the operating guide, while this file is the time-stamped handoff.

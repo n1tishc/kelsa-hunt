@@ -67,6 +67,11 @@ copies the static ledger into one ephemeral Pages artifact, and never commits th
 generated files. Open Records at Score 3+ are shown initially; search and status,
 source, and Score controls expose the complete US history, including Score 0.
 
+The deployed ledger is <https://n1tishc.github.io/kelsa-hunt/>. Pages must use
+**GitHub Actions** as its publishing source; the repository's custom `job-alert`
+workflow already builds and deploys the artifact, so do not install GitHub's suggested
+Jekyll or Static HTML starter workflow.
+
 Enable Pages with **GitHub Actions** as its source in the repository settings. To
 preview the exact artifact locally without touching the Canonical Store:
 
@@ -82,17 +87,20 @@ reads raw `jobs.json` through an explicit public-field allowlist, so local
 ## Canonical Store growth guardrail
 
 Every scan reports Record count, serialized bytes, and Store load/save timing.
-The separate `growth-guardrail` workflow runs monthly from a full-history,
-packed checkout and whenever `sources.json` changes. It warns at 20 MiB,
+The separate `growth-guardrail` workflow runs on every pull request, monthly from a
+full-history packed checkout, and whenever `sources.json` changes on `main`. It warns at 20 MiB,
 a 1.6-second five-round-trip median, or 200 MiB packed Git history. Further
 source-count growth is blocked at 25 MiB, two consecutive 2-second medians, or
 250 MiB packed history; existing scans, storage, notifications, and dashboard
 deployments continue.
 
-Make `growth-guardrail` a required check in branch protection if source changes
-arrive through pull requests. When the gate activates, the stated next response
-is deterministic 16-way UID sharding. The check never migrates, prunes, or
-rewrites the Canonical Store or Git history automatically.
+The check is named `check` in GitHub's rules UI. Do not make pull requests or status
+checks globally mandatory on `main` while `job-alert` still commits `jobs.json` there
+with the built-in Actions token: that would block Canonical Store persistence unless
+the automation has a supported bypass. The check still reports on every pull request.
+When the gate activates, the stated next response is deterministic 16-way UID sharding.
+The check never migrates, prunes, or rewrites the Canonical Store or Git history
+automatically.
 
 ## Adding sources
 

@@ -4,11 +4,11 @@
 
 ## Destination
 
-`kelsa-hunt` settled as a single coherent system: a committed store whose shape is
-deliberately chosen, broad source coverage across companies/ATS platforms/aggregators,
-Discord alerts that are verified to arrive, and a public HTML dashboard over everything
-the tool has ever seen — with application history staying private. Done when every
-decision below is made and someone can go build it without asking another question.
+`kelsa-hunt` is now one coherent implemented system: a stable Canonical Store, broad
+source coverage across company ATS boards and aggregators, lossless Discord delivery,
+and a public strict-US HTML ledger over everything the tool has seen, with application
+history staying private. The planned decision and implementation route was completed on
+2026-08-01; remaining ideas are optional follow-up work driven by actual use.
 
 ## Notes
 
@@ -30,27 +30,28 @@ decisions already locked; don't re-litigate them without cause.
   renders **job data only** — never applied state.
 - **Storage is recall-first, notification is precision-first.** Every Record is kept
   forever; only Score ≥5 pings Discord. Re-scoring is retroactive, so any classifier or
-  threshold change can be tested against all ~13k historical records for free via
+  threshold change can be tested against all ~24.6k historical Records for free via
   `query --all --max-age 0 --min-score N`.
-- **The Discord silence is diagnosed — don't re-derive it.** Measured 2026-07-30: the
-  `--seed` run stamped all 23 then-current matches `notified_at` without sending (that is
-  what seeding does, per README step 4 — all 23 share the single timestamp
-  `1785401837`). Every run since has succeeded with the `DISCORD_WEBHOOK` secret present
-  and produced **zero** rows clearing Score ≥5 + Bay Area + ≤21 days. The silence is
-  correct behaviour, not a broken webhook. What remains unproven is that `post_discord`
-  can deliver *at all* — it has never made a successful call — which is the whole of
-  **Verify Discord delivery end-to-end**.
-- **The store is the binding constraint.** Measured 2026-07-30: `jobs.json` is 6.5 MB,
-  rewritten ~21,300 lines per run because `last_seen` updates on nearly every record.
-  Repo hit 10.7 MiB of loose objects after 7 bot commits. More sources, an Excel export,
-  and a dashboard are all additional copies or additional churn on top of this. Nearly
-  everything downstream waits on **Decide the committed store's shape**.
+- **Discord delivery is verified and loss is visible.** A scratch-store embed was
+  accepted and visibly received. Production delivery now checkpoints accepted pages,
+  returns failure on rejected pages, and stamps every member of a proven Cross-post
+  Group. Do not reintroduce silent-success behavior.
+- **The Store remains the binding resource, now with guardrails.** Unchanged scans are
+  byte-stable. As of 2026-08-01, `jobs.json` contains 24,650 Records and is 11,068,104
+  bytes. Warning and expansion-gate thresholds are measured automatically; generated
+  dashboard data stays ephemeral rather than adding another committed copy.
+- **The public ledger is deployed.** GitHub Pages serves the strict-US Derived View at
+  <https://n1tishc.github.io/kelsa-hunt/>. Pages uses the custom `job-alert` workflow,
+  not a generated Jekyll or Static HTML starter workflow.
+- **Automation writes state to `main`.** A global require-PR/status-check ruleset can
+  block the scheduled `jobs.json` commit. Strict branch protection therefore requires a
+  supported automation bypass or a future dedicated state branch.
 
 **Blocking convention:** this tracker has no native dependency edges. Each ticket names
 its blockers in a `## Blocked by` section. A ticket is on the frontier when every ticket
 it names is closed and it has no `## Claimed by` line.
 
-## Decisions so far
+## Settled and implemented decisions
 
 <!-- one line per closed ticket: gist + link -->
 
@@ -78,10 +79,15 @@ it names is closed and it has no `## Claimed by` line.
   — use per-scan rich alerts for up to five Candidates, then lossless paged digests without a daily cap.
 - [Set the Canonical Store growth guardrail](tickets/12-canonical-store-growth-guardrail.md)
   — keep one file below 25 MiB/2 seconds/250 MiB Git, then migrate reversibly to 16 stable UID shards.
+- [Fix the two ways notifications get lost silently](tickets/03-fix-notification-loss.md)
+  — rejected Discord pages fail visibly, and successful delivery stamps every proven Cross-post sibling.
+- [Enforce one strict-US location policy](tickets/14-enforce-us-location-eligibility.md)
+  — all user-visible views share one fail-closed US predicate while the Canonical Store preserves source data.
 
-## Not yet specified
+## Optional future work
 
-In-scope fog; graduates into tickets as the frontier advances.
+These are not blockers and have no committed implementation schedule. Revisit only when
+normal use provides concrete evidence that they are needed.
 
 - **Day-to-day applied-tracking workflow.** `applied <needle>` is a CLI command against
   a gitignored file that doesn't survive a fresh clone. Once the dashboard exists, how
