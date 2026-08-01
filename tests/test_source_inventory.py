@@ -19,18 +19,32 @@ class VerifiedSourceInventoryTests(unittest.TestCase):
             },
             {"greenhouse": 73, "lever": 1, "ashby": 31},
         )
+        self.assertEqual(set(sources["greenhouse"]), {
+            "anthropic", "databricks", "stripe", "figma", "scaleai",
+            "airtable", "vercel", "attentive", "robinhood", "gusto",
+            "brex", "cloudflare", "asana", "lyft", "reddit", "nuro",
+            "datadog", "twilio", "mongodb", "samsara", "pinterest",
+            "gitlab", "flexport", "affirm", "algolia", "amplitude",
+            "braze", "checkr", "circleci", "cockroachlabs", "contentful",
+            "coursera", "cribl", "elastic", "epicgames", "fivetran",
+            "gofundme", "hightouch", "instabase", "intercom", "klaviyo",
+            "launchdarkly", "bitwarden", "blend", "carta", "celonis",
+            "chime", "earnin", "fastly", "lattice", "mixpanel",
+            "opentable", "pagerduty", "postscript", "qualtrics", "rubrik",
+            "sisense", "smartsheet", "sofi", "toast", "workato",
+            "ziprecruiter", "duolingo", "fireblocks", "humaninterest",
+            "khanacademy", "newrelic", "sendbird", "smartasset", "udemy",
+            "upwork", "yext", "zscaler",
+        })
         self.assertEqual(sources["lever"], ["palantir"])
-        self.assertTrue(
-            {
-                "anthropic", "databricks", "stripe", "zscaler",
-            }.issubset(sources["greenhouse"])
-        )
-        self.assertTrue(
-            {
-                "notion", "openai", "perplexity", "semgrep",
-            }.issubset(sources["ashby"])
-        )
-        self.assertNotIn("lendingclub", sources["greenhouse"])
+        self.assertEqual(set(sources["ashby"]), {
+            "notion", "benchling", "ramp", "plaid", "linear", "vanta",
+            "posthog", "moderntreasury", "anyscale", "perplexity", "runway",
+            "harvey", "decagon", "cognition", "sierra", "cursor", "baseten",
+            "modal", "pinecone", "langchain", "llamaindex", "supabase",
+            "neon", "materialize", "motherduck", "semgrep", "crusoe",
+            "skydio", "pylon", "orb", "openai",
+        })
         self.assertTrue(all(
             len(slugs) == len(set(slugs))
             for slugs in sources.values()
