@@ -996,6 +996,110 @@ def fetch_workable(slug):
         return [], False
 
 
+def fetch_recruitee(slug):
+    url = f"https://{slug}.recruitee.com/api/offers/"
+    try:
+        data = get_json(url)
+        if not isinstance(data, dict) or not isinstance(data.get("offers"), list):
+            raise ValueError("malformed response")
+
+        out = []
+        for offer in data["offers"]:
+            if not isinstance(offer, dict):
+                raise ValueError("malformed offer")
+            source_id = offer.get("guid") or offer.get("id")
+            offer_slug = offer.get("slug")
+            title = offer.get("title")
+            company = offer.get("company_name")
+            posting_url = offer.get("careers_url")
+            if (
+                not source_id
+                or not offer_slug
+                or not title
+                or not company
+                or not posting_url
+            ):
+                raise ValueError("offer is missing required fields")
+
+            locations = offer.get("locations")
+            normalized_locations = []
+            if locations is None or locations == []:
+                full_location = offer.get("location") or ", ".join(
+                    part for part in (
+                        offer.get("city"),
+                        offer.get("state_name") or offer.get("state_code"),
+                        offer.get("country") or offer.get("country_code"),
+                    )
+                    if part
+                )
+                if offer.get("remote"):
+                    full_location = (
+                        f"Remote, {full_location}"
+                        if full_location
+                        else "Remote"
+                    )
+                if full_location:
+                    normalized_locations.append(full_location)
+            else:
+                if not isinstance(locations, list):
+                    raise ValueError("offer has malformed locations")
+                for location in locations:
+                    if not isinstance(location, dict):
+                        raise ValueError("offer has malformed location")
+                    city = location.get("city")
+                    state = (
+                        location.get("state")
+                        or location.get("state_name")
+                        or location.get("state_code")
+                    )
+                    country = location.get("country") or location.get("country_code")
+                    full_location = ", ".join(
+                        part for part in (city, state, country) if part
+                    )
+                    if offer.get("remote"):
+                        full_location = (
+                            f"Remote, {full_location}"
+                            if full_location
+                            else "Remote"
+                        )
+                    if full_location:
+                        normalized_locations.append(full_location)
+
+            posted = 0
+            source_date = offer.get("published_at") or offer.get("created_at")
+            if source_date:
+                posted = int(datetime.fromisoformat(
+                    source_date.replace(" UTC", "+00:00").replace("Z", "+00:00")
+                ).timestamp())
+
+            degrees = []
+            if offer.get("education_code") == "bachelor_degree":
+                degrees.append("Bachelor's")
+            department = offer.get("department") or ""
+            if isinstance(department, dict):
+                department = department.get("name") or ""
+            if not isinstance(department, str):
+                raise ValueError("offer has malformed department")
+
+            out.append({
+                "uid": f"recruitee:{slug}:{source_id}",
+                "recruitee_slug": offer_slug,
+                "title": title,
+                "company": company,
+                "locations": normalized_locations,
+                "url": posting_url,
+                "posted": posted,
+                "degrees": degrees,
+                "category": department,
+                "source": "Recruitee",
+                "feed_active": True,
+            })
+        return out, True
+    except Exception as e:
+        print(f"  ! recruitee/{slug}: {e}", file=sys.stderr)
+        return [], False
+
+
 # ==========================================================================
 # Discord
 # ==========================================================================
@@ -1178,7 +1282,8 @@ def _workable_identity(record):
 def _recruitee_identity(record):
     structured = _structured_uid(record, "recruitee", 2)
     if structured:
-        return ("recruitee", structured[0].lower(), structured[1])
+        opening_slug = record.get("recruitee_slug") or structured[1]
+        return ("recruitee", structured[0].lower(), opening_slug)
     host, path, _ = _parsed_record_url(record)
     if host.endswith(".recruitee.com") and len(path) >= 2 and path[0] == "o":
         tenant = host.removesuffix(".recruitee.com").lower()
@@ -1302,6 +1407,13 @@ def configured_source_fetches(sources):
             host="www.workable.com",
             fetch=lambda slug=slug: fetch_workable(slug),
         ))
+    for slug in sources.get("recruitee", []):
+        fetches.append(SourceFetch(
+            name=f"recruitee/{slug}",
+            prefix=f"recruitee:{slug}:",
+            host=f"{slug}.recruitee.com",
+            fetch=lambda slug=slug: fetch_recruitee(slug),
+        ))
     return fetches
 
 
@@ -1313,6 +1425,7 @@ def cmd_scan(args, store, source_fetches=None):
         "ashby": [],
         "smartrecruiters": [],
         "workable": [],
+        "recruitee": [],
     }
     if source_fetches is None:
         if SOURCES_FILE.exists():

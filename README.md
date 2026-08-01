@@ -1,8 +1,8 @@
 # Bay Area new-grad job alerter
 
 Polls the Simplify community new-grad feed plus configured Greenhouse, Lever,
-Ashby, SmartRecruiters, and Workable boards, filters to Bay Area entry-level
-SWE/MLE roles, and pushes new hits to Discord.
+Ashby, SmartRecruiters, Workable, and Recruitee boards, filters to Bay Area
+entry-level SWE/MLE roles, and pushes new hits to Discord.
 
 ## Setup
 
@@ -52,13 +52,15 @@ before you tighten anything.
 
 ## Adding sources
 
-`sources.json` takes Greenhouse, Lever, Ashby, SmartRecruiters, and Workable board slugs.
+`sources.json` takes Greenhouse, Lever, Ashby, SmartRecruiters, Workable, and
+Recruitee board slugs.
 The slug is the company segment in the board URL (`job-boards.greenhouse.io/SLUG`,
 `jobs.lever.co/SLUG`, `jobs.ashbyhq.com/SLUG`, or
 `jobs.smartrecruiters.com/SLUG`), or the hosted account segment in
-`apply.workable.com/SLUG`. Workable's public endpoint returns the complete published
-job collection rather than paginated pages. Add companies as you notice them missing.
-Some companies migrate between ATSs over time — if a
+`apply.workable.com/SLUG`, or the careers-site subdomain in
+`SLUG.recruitee.com`. The Workable and Recruitee public endpoints return
+complete published collections rather than paginated pages. Add companies as you
+notice them missing. Some companies migrate between ATSs over time — if a
 configured slug starts returning zero jobs, check whether the company moved
 boards rather than assuming the role's just gone.
 
