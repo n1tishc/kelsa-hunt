@@ -730,7 +730,7 @@ def post_discord(embeds, webhook, dry=False):
 
 
 # ==========================================================================
-# Commands
+# Opening Identity
 # ==========================================================================
 
 def _parsed_record_url(record):
@@ -860,14 +860,38 @@ OPENING_IDENTITY_REGISTRY = (
     _recruitee_identity,
 )
 
+STRUCTURED_IDENTITY_REGISTRY = {
+    "gh": _greenhouse_identity,
+    "lever": _lever_identity,
+    "ashby": _ashby_identity,
+    "workday": _workday_identity,
+    "smartrecruiters": _smartrecruiters_identity,
+    "workable": _workable_identity,
+    "recruitee": _recruitee_identity,
+}
+
 
 def dedup_key(record):
     """Return the current Cross-post identity key for a Record."""
+    uid_prefix = (record.get("uid") or "").partition(":")[0]
+    structured_resolver = STRUCTURED_IDENTITY_REGISTRY.get(uid_prefix)
+    if structured_resolver is not None:
+        identity = structured_resolver(record)
+        if identity is not None:
+            return identity
     for resolve_identity in OPENING_IDENTITY_REGISTRY:
         identity = resolve_identity(record)
         if identity is not None:
             return identity
     return ("record", record.get("uid"))
+
+
+def _representative_rank(record):
+    return (
+        -record["score"],
+        -(record.get("posted") or record.get("first_seen") or 0),
+        record.get("uid") or "",
+    )
 
 
 def dedup(rows):
@@ -878,22 +902,18 @@ def dedup(rows):
     best = {}
     for r in rows:
         k = dedup_key(r)
-        rank = (
-            -r["score"],
-            -(r.get("posted") or r.get("first_seen") or 0),
-            r.get("uid") or "",
-        )
+        rank = _representative_rank(r)
         current = best.get(k)
         if current is None or rank < current[0]:
             best[k] = (rank, r)
     out = [entry[1] for entry in best.values()]
-    out.sort(key=lambda r: (
-        -r["score"],
-        -(r.get("posted") or r.get("first_seen") or 0),
-        r.get("uid") or "",
-    ))
+    out.sort(key=_representative_rank)
     return out
 
+
+# ==========================================================================
+# Commands
+# ==========================================================================
 
 def show(rows, limit=50):
     if not rows:

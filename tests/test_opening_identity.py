@@ -344,6 +344,47 @@ class CrossPostGroupTests(unittest.TestCase):
             {"gh:example:111", "wrapper:222"},
         )
 
+    def test_structured_platform_takes_priority_over_another_ats_url(self):
+        shared = {
+            "title": "Software Engineer, New Grad",
+            "company": "Example",
+            "locations": ["San Francisco, CA"],
+        }
+        payload = {
+            "jobs": {
+                "lever:example:lever-111": {
+                    **shared,
+                    "uid": "lever:example:lever-111",
+                    "url": "https://example.com/jobs?gh_jid=222",
+                },
+                "wrapper:lever": {
+                    **shared,
+                    "uid": "wrapper:lever",
+                    "url": "https://jobs.lever.co/example/lever-111",
+                },
+                "wrapper:greenhouse": {
+                    **shared,
+                    "uid": "wrapper:greenhouse",
+                    "url": "https://example.com/jobs?gh_jid=222",
+                },
+            }
+        }
+
+        with tempfile.TemporaryDirectory() as directory:
+            store_path = pathlib.Path(directory) / "jobs.json"
+            store_path.write_text(json.dumps(payload))
+            store = job_alert.Store(store_path)
+
+        candidates = store.candidates(
+            unnotified_only=False,
+            max_age_days=0,
+        )
+
+        self.assertEqual(
+            {candidate["uid"] for candidate in candidates},
+            {"lever:example:lever-111", "wrapper:greenhouse"},
+        )
+
     def test_notification_stamps_group_without_merging_canonical_records(self):
         payload = {
             "jobs": {
