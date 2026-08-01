@@ -913,6 +913,89 @@ def fetch_smartrecruiters(slug, page_size=100):
         return [], False
 
 
+def fetch_workable(slug):
+    url = f"https://www.workable.com/api/accounts/{slug}?details=true"
+    try:
+        data = get_json(url)
+        if not isinstance(data, dict) or not isinstance(data.get("jobs"), list):
+            raise ValueError("malformed response")
+        company = data.get("name")
+        if not isinstance(company, str) or not company:
+            raise ValueError("response has no account name")
+
+        out = []
+        for job in data["jobs"]:
+            if not isinstance(job, dict):
+                raise ValueError("malformed job")
+            shortcode = job.get("shortcode")
+            title = job.get("title")
+            posting_url = (
+                job.get("url")
+                or job.get("shortlink")
+                or job.get("application_url")
+            )
+            if not shortcode or not title or not posting_url:
+                raise ValueError("job is missing required fields")
+
+            locations = job.get("locations")
+            if locations is None or locations == []:
+                locations = [{
+                    "city": job.get("city"),
+                    "region": job.get("state"),
+                    "country": job.get("country"),
+                }]
+            if not isinstance(locations, list):
+                raise ValueError("job has malformed locations")
+            normalized_locations = []
+            for location in locations:
+                if not isinstance(location, dict):
+                    raise ValueError("job has malformed location")
+                city = location.get("city")
+                region = (
+                    location.get("region")
+                    or location.get("state")
+                    or location.get("state_code")
+                )
+                country = location.get("country") or location.get("country_name")
+                parts = [part for part in (city, region, country) if part]
+                full_location = ", ".join(parts)
+                if job.get("telecommuting") and not city:
+                    full_location = (
+                        f"Remote, {full_location}"
+                        if full_location
+                        else "Remote"
+                    )
+                if full_location:
+                    normalized_locations.append(full_location)
+
+            posted = 0
+            source_date = job.get("published_on") or job.get("created_at")
+            if source_date:
+                parsed_date = datetime.fromisoformat(
+                    source_date.replace("Z", "+00:00")
+                )
+                if parsed_date.tzinfo is None:
+                    parsed_date = parsed_date.replace(tzinfo=timezone.utc)
+                posted = int(parsed_date.timestamp())
+
+            out.append({
+                "uid": f"workable:{slug}:{shortcode}",
+                "title": title,
+                "company": company,
+                "locations": normalized_locations,
+                "url": posting_url,
+                "posted": posted,
+                "degrees": [],
+                "category": job.get("department") or "",
+                "source": "Workable",
+                "feed_active": True,
+            })
+        return out, True
+    except Exception as e:
+        print(f"  ! workable/{slug}: {e}", file=sys.stderr)
+        return [], False
+
+
 # ==========================================================================
 # Discord
 # ==========================================================================
@@ -1212,6 +1295,13 @@ def configured_source_fetches(sources):
             host="api.smartrecruiters.com",
             fetch=lambda slug=slug: fetch_smartrecruiters(slug),
         ))
+    for slug in sources.get("workable", []):
+        fetches.append(SourceFetch(
+            name=f"workable/{slug}",
+            prefix=f"workable:{slug}:",
+            host="www.workable.com",
+            fetch=lambda slug=slug: fetch_workable(slug),
+        ))
     return fetches
 
 
@@ -1222,6 +1312,7 @@ def cmd_scan(args, store, source_fetches=None):
         "lever": [],
         "ashby": [],
         "smartrecruiters": [],
+        "workable": [],
     }
     if source_fetches is None:
         if SOURCES_FILE.exists():

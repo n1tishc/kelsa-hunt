@@ -1,0 +1,61 @@
+{
+  "name": "Example Energy",
+  "description": "Example public careers board",
+  "jobs": [
+    {
+      "title": "Software Engineer I",
+      "shortcode": "ENG1ABCDEF",
+      "url": "https://apply.workable.com/j/ENG1ABCDEF",
+      "application_url": "https://apply.workable.com/j/ENG1ABCDEF/apply",
+      "published_on": "2026-07-31",
+      "created_at": "2026-07-28",
+      "department": "Engineering",
+      "telecommuting": false,
+      "locations": [
+        {
+          "country": "United States",
+          "countryCode": "US",
+          "city": "San Francisco",
+          "region": "California",
+          "hidden": false
+        },
+        {
+          "country": "United Kingdom",
+          "countryCode": "GB",
+          "city": "London",
+          "region": "England",
+          "hidden": false
+        }
+      ]
+    },
+    {
+      "title": "Senior Software Engineer",
+      "shortcode": "ENG2ABCDEF",
+      "url": "https://apply.workable.com/j/ENG2ABCDEF",
+      "created_at": "2026-07-30",
+      "department": "Engineering",
+      "telecommuting": false,
+      "country": "United Kingdom",
+      "city": "London",
+      "state": "England"
+    },
+    {
+      "title": "Associate Machine Learning Engineer",
+      "shortcode": "ML01ABCDEF",
+      "url": "https://apply.workable.com/j/ML01ABCDEF",
+      "published_on": "2026-07-29",
+      "created_at": "2026-07-27",
+      "department": "Machine Learning",
+      "telecommuting": true,
+      "locations": [
+        {
+          "country": "United States",
+          "countryCode": "US",
+          "city": "",
+          "region": null,
+          "hidden": false
+        }
+      ]
+    }
+  ]
+}
