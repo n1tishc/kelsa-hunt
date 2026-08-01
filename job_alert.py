@@ -1268,10 +1268,27 @@ def _compact_text(value, limit):
     return " ".join(str(value or "").split())[:limit] or "—"
 
 
+def _candidate_url(candidate):
+    direct_url = (candidate.get("url") or "").strip()
+    if direct_url:
+        return direct_url
+    search_terms = " ".join(
+        part
+        for part in (
+            candidate.get("company"),
+            candidate.get("title"),
+            "job",
+        )
+        if part
+    )
+    return "https://www.google.com/search?" + urllib.parse.urlencode(
+        {"q": search_terms}
+    )
+
+
 def _compact_digest_row(candidate):
     title = _compact_text(candidate.get("title"), 80)
-    url = candidate.get("url") or ""
-    linked_title = f"[{title}]({url})" if url else title
+    linked_title = f"[{title}]({_candidate_url(candidate)})"
     if candidate["score"] >= 10:
         linked_title = f"**{linked_title}**"
     company = _compact_text(candidate.get("company"), 50)

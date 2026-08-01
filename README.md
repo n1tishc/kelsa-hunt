@@ -53,6 +53,8 @@ before you tighten anything.
 Discord delivery adapts to each scan's Notification Batch. Up to five Candidates
 keep the rich per-Candidate embeds. Larger Batches use lossless digest pages of at
 most ten rows, ordered by Score and freshness before stable presentation fields.
+If a source omits its direct opening URL, the compact title links to a targeted
+company-and-title search instead of becoming unactionable text.
 Each accepted page is stamped and saved before the next page is attempted. If a
 later page fails, the run fails while the accepted pages remain notified and the
 undelivered Candidates remain pending for the next scan.

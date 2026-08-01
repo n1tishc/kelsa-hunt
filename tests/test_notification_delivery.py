@@ -115,6 +115,7 @@ class DiscordDeliveryTests(unittest.TestCase):
                 title="Software Engineer Beta",
             ),
         ]
+        candidates[0]["url"] = ""
         store = mock.Mock()
 
         with mock.patch.object(
@@ -151,6 +152,7 @@ class DiscordDeliveryTests(unittest.TestCase):
                 "San Francisco, CA" in description,
                 "Score 10" in description,
                 "<t:300:R>" in description,
+                "https://www.google.com/search?" in description,
                 store.mark_notified.call_args.args[0],
             ),
             (
@@ -158,6 +160,7 @@ class DiscordDeliveryTests(unittest.TestCase):
                 1,
                 "New job digest",
                 sorted(description.index(uid) for uid in ordered_uids),
+                True,
                 True,
                 True,
                 True,
