@@ -10,7 +10,9 @@
 
 The original cadence and cost projection are superseded. The workflow now targets about
 690 best-effort runs/month (30-minute weekday working hours, two-hour otherwise), uses
-bounded concurrent Source Fetches, and has an operational ceiling of 1,000 runner-minutes.
+bounded concurrent Source Fetches, and monitors actual usage against an operational
+ceiling of 1,000 runner-minutes with normal p95 scans targeted below 60 seconds. The
+five-minute workflow timeout contains failures; it is not the budget for every run.
 The public-repo decision therefore no longer rests on the old claim that the private
 minutes allowance would necessarily be exceeded. It remains the chosen operating model:
 fetched Records are intentionally public, while the annotation split above remains the

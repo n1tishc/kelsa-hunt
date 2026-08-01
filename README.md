@@ -7,8 +7,10 @@ to Discord.
 ## Setup
 
 1. **Keep the repo public.** The best-effort schedule targets about 690 runs
-   per month, with an operational ceiling of 1,000 runner-minutes. Public
-   Actions runners keep that capacity outside a private-repo minutes budget.
+   per month. Monitor actual usage against an operational ceiling of 1,000
+   runner-minutes and keep normal p95 scans under 60 seconds; the five-minute
+   job timeout is failure containment, not a per-run budget. Public Actions
+   runners keep that capacity outside a private-repo minutes budget.
    Fetched Records are intentionally public; the Discord webhook stays in
    Secrets and personal application annotations stay gitignored.
 
