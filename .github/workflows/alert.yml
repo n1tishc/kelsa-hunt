@@ -40,6 +40,7 @@ jobs:
           python job_alert.py scan ${{ inputs.seed && '--seed' || '' }}
 
       - name: Persist state
+        if: always()
         run: |
           git config user.name  "job-alert-bot"
           git config user.email "actions@github.com"

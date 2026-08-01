@@ -1252,6 +1252,94 @@ def post_discord(embeds, webhook, dry=False):
     return True
 
 
+def _notification_sort_key(candidate):
+    """Order Candidates for one Notification Batch."""
+    freshness = candidate.get("posted") or candidate.get("first_seen") or 0
+    return (
+        -candidate["score"],
+        -freshness,
+        (candidate.get("company") or "").casefold(),
+        (candidate.get("title") or "").casefold(),
+        candidate.get("uid") or "",
+    )
+
+
+def _compact_text(value, limit):
+    return " ".join(str(value or "").split())[:limit] or "—"
+
+
+def _compact_digest_row(candidate):
+    title = _compact_text(candidate.get("title"), 80)
+    url = candidate.get("url") or ""
+    linked_title = f"[{title}]({url})" if url else title
+    if candidate["score"] >= 10:
+        linked_title = f"**{linked_title}**"
+    company = _compact_text(candidate.get("company"), 50)
+    location = _compact_text(
+        ", ".join(candidate.get("locations") or []),
+        90,
+    )
+    freshness = candidate.get("posted") or candidate.get("first_seen") or 0
+    age = f"<t:{int(freshness)}:R>" if freshness else "age unknown"
+    return (
+        f"{linked_title}\n{company} • {location} • {age} • "
+        f"Score {candidate['score']}"
+    )
+
+
+def build_digest_embed(candidates, page_number, page_count):
+    """Build one compact Discord page for up to ten Candidates."""
+    rows = [_compact_digest_row(candidate) for candidate in candidates]
+    return {
+        "title": "New job digest",
+        "description": "\n\n".join(rows),
+        "color": color_for(max(candidate["score"] for candidate in candidates)),
+        "footer": {
+            "text": f"Page {page_number} of {page_count} • "
+            f"{len(candidates)} Candidate(s)"
+        },
+    }
+
+
+def _notification_pages(candidates):
+    ordered = sorted(candidates, key=_notification_sort_key)
+    if not ordered:
+        return []
+    if len(ordered) <= 5:
+        return [([build_embed(candidate) for candidate in ordered], ordered)]
+    members = []
+    page = []
+    page_size = 0
+    for candidate in ordered:
+        row_size = len(_compact_digest_row(candidate)) + (2 if page else 0)
+        if page and (len(page) == 10 or page_size + row_size > 4000):
+            members.append(page)
+            page = []
+            page_size = 0
+            row_size -= 2
+        page.append(candidate)
+        page_size += row_size
+    if page:
+        members.append(page)
+    return [
+        ([build_digest_embed(page, number, len(members))], page)
+        for number, page in enumerate(members, start=1)
+    ]
+
+
+def deliver_notification_batch(store, candidates, webhook, dry=False):
+    """Deliver and checkpoint one scan's Notification Batch."""
+    for embeds, members in _notification_pages(candidates):
+        accepted = post_discord(embeds, webhook, dry=dry)
+        if dry:
+            continue
+        if not accepted:
+            return False
+        store.mark_notified(members)
+        store.save()
+    return True
+
+
 # ==========================================================================
 # Opening Identity
 # ==========================================================================
@@ -1564,20 +1652,26 @@ def cmd_scan(args, store, source_fetches=None):
     print(f"{len(rows)} new match(es)")
     show(rows)
 
+    delivery_failed = False
     if args.seed:
         store.mark_notified(rows)
         print("seeded — marked as notified without sending")
     elif rows:
-        sent = post_discord([build_embed(r) for r in rows],
-                            os.environ.get("DISCORD_WEBHOOK", ""),
-                            dry=args.dry_run)
-        if sent:
-            store.mark_notified(rows)
+        delivery_failed = not deliver_notification_batch(
+            store,
+            rows,
+            os.environ.get("DISCORD_WEBHOOK", ""),
+            dry=args.dry_run,
+        )
 
     if not args.dry_run:
         changed = store.save()
         print(f"saved {store.path.name}" if changed else "store unchanged")
     print(f"scan total: {time.monotonic() - command_started:.2f}s")
+    if delivery_failed:
+        raise RuntimeError(
+            "Discord delivery failed; undelivered Candidates remain pending"
+        )
 
 
 def cmd_query(args, store):
@@ -1593,12 +1687,16 @@ def cmd_query(args, store):
     show(rows, limit=args.limit)
 
     if args.notify and rows:
-        sent = post_discord([build_embed(r) for r in rows],
-                            os.environ.get("DISCORD_WEBHOOK", ""),
-                            dry=args.dry_run)
-        if sent and not args.dry_run:
-            store.mark_notified(rows)
-            store.save()
+        delivered = deliver_notification_batch(
+            store,
+            rows,
+            os.environ.get("DISCORD_WEBHOOK", ""),
+            dry=args.dry_run,
+        )
+        if not delivered:
+            raise RuntimeError(
+                "Discord delivery failed; undelivered Candidates remain pending"
+            )
 
 
 def cmd_stats(args, store):

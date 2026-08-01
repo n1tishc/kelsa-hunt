@@ -418,10 +418,11 @@ class WorkflowBudgetTests(unittest.TestCase):
                 'cron: "17 */2 * * 0,6"' in workflow,
                 "timeout-minutes: 5" in workflow,
                 "cancel-in-progress: false" in workflow,
+                "if: always()" in workflow,
                 'cron: "*/15' not in workflow,
                 'cron: "0 ' not in workflow,
             ),
-            (True, True, True, True, True, True, True),
+            (True, True, True, True, True, True, True, True),
         )
 
 
