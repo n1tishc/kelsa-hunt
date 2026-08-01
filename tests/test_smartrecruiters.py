@@ -18,18 +18,28 @@ def fixture(name):
     return json.loads((FIXTURES / name).read_text())
 
 
+def smartrecruiters_fixture_api():
+    pages = {0: fixture("page-0.json"), 2: fixture("page-2.json")}
+    details = fixture("details.json")
+
+    def get(url):
+        if url == job_alert.SIMPLIFY_URL:
+            return []
+        if "/postings?" in url:
+            offset = int(url.rsplit("offset=", 1)[1])
+            return pages[offset]
+        return details[url.rsplit("/", 1)[1]]
+
+    return get
+
+
 class SmartRecruitersFetchTests(unittest.TestCase):
     def test_fetches_all_pages_and_normalizes_records(self):
-        pages = {0: fixture("page-0.json"), 2: fixture("page-2.json")}
-        details = fixture("details.json")
-
-        def public_api(url):
-            if "/postings?" in url:
-                offset = int(url.rsplit("offset=", 1)[1])
-                return pages[offset]
-            return details[url.rsplit("/", 1)[1]]
-
-        with mock.patch.object(job_alert, "get_json", side_effect=public_api):
+        with mock.patch.object(
+            job_alert,
+            "get_json",
+            side_effect=smartrecruiters_fixture_api(),
+        ):
             records, ok = job_alert.fetch_smartrecruiters("ExampleCo", page_size=2)
 
         self.assertTrue(ok)
@@ -177,17 +187,6 @@ class SmartRecruitersConfigurationTests(unittest.TestCase):
 
 class SmartRecruitersEndToEndTests(unittest.TestCase):
     def test_fixture_response_becomes_persisted_records_and_us_candidates(self):
-        pages = {0: fixture("page-0.json"), 2: fixture("page-2.json")}
-        details = fixture("details.json")
-
-        def public_api(url):
-            if url == job_alert.SIMPLIFY_URL:
-                return []
-            if "/postings?" in url:
-                offset = int(url.rsplit("offset=", 1)[1])
-                return pages[offset]
-            return details[url.rsplit("/", 1)[1]]
-
         args = types.SimpleNamespace(
             min_score=5,
             no_remote=False,
@@ -204,7 +203,11 @@ class SmartRecruitersEndToEndTests(unittest.TestCase):
             with (
                 mock.patch.object(job_alert, "SOURCES_FILE", source_path),
                 mock.patch.object(job_alert, "ANNOTATIONS_FILE", root / "annotations.json"),
-                mock.patch.object(job_alert, "get_json", side_effect=public_api),
+                mock.patch.object(
+                    job_alert,
+                    "get_json",
+                    side_effect=smartrecruiters_fixture_api(),
+                ),
                 mock.patch.object(job_alert, "post_discord", return_value=False),
                 mock.patch.object(job_alert, "now", return_value=1785542400),
                 contextlib.redirect_stdout(io.StringIO()),
