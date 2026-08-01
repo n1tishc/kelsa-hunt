@@ -59,6 +59,26 @@ Each accepted page is stamped and saved before the next page is attempted. If a
 later page fails, the run fails while the accepted pages remain notified and the
 undelivered Candidates remain pending for the next scan.
 
+## Public job ledger
+
+GitHub Pages publishes a read-only spreadsheet ledger after—and only after—a
+meaningful `jobs.json` change. The workflow derives a compact strict-US data file,
+copies the static ledger into one ephemeral Pages artifact, and never commits the
+generated files. Open Records at Score 3+ are shown initially; search and status,
+source, and Score controls expose the complete US history, including Score 0.
+
+Enable Pages with **GitHub Actions** as its source in the repository settings. To
+preview the exact artifact locally without touching the Canonical Store:
+
+```sh
+python3 scripts/build_dashboard.py jobs.json dashboard-dist
+python3 -m http.server 8765 --directory dashboard-dist
+```
+
+Then open <http://127.0.0.1:8765>. `dashboard-dist/` is gitignored. The builder
+reads raw `jobs.json` through an explicit public-field allowlist, so local
+`applied_at` and `hidden` annotations cannot enter the artifact.
+
 ## Adding sources
 
 `sources.json` takes Greenhouse, Lever, Ashby, SmartRecruiters, Workable, and

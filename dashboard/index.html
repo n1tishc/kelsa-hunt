@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="A read-only, strict-US historical job ledger." />
+    <title>Kelsa Hunt · Job ledger</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="filters.js" defer></script>
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <header class="page-header">
+      <div>
+        <p class="kicker">Kelsa Hunt / Derived View</p>
+        <h1>Job ledger</h1>
+        <p class="lede">Every explicitly US-eligible role observed by the alert, searchable in one table.</p>
+      </div>
+      <div class="archive-badge"><span aria-hidden="true"></span>US archive · read only</div>
+    </header>
+
+    <main>
+      <section class="stats" aria-label="Ledger summary">
+        <div><strong id="matching-count">—</strong><span>matching Records</span></div>
+        <div><strong id="open-count">—</strong><span>open in archive</span></div>
+        <div><strong id="closed-count">—</strong><span>historical</span></div>
+        <div><strong id="company-count">—</strong><span>companies</span></div>
+      </section>
+
+      <section class="ledger" aria-label="Job ledger">
+        <div class="filters">
+          <label class="search-control">
+            <span>Search</span>
+            <input id="search" type="search" placeholder="Company, role, location…" autocomplete="off" />
+          </label>
+          <label>
+            <span>Status</span>
+            <select id="status-filter">
+              <option value="open" selected>Open</option>
+              <option value="all">Complete history</option>
+              <option value="closed">Historical only</option>
+            </select>
+          </label>
+          <label>
+            <span>Source</span>
+            <select id="source-filter"><option value="all">All sources</option></select>
+          </label>
+          <label>
+            <span>Score</span>
+            <select id="score-filter">
+              <option value="3+" selected>3+ · plausible</option>
+              <option value="5+">5+ · strong</option>
+              <option value="10+">10 · explicit</option>
+              <option value="all">All Scores</option>
+              <option value="0">0 · unclassified</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="table-meta">
+          <span id="range">Loading the Derived View…</span>
+          <span id="page-label"></span>
+        </div>
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>Score</th><th>Status</th><th>Company</th><th>Role</th>
+                <th>Strict-US location</th><th>Source</th><th>Posted</th>
+                <th>First seen</th><th>Closed</th>
+              </tr>
+            </thead>
+            <tbody id="records"><tr><td colspan="9" class="empty">Loading…</td></tr></tbody>
+          </table>
+        </div>
+        <div class="pager">
+          <button id="previous" type="button">← Previous</button>
+          <button id="next" type="button">Next →</button>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <span id="canonical-updated">Canonical Store snapshot</span>
+      <span>Public job data only · private application annotations excluded</span>
+    </footer>
+  </body>
+</html>

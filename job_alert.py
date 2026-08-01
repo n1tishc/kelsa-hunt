@@ -285,7 +285,8 @@ def is_bay_area(locations, allow_remote=True):
     return False
 
 
-def _us_record(rec):
+def strict_us_record(rec):
+    """Return a strict-US Derived View copy, or None when ineligible."""
     if rec.get("migrated"):
         return None
     locations = us_locations(rec.get("locations") or [])
@@ -482,7 +483,7 @@ class Store:
         """Return US-eligible Record copies for user-visible Derived Views."""
         return [
             row for rec in self.jobs.values()
-            if (row := _us_record(rec)) is not None
+            if (row := strict_us_record(rec)) is not None
         ]
 
     def candidates(self, min_score=5, allow_remote=True, include_closed=False,
@@ -496,7 +497,7 @@ class Store:
             if rec.get("notified_at")
         }
         for source_rec in self.jobs.values():
-            rec = _us_record(source_rec)
+            rec = strict_us_record(source_rec)
             if rec is None:
                 continue
             if rec.get("migrated") or rec.get("hidden"):
@@ -528,7 +529,7 @@ class Store:
         notified_at = now() if timestamp is None else timestamp
         marked = 0
         for rec in self.jobs.values():
-            view = _us_record(rec)
+            view = strict_us_record(rec)
             if (
                 dedup_key(rec) in candidate_keys
                 or (view is not None and dedup_key(view) in candidate_keys)
