@@ -998,6 +998,12 @@ def fetch_workable(slug):
 
 def fetch_recruitee(slug):
     url = f"https://{slug}.recruitee.com/api/offers/"
+
+    def display_location(location, remote):
+        if remote:
+            return f"Remote, {location}" if location else "Remote"
+        return location
+
     try:
         data = get_json(url)
         if not isinstance(data, dict) or not isinstance(data.get("offers"), list):
@@ -1032,12 +1038,10 @@ def fetch_recruitee(slug):
                     )
                     if part
                 )
-                if offer.get("remote"):
-                    full_location = (
-                        f"Remote, {full_location}"
-                        if full_location
-                        else "Remote"
-                    )
+                full_location = display_location(
+                    full_location,
+                    offer.get("remote"),
+                )
                 if full_location:
                     normalized_locations.append(full_location)
             else:
@@ -1056,12 +1060,10 @@ def fetch_recruitee(slug):
                     full_location = ", ".join(
                         part for part in (city, state, country) if part
                     )
-                    if offer.get("remote"):
-                        full_location = (
-                            f"Remote, {full_location}"
-                            if full_location
-                            else "Remote"
-                        )
+                    full_location = display_location(
+                        full_location,
+                        offer.get("remote"),
+                    )
                     if full_location:
                         normalized_locations.append(full_location)
 
