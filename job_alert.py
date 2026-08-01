@@ -850,17 +850,7 @@ def _recruitee_identity(record):
     return None
 
 
-OPENING_IDENTITY_REGISTRY = (
-    _greenhouse_identity,
-    _lever_identity,
-    _ashby_identity,
-    _workday_identity,
-    _smartrecruiters_identity,
-    _workable_identity,
-    _recruitee_identity,
-)
-
-STRUCTURED_IDENTITY_REGISTRY = {
+OPENING_IDENTITY_REGISTRY = {
     "gh": _greenhouse_identity,
     "lever": _lever_identity,
     "ashby": _ashby_identity,
@@ -874,12 +864,12 @@ STRUCTURED_IDENTITY_REGISTRY = {
 def dedup_key(record):
     """Return the current Cross-post identity key for a Record."""
     uid_prefix = (record.get("uid") or "").partition(":")[0]
-    structured_resolver = STRUCTURED_IDENTITY_REGISTRY.get(uid_prefix)
+    structured_resolver = OPENING_IDENTITY_REGISTRY.get(uid_prefix)
     if structured_resolver is not None:
         identity = structured_resolver(record)
         if identity is not None:
             return identity
-    for resolve_identity in OPENING_IDENTITY_REGISTRY:
+    for resolve_identity in OPENING_IDENTITY_REGISTRY.values():
         identity = resolve_identity(record)
         if identity is not None:
             return identity
