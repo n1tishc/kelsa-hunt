@@ -29,6 +29,16 @@ The three tiers `classify()` produces: **10** (explicit new-grad wording), **5**
 **Notification Threshold**:
 The `--min-score` a Record's Score must clear to be pushed to Discord. Decided default posture: **storage is recall-first** (every Record is kept no matter its Score), **notification is precision-first with some tolerated noise** — default threshold sits at Score Band 5, admitting junior-marker matches alongside explicit new-grad ones, while Band 3 stays a manual `query --min-score 3` sweep rather than an auto-notify tier.
 
+**Notification Batch**:
+The newly eligible Cross-post Groups produced by one scan and awaiting
+Discord delivery. Volume may change how the Batch is presented, but no Candidate leaves
+it until delivery succeeds.
+
+**Freshness Timestamp**:
+The best source-provided activity timestamp used by the notification age gate, with
+`first_seen` as fallback when a source provides none. It may mean published, created,
+or last updated depending on the source; it is not uniformly an original-posting date.
+
 **US eligibility boundary** (location scope):
 Every user-visible Derived View and every notification fails closed on country: a Record
 must have explicit US evidence (`US`, `USA`, `United States`, a US state/territory, or a
@@ -52,9 +62,29 @@ The generic IC title used by SF AI labs (e.g. Anthropic, one of the configured G
 
 **Cross-post** (vs. distinct req):
 Two Records naming the same real-world opening, reached via different sources (e.g. the same Stripe role appearing via Simplify and via Stripe's own Greenhouse board). Distinct from two separate reqs that merely share a company/title/location. Dedup should collapse the former, never the latter.
+When a shared opening identity cannot be proven, Records remain distinct; a duplicate
+notification is preferred to suppressing a real requisition.
+
+**Opening Identity**:
+The stable identity an external hiring system assigns to one real-world opening,
+scoped to its platform and employer or tenant where necessary. Company display names,
+title similarity, and location similarity are not Opening Identity.
+
+**Cross-post Group**:
+A Derived View of source-specific Records that share a proven Opening Identity. The
+group is live if any member is live and notified if any member has been notified;
+Canonical Records remain separate and unchanged.
 
 **Closed** (Record state):
 Marks a Record no longer listed by the source it was found through — not a claim the role is filled. Source-scoped and reversible: a Record automatically un-closes the moment any source reports it live again. Records are never pruned once closed; the store is a permanent historical ledger.
+
+**Source Fetch**:
+One attempt to observe the current Records published by one configured source. A
+healthy Source Fetch provides evidence for both live and newly Closed Records from
+that source. An unhealthy Source Fetch—transport failure, invalid data, or an
+unexpected transition from a previously non-empty source to zero Records—provides no
+closure evidence. Failures are isolated: they never imply that another source failed
+and never mark the failed source's Records Closed.
 
 **Candidate**:
 A Record that currently passes `Store.candidates()` — i.e. it clears the Notification Threshold, is Bay Area, isn't closed, and (usually) hasn't been notified yet. A Candidate is a filtered *view* over Records, not a stored state.

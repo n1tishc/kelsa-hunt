@@ -1,0 +1,62 @@
+{
+  "map.md": {
+    "mtime": 1785436207.0508356,
+    "ast_hash": "7228be046473c1323d5e81c23310d5d8",
+    "semantic_hash": "7228be046473c1323d5e81c23310d5d8"
+  },
+  "tickets/01-committed-store-shape.md": {
+    "mtime": 1785435888.848177,
+    "ast_hash": "60601355b90afec3e436690985d09a00",
+    "semantic_hash": "60601355b90afec3e436690985d09a00"
+  },
+  "tickets/02-verify-discord-delivery.md": {
+    "mtime": 1785435898.804875,
+    "ast_hash": "9370c4cb6e6d2471c1b3f55f8d101348",
+    "semantic_hash": "9370c4cb6e6d2471c1b3f55f8d101348"
+  },
+  "tickets/03-fix-notification-loss.md": {
+    "mtime": 1785435910.107908,
+    "ast_hash": "d117771f5979f858a1a737366d2ff898",
+    "semantic_hash": "d117771f5979f858a1a737366d2ff898"
+  },
+  "tickets/04-threshold-and-age-gate.md": {
+    "mtime": 1785435922.303011,
+    "ast_hash": "591d8506762c7e25a3489e63af1be8d9",
+    "semantic_hash": "591d8506762c7e25a3489e63af1be8d9"
+  },
+  "tickets/05-ats-platform-survey.md": {
+    "mtime": 1785435935.3053665,
+    "ast_hash": "ad248cf63ba79c3cf80f84381acb82a5",
+    "semantic_hash": "ad248cf63ba79c3cf80f84381acb82a5"
+  },
+  "tickets/06-target-company-list.md": {
+    "mtime": 1785435945.0960884,
+    "ast_hash": "047cc35a33ebab5b55c59b76d1ff9283",
+    "semantic_hash": "047cc35a33ebab5b55c59b76d1ff9283"
+  },
+  "tickets/07-aggregator-feeds.md": {
+    "mtime": 1785435955.9207857,
+    "ast_hash": "b8e84adf419a6014d03e9049b3ac6bc3",
+    "semantic_hash": "b8e84adf419a6014d03e9049b3ac6bc3"
+  },
+  "tickets/08-runtime-and-minutes-budget.md": {
+    "mtime": 1785436182.7315524,
+    "ast_hash": "b8b283ba9e54e906866fa8e3fcee495a",
+    "semantic_hash": "b8b283ba9e54e906866fa8e3fcee495a"
+  },
+  "tickets/09-dedup-across-many-sources.md": {
+    "mtime": 1785435980.3776107,
+    "ast_hash": "09bcc489b330a977385fb8c34f22df05",
+    "semantic_hash": "09bcc489b330a977385fb8c34f22df05"
+  },
+  "tickets/10-dashboard-shape.md": {
+    "mtime": 1785435991.5347903,
+    "ast_hash": "4704aa131ffbf05484acb7fd080e70b6",
+    "semantic_hash": "4704aa131ffbf05484acb7fd080e70b6"
+  },
+  "tickets/11-does-excel-survive.md": {
+    "mtime": 1785436003.3928556,
+    "ast_hash": "8589f9752e869ef861ef529d0d21d82f",
+    "semantic_hash": "8589f9752e869ef861ef529d0d21d82f"
+  }
+}

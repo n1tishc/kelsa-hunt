@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>graphify - graphify-out/graph.html</title>
+<script src="https://unpkg.com/vis-network@9.1.6/standalone/umd/vis-network.min.js"
+        integrity="sha384-Ux6phic9PEHJ38YtrijhkzyJ8yQlH8i/+buBR8s3mAZOJrP1gwyvAcIYl3GWtpX1"
+        crossorigin="anonymous"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #0f0f1a; color: #e0e0e0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; display: flex; height: 100vh; overflow: hidden; }
+  #graph { flex: 1; }
+  #sidebar { width: 280px; background: #1a1a2e; border-left: 1px solid #2a2a4e; display: flex; flex-direction: column; overflow: hidden; }
+  #search-wrap { padding: 12px; border-bottom: 1px solid #2a2a4e; }
+  #search { width: 100%; background: #0f0f1a; border: 1px solid #3a3a5e; color: #e0e0e0; padding: 7px 10px; border-radius: 6px; font-size: 13px; outline: none; }
+  #search:focus { border-color: #4E79A7; }
+  #search-results { max-height: 140px; overflow-y: auto; padding: 4px 12px; border-bottom: 1px solid #2a2a4e; display: none; }
+  .search-item { padding: 4px 6px; cursor: pointer; border-radius: 4px; font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .search-item:hover { background: #2a2a4e; }
+  #info-panel { padding: 14px; border-bottom: 1px solid #2a2a4e; min-height: 140px; }
+  #info-panel h3 { font-size: 13px; color: #aaa; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.05em; }
+  #info-content { font-size: 13px; color: #ccc; line-height: 1.6; }
+  #info-content .field { margin-bottom: 5px; }
+  #info-content .field b { color: #e0e0e0; }
+  #info-content .empty { color: #555; font-style: italic; }
+  .neighbor-link { display: block; padding: 2px 6px; margin: 2px 0; border-radius: 3px; cursor: pointer; font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; border-left: 3px solid #333; }
+  .neighbor-link:hover { background: #2a2a4e; }
+  #neighbors-list { max-height: 160px; overflow-y: auto; margin-top: 4px; }
+  #legend-wrap { flex: 1; overflow-y: auto; padding: 12px; }
+  #legend-wrap h3 { font-size: 13px; color: #aaa; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .legend-item { display: flex; align-items: center; gap: 8px; padding: 4px 0; cursor: pointer; border-radius: 4px; font-size: 12px; }
+  .legend-item:hover { background: #2a2a4e; padding-left: 4px; }
+  .legend-item.dimmed { opacity: 0.35; }
+  .legend-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+  .legend-label { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .legend-count { color: #666; font-size: 11px; }
+  #stats { padding: 10px 14px; border-top: 1px solid #2a2a4e; font-size: 11px; color: #555; }
+  #legend-controls { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; padding: 4px 0; }
+  #legend-controls label { display: flex; align-items: center; gap: 6px; cursor: pointer; font-size: 12px; color: #aaa; user-select: none; }
+  #legend-controls label:hover { color: #e0e0e0; }
+  .legend-cb, #select-all-cb { appearance: none; -webkit-appearance: none; width: 14px; height: 14px; border: 1.5px solid #3a3a5e; border-radius: 3px; background: #0f0f1a; cursor: pointer; position: relative; flex-shrink: 0; }
+  .legend-cb:checked, #select-all-cb:checked { background: #4E79A7; border-color: #4E79A7; }
+  .legend-cb:checked::after, #select-all-cb:checked::after { content: ''; position: absolute; left: 3.5px; top: 1px; width: 4px; height: 7px; border: solid #fff; border-width: 0 2px 2px 0; transform: rotate(45deg); }
+  #select-all-cb:indeterminate { background: #4E79A7; border-color: #4E79A7; }
+  #select-all-cb:indeterminate::after { content: ''; position: absolute; left: 2px; top: 5px; width: 8px; height: 2px; background: #fff; border: none; transform: none; }
+</style>
+</head>
+<body>
+<div id="graph"></div>
+<div id="sidebar">
+  <div id="search-wrap">
+    <input id="search" type="text" placeholder="Search nodes..." autocomplete="off">
+    <div id="search-results"></div>
+  </div>
+  <div id="info-panel">
+    <h3>Node Info</h3>
+    <div id="info-content"><span class="empty">Click a node to inspect it</span></div>
+  </div>
+  <div id="legend-wrap">
+    <h3>Communities</h3>
+    <div id="legend-controls">
+      <label><input type="checkbox" id="select-all-cb" checked onchange="toggleAllCommunities(!this.checked)">Select All</label>
+    </div>
+    <div id="legend"></div>
+  </div>
+  <div id="stats">34 nodes &middot; 66 edges &middot; 5 communities</div>
+</div>
+<script>
+const RAW_NODES = [{"id": "map_kelsa_hunt_coherent_tool", "label": "Map: Kelsa-hunt as one coherent tool", "color": {"background": "#F28E2B", "border": "#F28E2B", "highlight": {"background": "#ffffff", "border": "#F28E2B"}}, "size": 40.0, "font": {"size": 12, "color": "#ffffff"}, "title": "Map: Kelsa-hunt as one coherent tool", "community": 1, "community_name": "Notification Trust Chain", "source_file": "map.md", "file_type": "document", "degree": 19}, {"id": "ticket_01_committed_store_shape", "label": "Ticket 01: Decide the committed store's shape", "color": {"background": "#59A14F", "border": "#59A14F", "highlight": {"background": "#ffffff", "border": "#59A14F"}}, "size": 17.9, "font": {"size": 12, "color": "#ffffff"}, "title": "Ticket 01: Decide the committed store&#x27;s shape", "community": 4, "community_name": "Committed Store and Run Budget", "source_file": "tickets/01-committed-store-shape.md", "file_type": "document", "degree": 5}, {"id": "ticket_02_verify_discord_delivery", "label": "Ticket 02: Verify Discord delivery end-to-end", "color": {"background": "#F28E2B", "border": "#F28E2B", "highlight": {"background": "#ffffff", "border": "#F28E2B"}}, "size": 13.2, "font": {"size": 0, "color": "#ffffff"}, "title": "Ticket 02: Verify Discord delivery end-to-end", "community": 1, "community_name": "Notification Trust Chain", "source_file": "tickets/02-verify-discord-delivery.md", "file_type": "document", "degree": 2}, {"id": "ticket_03_fix_notification_loss", "label": "Ticket 03: Fix the two ways notifications get lost silently", "color": {"background": "#4E79A7", "border": "#4E79A7", "highlight": {"background": "#ffffff", "border": "#4E79A7"}}, "size": 17.9, "font": {"size": 12, "color": "#ffffff"}, "title": "Ticket 03: Fix the two ways notifications get lost silently", "community": 0, "community_name": "Sources, Dedup, and Notification Loss", "source_file": "tickets/03-fix-notification-loss.md", "file_type": "document", "degree": 5}, {"id": "ticket_04_threshold_and_age_gate", "label": "Ticket 04: Re-tune the notification threshold and age gate", "color": {"background": "#F28E2B", "border": "#F28E2B", "highlight": {"background": "#ffffff", "border": "#F28E2B"}}, "size": 19.5, "font": {"size": 12, "color": "#ffffff"}, "title": "Ticket 04: Re-tune the notification threshold and age gate", "community": 1, "community_name": "Notification Trust Chain", "source_file": "tickets/04-threshold-and-age-gate.md", "file_type": "document", "degree": 6}, {"id": "ticket_05_ats_platform_survey", "label": "Ticket 05: Survey which ATS platforms expose usable public job APIs", "color": {"background": "#76B7B2", "border": "#76B7B2", "highlight": {"background": "#ffffff", "border": "#76B7B2"}}, "size": 16.3, "font": {"size": 12, "color": "#ffffff"}, "title": "Ticket 05: Survey which ATS platforms expose usable public job APIs", "community": 3, "community_name": "ATS Coverage and Fetch Reliability", "source_file": "tickets/05-ats-platform-survey.md", "file_type": "document", "degree": 4}, {"id": "ticket_06_target_company_list", "label": "Ticket 06: Assemble the target company list and its board slugs", "color": {"background": "#4E79A7", "border": "#4E79A7", "highlight": {"background": "#ffffff", "border": "#4E79A7"}}, "size": 16.3, "font": {"size": 12, "color": "#ffffff"}, "title": "Ticket 06: Assemble the target company list and its board slugs", "community": 0, "community_name": "Sources, Dedup, and Notification Loss", "source_file": "tickets/06-target-company-list.md", "file_type": "document", "degree": 4}, {"id": "ticket_07_aggregator_feeds", "label": "Ticket 07: Find aggregator feeds worth adding beyond Simplify", "color": {"background": "#4E79A7", "border": "#4E79A7", "highlight": {"background": "#ffffff", "border": "#4E79A7"}}, "size": 16.3, "font": {"size": 12, "color": "#ffffff"}, "title": "Ticket 07: Find aggregator feeds worth adding beyond Simplify", "community": 0, "community_name": "Sources, Dedup, and Notification Loss", "source_file": "tickets/07-aggregator-feeds.md", "file_type": "document", "degree": 4}, {"id": "ticket_08_runtime_and_minutes_budget", "label": "Ticket 08: Set the run-time and Actions-minutes budget", "color": {"background": "#59A14F", "border": "#59A14F", "highlight": {"background": "#ffffff", "border": "#59A14F"}}, "size": 24.2, "font": {"size": 12, "color": "#ffffff"}, "title": "Ticket 08: Set the run-time and Actions-minutes budget", "community": 4, "community_name": "Committed Store and Run Budget", "source_file": "tickets/08-runtime-and-minutes-budget.md", "file_type": "document", "degree": 9}, {"id": "ticket_09_dedup_across_many_sources", "label": "Ticket 09: Decide how a Record is identified across many sources", "color": {"background": "#4E79A7", "border": "#4E79A7", "highlight": {"background": "#ffffff", "border": "#4E79A7"}}, "size": 19.5, "font": {"size": 12, "color": "#ffffff"}, "title": "Ticket 09: Decide how a Record is identified across many sources", "community": 0, "community_name": "Sources, Dedup, and Notification Loss", "source_file": "tickets/09-dedup-across-many-sources.md", "file_type": "document", "degree": 6}, {"id": "ticket_10_dashboard_shape", "label": "Ticket 10: Prototype the dashboard and decide how it gets its data", "color": {"background": "#E15759", "border": "#E15759", "highlight": {"background": "#ffffff", "border": "#E15759"}}, "size": 19.5, "font": {"size": 12, "color": "#ffffff"}, "title": "Ticket 10: Prototype the dashboard and decide how it gets its data", "community": 2, "community_name": "Public Surfaces and Privacy", "source_file": "tickets/10-dashboard-shape.md", "file_type": "document", "degree": 6}, {"id": "ticket_11_does_excel_survive", "label": "Ticket 11: Decide whether an Excel export survives the dashboard", "color": {"background": "#E15759", "border": "#E15759", "highlight": {"background": "#ffffff", "border": "#E15759"}}, "size": 17.9, "font": {"size": 12, "color": "#ffffff"}, "title": "Ticket 11: Decide whether an Excel export survives the dashboard", "community": 2, "community_name": "Public Surfaces and Privacy", "source_file": "tickets/11-does-excel-survive.md", "file_type": "document", "degree": 5}, {"id": "concept_committed_store", "label": "The committed store (per-run committed artifact)", "color": {"background": "#59A14F", "border": "#59A14F", "highlight": {"background": "#ffffff", "border": "#59A14F"}}, "size": 17.9, "font": {"size": 12, "color": "#ffffff"}, "title": "The committed store (per-run committed artifact)", "community": 4, "community_name": "Committed Store and Run Budget", "source_file": "tickets/01-committed-store-shape.md", "file_type": "concept", "degree": 5}, {"id": "concept_jobs_json_size_and_churn", "label": "jobs.json size and per-run churn (6.5 MB, ~21,300 lines/run)", "color": {"background": "#59A14F", "border": "#59A14F", "highlight": {"background": "#ffffff", "border": "#59A14F"}}, "size": 14.7, "font": {"size": 12, "color": "#ffffff"}, "title": "jobs.json size and per-run churn (6.5 MB, ~21,300 lines/run)", "community": 4, "community_name": "Committed Store and Run Budget", "source_file": "tickets/01-committed-store-shape.md", "file_type": "concept", "degree": 3}, {"id": "concept_discord_notification_delivery", "label": "Discord notification delivery (post_discord never made a successful call)", "color": {"background": "#F28E2B", "border": "#F28E2B", "highlight": {"background": "#ffffff", "border": "#F28E2B"}}, "size": 14.7, "font": {"size": 12, "color": "#ffffff"}, "title": "Discord notification delivery (post_discord never made a successful call)", "community": 1, "community_name": "Notification Trust Chain", "source_file": "tickets/02-verify-discord-delivery.md", "file_type": "concept", "degree": 3}, {"id": "concept_bug_post_discord_false_success", "label": "Bug 1: post_discord returns True after a failed non-429 send", "color": {"background": "#4E79A7", "border": "#4E79A7", "highlight": {"background": "#ffffff", "border": "#4E79A7"}}, "size": 14.7, "font": {"size": 12, "color": "#ffffff"}, "title": "Bug 1: post_discord returns True after a failed non-429 send", "community": 0, "community_name": "Sources, Dedup, and Notification Loss", "source_file": "tickets/03-fix-notification-loss.md", "file_type": "concept", "degree": 3}, {"id": "concept_bug_dedup_discards_notify_state", "label": "Bug 2: dedup discards notification state (notified_at stamped only on surviving uid)", "color": {"background": "#4E79A7", "border": "#4E79A7", "highlight": {"background": "#ffffff", "border": "#4E79A7"}}, "size": 13.2, "font": {"size": 0, "color": "#ffffff"}, "title": "Bug 2: dedup discards notification state (notified_at stamped only on surviving uid)", "community": 0, "community_name": "Sources, Dedup, and Notification Loss", "source_file": "tickets/03-fix-notification-loss.md", "file_type": "concept", "degree": 2}, {"id": "concept_score_threshold", "label": "Notification score threshold (--min-score 5, Score Bands)", "color": {"background": "#F28E2B", "border": "#F28E2B", "highlight": {"background": "#ffffff", "border": "#F28E2B"}}, "size": 13.2, "font": {"size": 0, "color": "#ffffff"}, "title": "Notification score threshold (--min-score 5, Score Bands)", "community": 1, "community_name": "Notification Trust Chain", "source_file": "tickets/04-threshold-and-age-gate.md", "file_type": "concept", "degree": 2}, {"id": "concept_age_gate_21_days", "label": "21-day age gate (MAX_AGE_DAYS = 21, posted semantics per source)", "color": {"background": "#76B7B2", "border": "#76B7B2", "highlight": {"background": "#ffffff", "border": "#76B7B2"}}, "size": 13.2, "font": {"size": 0, "color": "#ffffff"}, "title": "21-day age gate (MAX_AGE_DAYS = 21, posted semantics per source)", "community": 3, "community_name": "ATS Coverage and Fetch Reliability", "source_file": "tickets/04-threshold-and-age-gate.md", "file_type": "concept", "degree": 2}, {"id": "concept_ats_platforms", "label": "ATS platforms with public unauthenticated board APIs", "color": {"background": "#76B7B2", "border": "#76B7B2", "highlight": {"background": "#ffffff", "border": "#76B7B2"}}, "size": 14.7, "font": {"size": 12, "color": "#ffffff"}, "title": "ATS platforms with public unauthenticated board APIs", "community": 3, "community_name": "ATS Coverage and Fetch Reliability", "source_file": "tickets/05-ats-platform-survey.md", "file_type": "concept", "degree": 3}, {"id": "concept_readme_slug_migration_warning", "label": "README warning: companies migrate ATS and a slug silently returns zero", "color": {"background": "#76B7B2", "border": "#76B7B2", "highlight": {"background": "#ffffff", "border": "#76B7B2"}}, "size": 13.2, "font": {"size": 0, "color": "#ffffff"}, "title": "README warning: companies migrate ATS and a slug silently returns zero", "community": 3, "community_name": "ATS Coverage and Fetch Reliability", "source_file": "tickets/05-ats-platform-survey.md", "file_type": "concept", "degree": 2}, {"id": "concept_target_company_slugs", "label": "Target company list and sources.json board slugs", "color": {"background": "#4E79A7", "border": "#4E79A7", "highlight": {"background": "#ffffff", "border": "#4E79A7"}}, "size": 14.7, "font": {"size": 12, "color": "#ffffff"}, "title": "Target company list and sources.json board slugs", "community": 0, "community_name": "Sources, Dedup, and Notification Loss", "source_file": "tickets/06-target-company-list.md", "file_type": "concept", "degree": 3}, {"id": "concept_aggregator_feeds", "label": "Aggregator feeds and Simplify single-point-of-failure (10,215 of ~13k records)", "color": {"background": "#4E79A7", "border": "#4E79A7", "highlight": {"background": "#ffffff", "border": "#4E79A7"}}, "size": 14.7, "font": {"size": 12, "color": "#ffffff"}, "title": "Aggregator feeds and Simplify single-point-of-failure (10,215 of ~13k records)", "community": 0, "community_name": "Sources, Dedup, and Notification Loss", "source_file": "tickets/07-aggregator-feeds.md", "file_type": "concept", "degree": 3}, {"id": "concept_cron_cadence_and_minutes_budget", "label": "GitHub Actions cron cadence and minutes budget (*/15 not firing, timeout-minutes: 10)", "color": {"background": "#59A14F", "border": "#59A14F", "highlight": {"background": "#ffffff", "border": "#59A14F"}}, "size": 14.7, "font": {"size": 12, "color": "#ffffff"}, "title": "GitHub Actions cron cadence and minutes budget (*/15 not firing, timeout-minutes: 10)", "community": 4, "community_name": "Committed Store and Run Budget", "source_file": "tickets/08-runtime-and-minutes-budget.md", "file_type": "concept", "degree": 3}, {"id": "concept_sequential_source_fetching", "label": "Sequential source fetching in cmd_scan (time.sleep(0.3) per source)", "color": {"background": "#76B7B2", "border": "#76B7B2", "highlight": {"background": "#ffffff", "border": "#76B7B2"}}, "size": 13.2, "font": {"size": 0, "color": "#ffffff"}, "title": "Sequential source fetching in cmd_scan (time.sleep(0.3) per source)", "community": 3, "community_name": "ATS Coverage and Fetch Reliability", "source_file": "tickets/08-runtime-and-minutes-budget.md", "file_type": "concept", "degree": 2}, {"id": "concept_cross_post_identity", "label": "Cross-post identity and dedup key (Greenhouse id vs. fuzzy company/title/location)", "color": {"background": "#4E79A7", "border": "#4E79A7", "highlight": {"background": "#ffffff", "border": "#4E79A7"}}, "size": 13.2, "font": {"size": 0, "color": "#ffffff"}, "title": "Cross-post identity and dedup key (Greenhouse id vs. fuzzy company/title/location)", "community": 0, "community_name": "Sources, Dedup, and Notification Loss", "source_file": "tickets/09-dedup-across-many-sources.md", "file_type": "concept", "degree": 2}, {"id": "concept_public_dashboard", "label": "Public HTML dashboard over the store", "color": {"background": "#E15759", "border": "#E15759", "highlight": {"background": "#ffffff", "border": "#E15759"}}, "size": 13.2, "font": {"size": 0, "color": "#ffffff"}, "title": "Public HTML dashboard over the store", "community": 2, "community_name": "Public Surfaces and Privacy", "source_file": "tickets/10-dashboard-shape.md", "file_type": "concept", "degree": 2}, {"id": "concept_excel_export", "label": "Excel export (vs. existing job_alert.py export to SQLite)", "color": {"background": "#E15759", "border": "#E15759", "highlight": {"background": "#ffffff", "border": "#E15759"}}, "size": 13.2, "font": {"size": 0, "color": "#ffffff"}, "title": "Excel export (vs. existing job_alert.py export to SQLite)", "community": 2, "community_name": "Public Surfaces and Privacy", "source_file": "tickets/11-does-excel-survive.md", "file_type": "concept", "degree": 2}, {"id": "concept_adr_0001_repo_public_annotations_private", "label": "ADR-0001: repo public, annotations private", "color": {"background": "#E15759", "border": "#E15759", "highlight": {"background": "#ffffff", "border": "#E15759"}}, "size": 17.9, "font": {"size": 12, "color": "#ffffff"}, "title": "ADR-0001: repo public, annotations private", "community": 2, "community_name": "Public Surfaces and Privacy", "source_file": "map.md", "file_type": "rationale", "degree": 5}, {"id": "concept_context_md_domain_language", "label": "CONTEXT.md domain language (Record, Score, Candidate, Closed, Cross-post)", "color": {"background": "#F28E2B", "border": "#F28E2B", "highlight": {"background": "#ffffff", "border": "#F28E2B"}}, "size": 14.7, "font": {"size": 12, "color": "#ffffff"}, "title": "CONTEXT.md domain language (Record, Score, Candidate, Closed, Cross-post)", "community": 1, "community_name": "Notification Trust Chain", "source_file": "map.md", "file_type": "concept", "degree": 3}, {"id": "concept_recall_first_precision_first", "label": "Storage is recall-first, notification is precision-first", "color": {"background": "#F28E2B", "border": "#F28E2B", "highlight": {"background": "#ffffff", "border": "#F28E2B"}}, "size": 13.2, "font": {"size": 0, "color": "#ffffff"}, "title": "Storage is recall-first, notification is precision-first", "community": 1, "community_name": "Notification Trust Chain", "source_file": "map.md", "file_type": "concept", "degree": 2}, {"id": "concept_fog_notification_ux_at_volume", "label": "Fog: Notification UX at higher volume", "color": {"background": "#F28E2B", "border": "#F28E2B", "highlight": {"background": "#ffffff", "border": "#F28E2B"}}, "size": 13.2, "font": {"size": 0, "color": "#ffffff"}, "title": "Fog: Notification UX at higher volume", "community": 1, "community_name": "Notification Trust Chain", "source_file": "map.md", "file_type": "concept", "degree": 2}, {"id": "concept_fog_applied_tracking_workflow", "label": "Fog: Day-to-day applied-tracking workflow", "color": {"background": "#E15759", "border": "#E15759", "highlight": {"background": "#ffffff", "border": "#E15759"}}, "size": 13.2, "font": {"size": 0, "color": "#ffffff"}, "title": "Fog: Day-to-day applied-tracking workflow", "community": 2, "community_name": "Public Surfaces and Privacy", "source_file": "map.md", "file_type": "concept", "degree": 2}, {"id": "concept_blocking_convention", "label": "Blocking convention: tickets name blockers in a Blocked by section", "color": {"background": "#F28E2B", "border": "#F28E2B", "highlight": {"background": "#ffffff", "border": "#F28E2B"}}, "size": 11.6, "font": {"size": 0, "color": "#ffffff"}, "title": "Blocking convention: tickets name blockers in a Blocked by section", "community": 1, "community_name": "Notification Trust Chain", "source_file": "map.md", "file_type": "concept", "degree": 1}];
+const RAW_EDGES = [{"from": "map_kelsa_hunt_coherent_tool", "to": "concept_adr_0001_repo_public_annotations_private", "label": "cites", "title": "cites [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "map_kelsa_hunt_coherent_tool", "to": "concept_blocking_convention", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "map_kelsa_hunt_coherent_tool", "to": "concept_committed_store", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "map_kelsa_hunt_coherent_tool", "to": "concept_context_md_domain_language", "label": "cites", "title": "cites [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "map_kelsa_hunt_coherent_tool", "to": "concept_discord_notification_delivery", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "map_kelsa_hunt_coherent_tool", "to": "concept_fog_applied_tracking_workflow", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "map_kelsa_hunt_coherent_tool", "to": "concept_fog_notification_ux_at_volume", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "map_kelsa_hunt_coherent_tool", "to": "concept_recall_first_precision_first", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "map_kelsa_hunt_coherent_tool", "to": "ticket_01_committed_store_shape", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "map_kelsa_hunt_coherent_tool", "to": "ticket_02_verify_discord_delivery", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "map_kelsa_hunt_coherent_tool", "to": "ticket_03_fix_notification_loss", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "map_kelsa_hunt_coherent_tool", "to": "ticket_04_threshold_and_age_gate", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "map_kelsa_hunt_coherent_tool", "to": "ticket_05_ats_platform_survey", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "map_kelsa_hunt_coherent_tool", "to": "ticket_06_target_company_list", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "map_kelsa_hunt_coherent_tool", "to": "ticket_07_aggregator_feeds", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "map_kelsa_hunt_coherent_tool", "to": "ticket_08_runtime_and_minutes_budget", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "map_kelsa_hunt_coherent_tool", "to": "ticket_09_dedup_across_many_sources", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "map_kelsa_hunt_coherent_tool", "to": "ticket_10_dashboard_shape", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "map_kelsa_hunt_coherent_tool", "to": "ticket_11_does_excel_survive", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "ticket_01_committed_store_shape", "to": "concept_committed_store", "label": "rationale_for", "title": "rationale_for [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "ticket_01_committed_store_shape", "to": "concept_jobs_json_size_and_churn", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "ticket_01_committed_store_shape", "to": "ticket_08_runtime_and_minutes_budget", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "ticket_01_committed_store_shape", "to": "ticket_10_dashboard_shape", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "ticket_02_verify_discord_delivery", "to": "concept_discord_notification_delivery", "label": "rationale_for", "title": "rationale_for [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "ticket_03_fix_notification_loss", "to": "concept_bug_dedup_discards_notify_state", "label": "rationale_for", "title": "rationale_for [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "ticket_03_fix_notification_loss", "to": "concept_bug_post_discord_false_success", "label": "rationale_for", "title": "rationale_for [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "ticket_03_fix_notification_loss", "to": "ticket_04_threshold_and_age_gate", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "ticket_03_fix_notification_loss", "to": "ticket_09_dedup_across_many_sources", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "ticket_04_threshold_and_age_gate", "to": "concept_age_gate_21_days", "label": "rationale_for", "title": "rationale_for [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "ticket_04_threshold_and_age_gate", "to": "concept_context_md_domain_language", "label": "cites", "title": "cites [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "ticket_04_threshold_and_age_gate", "to": "concept_fog_notification_ux_at_volume", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "ticket_04_threshold_and_age_gate", "to": "concept_score_threshold", "label": "rationale_for", "title": "rationale_for [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "ticket_05_ats_platform_survey", "to": "concept_ats_platforms", "label": "rationale_for", "title": "rationale_for [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "ticket_05_ats_platform_survey", "to": "concept_readme_slug_migration_warning", "label": "cites", "title": "cites [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "ticket_05_ats_platform_survey", "to": "ticket_08_runtime_and_minutes_budget", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "ticket_06_target_company_list", "to": "concept_aggregator_feeds", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "ticket_06_target_company_list", "to": "concept_target_company_slugs", "label": "rationale_for", "title": "rationale_for [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "ticket_06_target_company_list", "to": "ticket_08_runtime_and_minutes_budget", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "ticket_07_aggregator_feeds", "to": "concept_aggregator_feeds", "label": "rationale_for", "title": "rationale_for [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "ticket_07_aggregator_feeds", "to": "ticket_08_runtime_and_minutes_budget", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "ticket_07_aggregator_feeds", "to": "ticket_09_dedup_across_many_sources", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "ticket_08_runtime_and_minutes_budget", "to": "concept_adr_0001_repo_public_annotations_private", "label": "cites", "title": "cites [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "ticket_08_runtime_and_minutes_budget", "to": "concept_committed_store", "label": "shares_data_with", "title": "shares_data_with [INFERRED]", "dashes": true, "width": 1, "color": {"opacity": 0.35}, "confidence": "INFERRED"}, {"from": "ticket_08_runtime_and_minutes_budget", "to": "concept_cron_cadence_and_minutes_budget", "label": "rationale_for", "title": "rationale_for [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "ticket_08_runtime_and_minutes_budget", "to": "concept_sequential_source_fetching", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "ticket_09_dedup_across_many_sources", "to": "concept_bug_dedup_discards_notify_state", "label": "shares_data_with", "title": "shares_data_with [INFERRED]", "dashes": true, "width": 1, "color": {"opacity": 0.35}, "confidence": "INFERRED"}, {"from": "ticket_09_dedup_across_many_sources", "to": "concept_context_md_domain_language", "label": "cites", "title": "cites [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "ticket_09_dedup_across_many_sources", "to": "concept_cross_post_identity", "label": "rationale_for", "title": "rationale_for [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "ticket_10_dashboard_shape", "to": "concept_adr_0001_repo_public_annotations_private", "label": "cites", "title": "cites [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "ticket_10_dashboard_shape", "to": "concept_committed_store", "label": "shares_data_with", "title": "shares_data_with [INFERRED]", "dashes": true, "width": 1, "color": {"opacity": 0.35}, "confidence": "INFERRED"}, {"from": "ticket_10_dashboard_shape", "to": "concept_public_dashboard", "label": "rationale_for", "title": "rationale_for [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "ticket_10_dashboard_shape", "to": "ticket_11_does_excel_survive", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "ticket_11_does_excel_survive", "to": "concept_adr_0001_repo_public_annotations_private", "label": "cites", "title": "cites [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "ticket_11_does_excel_survive", "to": "concept_excel_export", "label": "rationale_for", "title": "rationale_for [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "ticket_11_does_excel_survive", "to": "concept_fog_applied_tracking_workflow", "label": "references", "title": "references [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "concept_committed_store", "to": "concept_jobs_json_size_and_churn", "label": "conceptually_related_to", "title": "conceptually_related_to [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "concept_jobs_json_size_and_churn", "to": "concept_cron_cadence_and_minutes_budget", "label": "semantically_similar_to", "title": "semantically_similar_to [INFERRED]", "dashes": true, "width": 1, "color": {"opacity": 0.35}, "confidence": "INFERRED"}, {"from": "concept_discord_notification_delivery", "to": "concept_bug_post_discord_false_success", "label": "conceptually_related_to", "title": "conceptually_related_to [INFERRED]", "dashes": true, "width": 1, "color": {"opacity": 0.35}, "confidence": "INFERRED"}, {"from": "concept_bug_post_discord_false_success", "to": "concept_target_company_slugs", "label": "semantically_similar_to", "title": "semantically_similar_to [INFERRED]", "dashes": true, "width": 1, "color": {"opacity": 0.35}, "confidence": "INFERRED"}, {"from": "concept_score_threshold", "to": "concept_recall_first_precision_first", "label": "conceptually_related_to", "title": "conceptually_related_to [INFERRED]", "dashes": true, "width": 1, "color": {"opacity": 0.35}, "confidence": "INFERRED"}, {"from": "concept_age_gate_21_days", "to": "concept_ats_platforms", "label": "shares_data_with", "title": "shares_data_with [INFERRED]", "dashes": true, "width": 1, "color": {"opacity": 0.35}, "confidence": "INFERRED"}, {"from": "concept_ats_platforms", "to": "concept_sequential_source_fetching", "label": "conceptually_related_to", "title": "conceptually_related_to [INFERRED]", "dashes": true, "width": 1, "color": {"opacity": 0.35}, "confidence": "INFERRED"}, {"from": "concept_readme_slug_migration_warning", "to": "concept_target_company_slugs", "label": "conceptually_related_to", "title": "conceptually_related_to [INFERRED]", "dashes": true, "width": 1, "color": {"opacity": 0.35}, "confidence": "INFERRED"}, {"from": "concept_aggregator_feeds", "to": "concept_cross_post_identity", "label": "shares_data_with", "title": "shares_data_with [INFERRED]", "dashes": true, "width": 1, "color": {"opacity": 0.35}, "confidence": "INFERRED"}, {"from": "concept_cron_cadence_and_minutes_budget", "to": "concept_adr_0001_repo_public_annotations_private", "label": "rationale_for", "title": "rationale_for [EXTRACTED]", "dashes": false, "width": 2, "color": {"opacity": 0.7}, "confidence": "EXTRACTED"}, {"from": "concept_public_dashboard", "to": "concept_excel_export", "label": "conceptually_related_to", "title": "conceptually_related_to [INFERRED]", "dashes": true, "width": 1, "color": {"opacity": 0.35}, "confidence": "INFERRED"}];
+const LEGEND = [{"cid": 0, "color": "#4E79A7", "label": "Sources, Dedup, and Notification Loss", "count": 9}, {"cid": 1, "color": "#F28E2B", "label": "Notification Trust Chain", "count": 9}, {"cid": 2, "color": "#E15759", "label": "Public Surfaces and Privacy", "count": 6}, {"cid": 3, "color": "#76B7B2", "label": "ATS Coverage and Fetch Reliability", "count": 5}, {"cid": 4, "color": "#59A14F", "label": "Committed Store and Run Budget", "count": 5}];
+
+// HTML-escape helper — prevents XSS when injecting graph data into innerHTML
+function esc(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+
+// Build vis datasets
+const nodesDS = new vis.DataSet(RAW_NODES.map(n => ({
+  id: n.id, label: n.label, color: n.color, size: n.size,
+  font: n.font, title: n.title,
+  _community: n.community, _community_name: n.community_name,
+  _source_file: n.source_file, _file_type: n.file_type, _degree: n.degree,
+})));
+
+const edgesDS = new vis.DataSet(RAW_EDGES.map((e, i) => ({
+  id: i, from: e.from, to: e.to,
+  label: '',
+  title: e.title,
+  dashes: e.dashes,
+  width: e.width,
+  color: e.color,
+  arrows: { to: { enabled: true, scaleFactor: 0.5 } },
+})));
+
+const container = document.getElementById('graph');
+const network = new vis.Network(container, { nodes: nodesDS, edges: edgesDS }, {
+  physics: {
+    enabled: true,
+    solver: 'forceAtlas2Based',
+    forceAtlas2Based: {
+      gravitationalConstant: -60,
+      centralGravity: 0.005,
+      springLength: 120,
+      springConstant: 0.08,
+      damping: 0.4,
+      avoidOverlap: 0.8,
+    },
+    stabilization: { iterations: 200, fit: true },
+  },
+  interaction: {
+    hover: true,
+    tooltipDelay: 100,
+    hideEdgesOnDrag: true,
+    navigationButtons: false,
+    keyboard: false,
+  },
+  nodes: { shape: 'dot', borderWidth: 1.5 },
+  edges: { smooth: { type: 'continuous', roundness: 0.2 }, selectionWidth: 3 },
+});
+
+network.once('stabilizationIterationsDone', () => {
+  network.setOptions({ physics: { enabled: false } });
+});
+
+function showInfo(nodeId) {
+  const n = nodesDS.get(nodeId);
+  if (!n) return;
+  const neighborIds = network.getConnectedNodes(nodeId);
+  const neighborItems = neighborIds.map(nid => {
+    const nb = nodesDS.get(nid);
+    const color = nb ? nb.color.background : '#555';
+    return `<span class="neighbor-link" style="border-left-color:${esc(color)}" data-nid="${esc(nid)}">${esc(nb ? nb.label : nid)}</span>`;
+  }).join('');
+  document.getElementById('info-content').innerHTML = `
+    <div class="field"><b>${esc(n.label)}</b></div>
+    <div class="field">Type: ${esc(n._file_type || 'unknown')}</div>
+    <div class="field">Community: ${esc(n._community_name)}</div>
+    <div class="field">Source: ${esc(n._source_file || '-')}</div>
+    <div class="field">Degree: ${n._degree}</div>
+    ${neighborIds.length ? `<div class="field" style="margin-top:8px;color:#aaa;font-size:11px">Neighbors (${neighborIds.length})</div><div id="neighbors-list">${neighborItems}</div>` : ''}
+  `;
+}
+
+function focusNode(nodeId) {
+  network.focus(nodeId, { scale: 1.4, animation: true });
+  network.selectNodes([nodeId]);
+  showInfo(nodeId);
+}
+
+// Neighbor links use a data attribute + one delegated listener rather than an
+// inline onclick. A node id/label sourced from a document or a scraped URL
+// (graphify add) can contain a double-quote; dropping the stringified id
+// unescaped into a quoted onclick both broke every link and allowed a hostile
+// source to inject an event handler into the local report (stored XSS, #1838).
+// esc() on data-nid keeps the value inside the attribute; the listener reads it
+// back verbatim. Bound to document so it survives the innerHTML rebuild that
+// recreates #neighbors-list on each showInfo().
+document.addEventListener('click', e => {
+  const el = e.target.closest('.neighbor-link');
+  if (el && el.dataset.nid !== undefined) focusNode(el.dataset.nid);
+});
+
+// Track hovered node — hover detection is more reliable than click params
+let hoveredNodeId = null;
+network.on('hoverNode', params => {
+  hoveredNodeId = params.node;
+  container.style.cursor = 'pointer';
+});
+network.on('blurNode', () => {
+  hoveredNodeId = null;
+  container.style.cursor = 'default';
+});
+container.addEventListener('click', () => {
+  if (hoveredNodeId !== null) {
+    showInfo(hoveredNodeId);
+    network.selectNodes([hoveredNodeId]);
+  }
+});
+network.on('click', params => {
+  if (params.nodes.length > 0) {
+    showInfo(params.nodes[0]);
+  } else if (hoveredNodeId === null) {
+    document.getElementById('info-content').innerHTML = '<span class="empty">Click a node to inspect it</span>';
+  }
+});
+
+const searchInput = document.getElementById('search');
+const searchResults = document.getElementById('search-results');
+searchInput.addEventListener('input', () => {
+  const q = searchInput.value.toLowerCase().trim();
+  searchResults.innerHTML = '';
+  if (!q) { searchResults.style.display = 'none'; return; }
+  const matches = RAW_NODES.filter(n => n.label.toLowerCase().includes(q)).slice(0, 20);
+  if (!matches.length) { searchResults.style.display = 'none'; return; }
+  searchResults.style.display = 'block';
+  matches.forEach(n => {
+    const el = document.createElement('div');
+    el.className = 'search-item';
+    el.textContent = n.label;
+    el.style.borderLeft = `3px solid ${n.color.background}`;
+    el.style.paddingLeft = '8px';
+    el.onclick = () => {
+      network.focus(n.id, { scale: 1.5, animation: true });
+      network.selectNodes([n.id]);
+      showInfo(n.id);
+      searchResults.style.display = 'none';
+      searchInput.value = '';
+    };
+    searchResults.appendChild(el);
+  });
+});
+document.addEventListener('click', e => {
+  if (!searchResults.contains(e.target) && e.target !== searchInput)
+    searchResults.style.display = 'none';
+});
+
+const hiddenCommunities = new Set();
+
+const selectAllCb = document.getElementById('select-all-cb');
+
+function updateSelectAllState() {
+  const total = LEGEND.length;
+  const hidden = hiddenCommunities.size;
+  selectAllCb.checked = hidden === 0;
+  selectAllCb.indeterminate = hidden > 0 && hidden < total;
+}
+
+function toggleAllCommunities(hide) {
+  document.querySelectorAll('.legend-item').forEach(item => {
+    hide ? item.classList.add('dimmed') : item.classList.remove('dimmed');
+  });
+  document.querySelectorAll('.legend-cb').forEach(cb => {
+    cb.checked = !hide;
+  });
+  LEGEND.forEach(c => {
+    if (hide) hiddenCommunities.add(c.cid); else hiddenCommunities.delete(c.cid);
+  });
+  const updates = RAW_NODES.map(n => ({ id: n.id, hidden: hide }));
+  nodesDS.update(updates);
+  updateSelectAllState();
+}
+
+const legendEl = document.getElementById('legend');
+LEGEND.forEach(c => {
+  const item = document.createElement('div');
+  item.className = 'legend-item';
+  const cb = document.createElement('input');
+  cb.type = 'checkbox';
+  cb.className = 'legend-cb';
+  cb.checked = true;
+  cb.addEventListener('change', (e) => {
+    e.stopPropagation();
+    if (cb.checked) {
+      hiddenCommunities.delete(c.cid);
+      item.classList.remove('dimmed');
+    } else {
+      hiddenCommunities.add(c.cid);
+      item.classList.add('dimmed');
+    }
+    const updates = RAW_NODES
+      .filter(n => n.community === c.cid)
+      .map(n => ({ id: n.id, hidden: !cb.checked }));
+    nodesDS.update(updates);
+    updateSelectAllState();
+  });
+  item.innerHTML = `<div class="legend-dot" style="background:${c.color}"></div>
+    <span class="legend-label">${c.label}</span>
+    <span class="legend-count">${c.count}</span>`;
+  item.prepend(cb);
+  item.onclick = (e) => {
+    if (e.target === cb) return;
+    cb.checked = !cb.checked;
+    cb.dispatchEvent(new Event('change'));
+  };
+  legendEl.appendChild(item);
+});
+</script>
+<script>
+// Render hyperedges as shaded regions
+const hyperedges = [{"id": "store_shape_fan_out", "label": "Everything downstream waiting on the committed store's shape", "nodes": ["ticket_01_committed_store_shape", "ticket_08_runtime_and_minutes_budget", "ticket_10_dashboard_shape", "ticket_11_does_excel_survive", "concept_committed_store"], "relation": "participate_in", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "map.md"}, {"id": "notification_trust_chain", "label": "Notification trust chain: deliver, stop losing, then tune", "nodes": ["ticket_02_verify_discord_delivery", "ticket_03_fix_notification_loss", "ticket_04_threshold_and_age_gate", "concept_discord_notification_delivery", "concept_bug_post_discord_false_success", "concept_bug_dedup_discards_notify_state", "concept_score_threshold", "concept_age_gate_21_days"], "relation": "form", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "map.md"}];
+// afterDrawing passes ctx already transformed to network coordinate space.
+// Draw node positions raw — no manual pan/zoom/DPR math needed.
+network.on('afterDrawing', function(ctx) {
+    hyperedges.forEach(h => {
+        const positions = h.nodes
+            .map(nid => network.getPositions([nid])[nid])
+            .filter(p => p !== undefined);
+        if (positions.length < 2) return;
+        ctx.save();
+        ctx.globalAlpha = 0.12;
+        ctx.fillStyle = '#6366f1';
+        ctx.strokeStyle = '#6366f1';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        // Centroid and expanded hull in network coordinates
+        const cx = positions.reduce((s, p) => s + p.x, 0) / positions.length;
+        const cy = positions.reduce((s, p) => s + p.y, 0) / positions.length;
+        const expanded = positions.map(p => ({
+            x: cx + (p.x - cx) * 1.15,
+            y: cy + (p.y - cy) * 1.15
+        }));
+        ctx.moveTo(expanded[0].x, expanded[0].y);
+        expanded.slice(1).forEach(p => ctx.lineTo(p.x, p.y));
+        ctx.closePath();
+        ctx.fill();
+        ctx.globalAlpha = 0.4;
+        ctx.stroke();
+        // Label
+        ctx.globalAlpha = 0.8;
+        ctx.fillStyle = '#4f46e5';
+        ctx.font = 'bold 11px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText(h.label, cx, cy - 5);
+        ctx.restore();
+    });
+});
+</script>
+</body>
+</html>
