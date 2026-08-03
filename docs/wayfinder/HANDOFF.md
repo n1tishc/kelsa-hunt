@@ -67,10 +67,25 @@ for the settled product and domain decisions.
 - The Discord webhook belongs only in the `DISCORD_WEBHOOK` Actions secret. Never place
   it in source, documentation, logs, or committed configuration.
 
+## Active work
+
+**Superseded as of 2026-08-01:** a new effort is live —
+[Map: UK roles alongside US in kelsa-hunt](uk-expansion/map.md). It carries execution
+(decisions *and* code) and has seven open tickets numbered 15–21. Its frontier is tickets
+15, 17, 18, and 19; tickets 18 and 19 are research and were fired as subagents at charting.
+
+That map reopens exactly one settled decision from [map.md](map.md): the **US eligibility
+boundary** becomes a two-region **Eligible Region** concept covering US and UK. Everything
+else in the "Implemented behavior" section above still holds.
+
+Note item 3 below: "sponsorship filtering" has since been decided *against* as a runtime
+filter — measured at 27 usable rows in 24,650 Records — and reinterpreted as
+company-level source curation. See the new map's charting decisions.
+
 ## Remaining optional work
 
-No planned implementation ticket remains. Future work should begin only from an observed
-need. The known optional areas are:
+Beyond the active UK effort, these have no committed schedule and should begin only from an
+observed need:
 
 1. Move automated Canonical Store commits to a dedicated state branch or use a narrowly
    scoped automation identity so `main` can be strictly protected without breaking scans.
