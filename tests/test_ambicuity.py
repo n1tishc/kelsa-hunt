@@ -220,6 +220,8 @@ class AmbicuityEndToEndTests(unittest.TestCase):
                 "2e80c5e0217aaa3c0c3a60733ea37559",
                 "ambicuity:acme-associate-ml-second:"
                 "d727e6a57af03d2d8cdfdda2d5d828fc",
+                "ambicuity:acme-foreign-engineer:"
+                "6f45b65bf4f5a62a2001fde39f272504",
             },
         )
         self.assertEqual(
