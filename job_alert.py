@@ -2000,7 +2000,10 @@ def cmd_scan(args, store, source_fetches=None):
     if growth.warning_reasons or growth.gate_reasons:
         for line in growth_guardrail.assessment_lines(growth):
             print(line)
-    print(f"scan total: {time.monotonic() - command_started:.2f}s")
+    scan_seconds = time.monotonic() - command_started
+    print(f"scan total: {scan_seconds:.2f}s")
+    for line in growth_guardrail.scan_duration_lines(scan_seconds):
+        print(line)
     if delivery_failed:
         raise RuntimeError(
             "Discord delivery failed; undelivered Candidates remain pending"

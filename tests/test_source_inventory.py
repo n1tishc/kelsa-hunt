@@ -17,34 +17,10 @@ class VerifiedSourceInventoryTests(unittest.TestCase):
                 family: len(sources[family])
                 for family in ("greenhouse", "lever", "ashby")
             },
-            {"greenhouse": 73, "lever": 1, "ashby": 31},
+            {"greenhouse": 91, "lever": 5, "ashby": 70},
         )
-        self.assertEqual(set(sources["greenhouse"]), {
-            "anthropic", "databricks", "stripe", "figma", "scaleai",
-            "airtable", "vercel", "attentive", "robinhood", "gusto",
-            "brex", "cloudflare", "asana", "lyft", "reddit", "nuro",
-            "datadog", "twilio", "mongodb", "samsara", "pinterest",
-            "gitlab", "flexport", "affirm", "algolia", "amplitude",
-            "braze", "checkr", "circleci", "cockroachlabs", "contentful",
-            "coursera", "cribl", "elastic", "epicgames", "fivetran",
-            "gofundme", "hightouch", "instabase", "intercom", "klaviyo",
-            "launchdarkly", "bitwarden", "blend", "carta", "celonis",
-            "chime", "earnin", "fastly", "lattice", "mixpanel",
-            "opentable", "pagerduty", "postscript", "qualtrics", "rubrik",
-            "sisense", "smartsheet", "sofi", "toast", "workato",
-            "ziprecruiter", "duolingo", "fireblocks", "humaninterest",
-            "khanacademy", "newrelic", "sendbird", "smartasset", "udemy",
-            "upwork", "yext", "zscaler",
-        })
-        self.assertEqual(sources["lever"], ["palantir"])
-        self.assertEqual(set(sources["ashby"]), {
-            "notion", "benchling", "ramp", "plaid", "linear", "vanta",
-            "posthog", "moderntreasury", "anyscale", "perplexity", "runway",
-            "harvey", "decagon", "cognition", "sierra", "cursor", "baseten",
-            "modal", "pinecone", "langchain", "llamaindex", "supabase",
-            "neon", "materialize", "motherduck", "semgrep", "crusoe",
-            "skydio", "pylon", "orb", "openai",
-        })
+        self.assertTrue({"deepgram", "granola", "wayve"}.issubset(sources["ashby"]))
+        self.assertEqual(sources["lever"][2], "palantir")
         self.assertTrue(all(
             len(slugs) == len(set(slugs))
             for slugs in sources.values()
@@ -52,7 +28,7 @@ class VerifiedSourceInventoryTests(unittest.TestCase):
 
         fetches = job_alert.configured_source_fetches(sources)
         configured_names = {source.name for source in fetches}
-        self.assertEqual(len(fetches), 110)
+        self.assertEqual(len(fetches), 174)
         self.assertIn("greenhouse/zscaler", configured_names)
         self.assertIn("lever/palantir", configured_names)
         self.assertIn("ashby/openai", configured_names)

@@ -105,6 +105,26 @@ Two more inputs from ticket 18 to fold in:
 
 _(nothing — frontier; both research blockers closed 2026-08-01)_
 
+## Implementation checkpoint — 2026-08-03
+
+- `sources.json` now contains the verified 64-slug union after the `wayve` cross-platform
+  duplicate is resolved: **173 configured board entries**, or **174 fetches including the
+  built-in Simplify feed**. The two feeds omitted from the first partial edit were Ashby
+  `deepgram` and `granola`.
+- The growth check now rejects any company slug configured on multiple platforms. This keeps
+  the platform-scoped Opening Identity rule from being undermined by inventory edits.
+- Each scan prints `scan metrics: wall_seconds=...` and warns at 240 seconds, leaving a
+  one-minute margin inside the workflow's five-minute timeout. The existing 30-minute / two-hour
+  cadence is unchanged. This is deliberately a warning, not an automatic source-expansion gate;
+  a real network measurement still belongs to an Actions run.
+- Local verification on this checkout: the Expansion Gate is clear with 24,650 Records,
+  11,068,104 serialized bytes, load/save medians of 0.2104 and 0.2088 seconds, and 16,108,544
+  packed-Git bytes. The full suite passes: `Ran 140 tests ... OK`.
+
+The remaining acceptance item is an observed end-to-end wall-clock from GitHub Actions. It cannot
+be honestly substituted with a local run because the risk being measured is runner/network
+behaviour.
+
 ## Related work
 
 - [Set the run-time and Actions-minutes budget](../../tickets/08-runtime-and-minutes-budget.md)

@@ -16,6 +16,8 @@ STORE_WARNING_BYTES = 20 * MIB
 STORE_HARD_BYTES = 25 * MIB
 TIMING_WARNING_SECONDS = 1.6
 TIMING_HARD_SECONDS = 2.0
+SCAN_WARNING_SECONDS = 240
+SCAN_HARD_SECONDS = 300
 GIT_WARNING_BYTES = 200 * MIB
 GIT_HARD_BYTES = 250 * MIB
 SHARDING_RESPONSE = (
@@ -38,6 +40,21 @@ class SourceExpansionBlocked(RuntimeError):
     pass
 
 
+def duplicate_source_names(sources):
+    """Return slugs configured on more than one platform."""
+    platforms_by_name = {}
+    for platform, values in sources.items():
+        if not isinstance(values, list):
+            raise ValueError(f"{platform} source inventory must be a list")
+        for value in values:
+            platforms_by_name.setdefault(str(value).lower(), set()).add(platform)
+    return {
+        name: tuple(sorted(platforms))
+        for name, platforms in platforms_by_name.items()
+        if len(platforms) > 1
+    }
+
+
 def configured_source_count(sources):
     configured = {("simplify", "default")}
     for platform, values in sources.items():
@@ -45,6 +62,22 @@ def configured_source_count(sources):
             raise ValueError(f"{platform} source inventory must be a list")
         configured.update((platform, str(value)) for value in values)
     return len(configured)
+
+
+def assess_scan_duration(seconds):
+    if seconds is None:
+        return ()
+    if seconds >= SCAN_HARD_SECONDS:
+        return (f"scan wall-clock is at or above {SCAN_HARD_SECONDS} seconds",)
+    if seconds >= SCAN_WARNING_SECONDS:
+        return (f"scan wall-clock is at or above {SCAN_WARNING_SECONDS} seconds",)
+    return ()
+
+
+def scan_duration_lines(seconds):
+    lines = [f"scan metrics: wall_seconds={seconds:.2f}"]
+    lines.extend(f"WARNING scan budget: {reason}" for reason in assess_scan_duration(seconds))
+    return lines
 
 
 def enforce_source_expansion(assessment, approved_sources, proposed_sources):
@@ -173,6 +206,13 @@ def run_check(store_path, sources_path, repository, baseline_ref):
         git_bytes,
     )
     current_sources = json.loads(sources_path.read_text())
+    duplicates = duplicate_source_names(current_sources)
+    if duplicates:
+        formatted = ", ".join(
+            f"{name} ({'/'.join(platforms)})"
+            for name, platforms in sorted(duplicates.items())
+        )
+        raise ValueError(f"source slug configured on multiple platforms: {formatted}")
     approved_sources = sources_at_ref(repository, baseline_ref)
     print(
         f"growth metrics: records={len(canonical.get('jobs', {}))} "

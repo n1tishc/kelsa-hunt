@@ -101,6 +101,16 @@ class GrowthBoundaryTests(unittest.TestCase):
 
 
 class SourceExpansionGateTests(unittest.TestCase):
+    def test_duplicate_source_names_are_reported_across_platforms(self):
+        self.assertEqual(
+            growth_guardrail.duplicate_source_names({
+                "greenhouse": ["Wayve", "unique"],
+                "ashby": ["wayve"],
+                "lever": ["other"],
+            }),
+            {"wayve": ("ashby", "greenhouse")},
+        )
+
     def test_active_gate_blocks_only_an_increase_in_configured_sources(self):
         active_gate = growth_guardrail.assess_growth(
             serialized_bytes=25 * MiB,
@@ -144,6 +154,17 @@ class SourceExpansionGateTests(unittest.TestCase):
 
 
 class ScanGrowthMetricsTests(unittest.TestCase):
+    def test_scan_duration_reports_warning_at_four_minute_margin(self):
+        self.assertEqual(
+            growth_guardrail.assess_scan_duration(240),
+            ("scan wall-clock is at or above 240 seconds",),
+        )
+        self.assertEqual(
+            growth_guardrail.assess_scan_duration(300),
+            ("scan wall-clock is at or above 300 seconds",),
+        )
+        self.assertEqual(growth_guardrail.assess_scan_duration(239.9), ())
+
     def test_normal_scan_reports_store_count_bytes_and_load_save_durations(self):
         payload = {
             "jobs": {
