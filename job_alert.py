@@ -65,8 +65,13 @@ def now() -> int:
 
 
 # ==========================================================================
-# Location
+# Location — Eligible Region (US + UK)
 # ==========================================================================
+
+# Region constants
+REGION_US = "US"
+REGION_UK = "UK"
+ELIGIBLE_REGIONS = (REGION_US, REGION_UK)
 
 BAY_TERMS = [
     "san francisco", "sf bay", "bay area", "south san francisco",
@@ -133,11 +138,67 @@ NON_US_MARKER = re.compile(
     r"\b(?:APAC|EMEA|LATAM|global|Australia|Brazil|Canada|China|England|"
     r"Europe|France|Germany|India|Ireland|Japan|London|(?<!New )Mexico|"
     r"Singapore|Spain|"
-    r"United Kingdom|UK)\b",
+    r"United Kingdom|UK|Scotland|Wales|Northern Ireland|Belfast|Edinburgh|"
+    r"Manchester|Glasgow|Cardiff)\b",
     re.I,
 )
 US_JURISDICTION_CODE_TOKEN = re.compile(
     r"^(?:" + "|".join(US_JURISDICTION_CODES) + r")(?:\b.*)?$"
+)
+
+# --- UK location data (new) ---
+UK_COUNTRY = re.compile(
+    r"(?<![A-Za-z])(?:(?i:united\s+kingdom)|UK|England|Scotland|Wales|"
+    r"Northern Ireland)(?![A-Za-z])",
+    re.I,
+)
+UK_JURISDICTION_NAMES = (
+    "England", "Scotland", "Wales", "Northern Ireland",
+)
+UK_JURISDICTION_NAME = re.compile(
+    r"\b(?:" + "|".join(map(re.escape, UK_JURISDICTION_NAMES)) + r")\b",
+    re.I,
+)
+# UK postcodes (outward codes) — major city areas
+UK_POSTCODE_AREAS = (
+    "AB", "AL", "B", "BA", "BB", "BD", "BF", "BH", "BL", "BN",
+    "BR", "BS", "BT", "CA", "CB", "CF", "CH", "CM", "CO", "CR",
+    "CT", "CV", "CW", "DA", "DD", "DE", "DG", "DH", "DL", "DN",
+    "DT", "DY", "E", "EC", "EH", "EN", "EX", "FK", "FY", "G",
+    "GL", "GU", "HA", "HD", "HG", "HP", "HR", "HS", "HU", "HX",
+    "IG", "IP", "IV", "KA", "KT", "KW", "KY", "L", "LA", "LD",
+    "LE", "LL", "LN", "LS", "LU", "M", "ME", "MK", "ML", "N",
+    "NE", "NG", "NN", "NP", "NR", "NW", "OL", "OX", "PA", "PE",
+    "PH", "PL", "PO", "PR", "RG", "RH", "RM", "S", "SA", "SE",
+    "SG", "SK", "SL", "SM", "SN", "SO", "SP", "SR", "SS", "ST",
+    "SW", "SY", "TA", "TD", "TF", "TN", "TQ", "TR", "TS", "TW",
+    "UB", "W", "WA", "WC", "WD", "WF", "WN", "WR", "WS", "WV",
+    "YO", "ZE",
+)
+UK_POSTCODE = re.compile(
+    r"(?:^|,\s*|[-–—]\s*)(?:" + "|".join(UK_POSTCODE_AREAS) + r")\d+(?:\b|$)",
+    re.I,
+)
+UK_JURISDICTION_CODE_TOKEN = re.compile(
+    r"^(?:" + "|".join(UK_POSTCODE_AREAS) + r")\d+(?:\b.*)?$",
+    re.I,
+)
+
+# UK major cities and common aliases — for bare-city matching with collision guard
+UK_MAJOR_CITIES = (
+    "london", "edinburgh", "manchester", "belfast", "leeds",
+    "cambridge", "bristol", "newcastle upon tyne", "birmingham",
+    "glasgow", "cardiff", "reading", "oxford", "sheffield",
+    "nottingham", "liverpool", "brighton",
+)
+UK_LOCALITY_ALIASES = {city.lower() for city in UK_MAJOR_CITIES}
+
+# US markers that are negative evidence for UK eligibility
+US_MARKER_FOR_UK = re.compile(
+    r"\b(?:" + "|".join(US_JURISDICTION_CODES) + r"|"
+    + "|".join(map(re.escape, US_JURISDICTION_NAMES)) + r"|"
+    r"United States|USA|U\.?S\.?A\.?)\b",
+    re.I,
 )
 
 
@@ -287,16 +348,201 @@ def is_bay_area(locations, allow_remote=True):
     return False
 
 
-def strict_us_record(rec):
-    """Return a strict-US Derived View copy, or None when ineligible."""
+# UK notification-locality tier (mirrors BAY_TERMS for the UK)
+UK_NOTIFY_CITIES = {
+    "london", "edinburgh", "manchester", "belfast", "leeds",
+    "cambridge", "bristol", "newcastle upon tyne", "birmingham",
+    "glasgow", "cardiff",
+}
+
+
+def _is_notify_locality_for_region(locations, region, allow_remote=True):
+    """Check if any location in the record matches the notification locality
+    for the given region.
+
+    For US: Bay Area or explicit US-remote.
+    For UK: major UK cities or explicit UK-remote.
+    Bare Remote always fails closed.
+    """
+    if region == REGION_US:
+        return is_bay_area(locations, allow_remote)
+    if region == REGION_UK:
+        # Check for UK major cities
+        for loc in region_locations(locations, REGION_UK):
+            low = loc.lower()
+            # Strip common prefixes like "Remote - " or "Remote in "
+            stripped = re.sub(
+                r"^remote(?:\s+in)?(?:\s*[-–—:])?\s*",
+                "",
+                low,
+            )
+            if stripped in UK_NOTIFY_CITIES or any(
+                t in stripped for t in UK_NOTIFY_CITIES
+            ):
+                return True
+        # Check for explicit UK-remote
+        if allow_remote:
+            for part in _location_parts(locations):
+                if REMOTE_OK.search(part) and region_of(part) == REGION_UK:
+                    return True
+    return False
+
+
+def is_notify_locality(rec, allow_remote=True):
+    """Check if a record's locations match the notification locality for any
+    eligible region. Returns True when the record is in an eligible region and
+    its locations match the region-specific notification tier.
+    """
+    locations = rec.get("locations") or []
+    for r in ELIGIBLE_REGIONS:
+        if region_locations(locations, r) and _is_notify_locality_for_region(
+            locations, r, allow_remote
+        ):
+            return True
+    return False
+
+
+# ==========================================================================
+# Region detection and eligibility
+# ==========================================================================
+
+def _has_explicit_uk_evidence(location):
+    """Return True when location has explicit UK evidence.
+
+    Bare city names (e.g. 'London') fail closed unless the string
+    also contains a UK country marker or nation name. This prevents
+    false positives from collision cities that exist in other countries.
+    """
+    normalized = " ".join(location.lower().split())
+    country_match = UK_COUNTRY.search(location)
+    first_component = normalized.split(",", 1)[0]
+    locality_probe = re.sub(
+        r"^remote(?:\s+in)?(?:\s*[-–—:])?\s*",
+        "",
+        first_component,
+    )
+    # Bare city names without a UK country marker fail closed
+    # (e.g. 'London' alone is ambiguous — could be London, Canada)
+    if locality_probe in UK_LOCALITY_ALIASES and not country_match:
+        return False
+    if country_match:
+        return True
+    if UK_JURISDICTION_NAME.search(location):
+        return True
+    if UK_POSTCODE.search(location.replace("D.C.", "DC")):
+        return True
+    return False
+
+
+def _has_explicit_us_evidence_for_region(location):
+    """Return True when location has explicit US evidence."""
+    normalized = " ".join(location.lower().split())
+    country_match = US_COUNTRY.search(location)
+    first_component = normalized.split(",", 1)[0]
+    locality_probe = re.sub(
+        r"^remote(?:\s+in)?(?:\s*[-–—:])?\s*",
+        "",
+        first_component,
+    )
+    if locality_probe in KNOWN_NON_US_LOCALITIES and not country_match:
+        return False
+    jurisdiction_name_match = False
+    for match in US_JURISDICTION_NAME.finditer(location):
+        name = match.group(0).lower()
+        suffix = location[match.end():].strip(" ,-/–—")
+        if name == "georgia" and not country_match:
+            continue
+        if country_match or not suffix:
+            jurisdiction_name_match = True
+            break
+    return bool(
+        country_match
+        or jurisdiction_name_match
+        or US_JURISDICTION_CODE.search(location.replace("D.C.", "DC"))
+        or normalized in US_LOCALITY_ALIASES
+    )
+
+
+def region_of(location):
+    """Return the eligible region for a single location string, or None.
+
+    Ambiguous strings (e.g. bare city names that exist in both countries)
+    fail closed and return None.
+    """
+    has_us = _has_explicit_us_evidence_for_region(location)
+    has_uk = _has_explicit_uk_evidence(location)
+    if has_us and not has_uk:
+        return REGION_US
+    if has_uk and not has_us:
+        return REGION_UK
+    return None
+
+
+def uk_locations(locations):
+    """Return source locations with explicit evidence of UK eligibility."""
+    filtered = []
+    for part in _location_parts(locations):
+        if region_of(part) == REGION_UK:
+            filtered.append(part)
+        elif region_of(part) is None:
+            # Ambiguous part — try UK fragment decomposition
+            fragments = _mixed_uk_fragments(part)
+            filtered.extend(fragments)
+    return list(dict.fromkeys(filtered))
+
+
+def region_locations(locations, region):
+    """Return source locations with explicit evidence of eligibility for the
+    given region (REGION_US or REGION_UK)."""
+    if region == REGION_US:
+        return us_locations(locations)
+    if region == REGION_UK:
+        return uk_locations(locations)
+    return []
+
+
+def _mixed_uk_fragments(location):
+    """Extract UK-eligible fragments from a mixed location string."""
+    if REMOTE_OK.search(location) and "/" in location and UK_COUNTRY.search(location):
+        return ["Remote (UK)"]
+    components = [part.strip() for part in location.split(",") if part.strip()]
+    fragments = []
+    strong_evidence = False
+    index = 0
+    while index < len(components):
+        component = components[index]
+        # Check if this component is UK evidence
+        if _has_explicit_uk_evidence(component) and not US_MARKER_FOR_UK.search(component):
+            fragments.append(component)
+            strong_evidence = True
+        elif REMOTE_OK.search(component) and _has_explicit_uk_evidence(location):
+            # Remote with UK context in the same location string
+            fragments.append(component)
+            strong_evidence = True
+        index += 1
+    if strong_evidence:
+        return fragments
+    return []
+
+
+def strict_region_record(rec, region):
+    """Return a strict-region Derived View copy, or None when ineligible."""
     if rec.get("migrated"):
         return None
-    locations = us_locations(rec.get("locations") or [])
+    locations = region_locations(rec.get("locations") or [], region)
     if not locations:
         return None
     row = dict(rec)
     row["locations"] = locations
     return row
+
+
+def strict_us_record(rec):
+    """Return a strict-US Derived View copy, or None when ineligible.
+
+    Backward-compatible wrapper around strict_region_record for REGION_US.
+    """
+    return strict_region_record(rec, REGION_US)
 
 
 # ==========================================================================
@@ -312,11 +558,14 @@ HARD_NEG = re.compile(
 STRONG_POS = re.compile(
     r"(new\s*grad|new\s*graduate|university\s*grad|recent\s*grad|campus|"
     r"early\s*career|entry[\s-]*level|rotational|apprentice|"
-    r"\b(20\d\d)\s*(start|grad)|\bgrad\b)",
+    r"\b(20\d\d)\s*(start|grad)|\bgrad\b|"
+    r"graduate\s*(software|developer|engineer|analyst|programme|scheme|trainee|technologist)|"
+    r"\b(software|developer|engineer|analyst|programme|scheme|trainee|technologist)\s+graduate\b|"
+    r"\b(analyst programmer|technology analyst)\b)",
     re.I,
 )
 WEAK_POS = re.compile(
-    r"\b(junior|jr\.?|associate|graduate|"
+    r"\b(junior|jr\.?|associate|"
     r"engineer\s*(i|1)\b|sde\s*(i|1)\b|swe\s*(i|1)\b|"
     r"l3\b|e3\b|ic1\b|t1\b|level\s*1\b)\b",
     re.I,
@@ -331,7 +580,9 @@ MID_LEVEL = re.compile(
 PHD_SIGNAL = re.compile(r"research scientist|research engineer|applied scientist", re.I)
 ROLE_MATCH = re.compile(
     r"software|swe\b|sde\b|engineer|developer|machine learning|\bml\b|"
-    r"mle\b|ai\b|data scientist|infrastructure|backend|frontend|full[\s-]?stack",
+    r"mle\b|ai\b|data scientist|infrastructure|backend|frontend|full[\s-]?stack|"
+    r"programme|scheme|analyst programmer|technologist|technology analyst|"
+    r"graduate (software|developer|engineer|analyst)",
     re.I,
 )
 # "Member of Technical Staff" is the entry-level IC title at most SF AI labs.
@@ -494,16 +745,28 @@ class Store:
                 n += 1
         return n
 
-    def us_records(self):
-        """Return US-eligible Record copies for user-visible Derived Views."""
+    def region_records(self, region):
+        """Return region-eligible Record copies for user-visible Derived Views."""
         return [
             row for rec in self.jobs.values()
-            if (row := strict_us_record(rec)) is not None
+            if (row := strict_region_record(rec, region)) is not None
         ]
 
+    def us_records(self):
+        """Return US-eligible Record copies for user-visible Derived Views.
+
+        Backward-compatible wrapper around region_records(REGION_US).
+        """
+        return self.region_records(REGION_US)
+
     def candidates(self, min_score=5, allow_remote=True, include_closed=False,
-                   unnotified_only=True, max_age_days=MAX_AGE_DAYS):
-        """Filter the store. This is the query-time filtering step."""
+                   unnotified_only=True, max_age_days=MAX_AGE_DAYS,
+                   region=None):
+        """Filter the store. This is the query-time filtering step.
+
+        When region is None, returns candidates from all eligible regions.
+        When region is REGION_US or REGION_UK, filters to that region only.
+        """
         out = []
         cutoff = now() - max_age_days * 86400
         notified_groups = {
@@ -512,7 +775,22 @@ class Store:
             if rec.get("notified_at")
         }
         for source_rec in self.jobs.values():
-            rec = strict_us_record(source_rec)
+            locations = source_rec.get("locations") or []
+            # Determine eligible regions for this record by checking
+            # region_locations for each region.
+            eligible_regions = []
+            regions_to_check = (
+                (region,) if region is not None
+                else list(ELIGIBLE_REGIONS)
+            )
+            for r in regions_to_check:
+                if region_locations(locations, r):
+                    eligible_regions.append(r)
+            if not eligible_regions:
+                continue
+            # Use the first eligible region for Derived View construction
+            primary_region = eligible_regions[0]
+            rec = strict_region_record(source_rec, primary_region)
             if rec is None:
                 continue
             if rec.get("migrated") or rec.get("hidden"):
@@ -523,7 +801,7 @@ class Store:
                 continue
             if unnotified_only and dedup_key(source_rec) in notified_groups:
                 continue
-            if not is_bay_area(source_rec.get("locations") or [], allow_remote):
+            if not is_notify_locality(source_rec, allow_remote):
                 continue
             keep, score, reason = classify(
                 rec["title"], rec.get("degrees"), rec.get("category"))
@@ -544,13 +822,22 @@ class Store:
         notified_at = now() if timestamp is None else timestamp
         marked = 0
         for rec in self.jobs.values():
-            view = strict_us_record(rec)
-            if (
-                dedup_key(rec) in candidate_keys
-                or (view is not None and dedup_key(view) in candidate_keys)
-            ):
-                rec["notified_at"] = notified_at
-                marked += 1
+            # Check against all eligible regions
+            for r in ELIGIBLE_REGIONS:
+                view = strict_region_record(rec, r)
+                if view is not None and dedup_key(view) in candidate_keys:
+                    rec["notified_at"] = notified_at
+                    marked += 1
+                    break
+                # Also check the raw record key (for records that pass
+                # region_locations but strict_region_record returns None
+                # due to migration or other filters)
+            if dedup_key(rec) in candidate_keys:
+                # Record wasn't matched by any region view but is a
+                # direct candidate key (e.g. from a previous notification)
+                if not rec.get("notified_at"):
+                    rec["notified_at"] = notified_at
+                    marked += 1
         return marked
 
 
@@ -1713,7 +2000,10 @@ def cmd_scan(args, store, source_fetches=None):
     if growth.warning_reasons or growth.gate_reasons:
         for line in growth_guardrail.assessment_lines(growth):
             print(line)
-    print(f"scan total: {time.monotonic() - command_started:.2f}s")
+    scan_seconds = time.monotonic() - command_started
+    print(f"scan total: {scan_seconds:.2f}s")
+    for line in growth_guardrail.scan_duration_lines(scan_seconds):
+        print(line)
     if delivery_failed:
         raise RuntimeError(
             "Discord delivery failed; undelivered Candidates remain pending"

@@ -1,6 +1,14 @@
 # Map: Kelsa-hunt as one coherent tool
 
-<!-- wayfinder:map -->
+<!-- wayfinder:map:archived -->
+
+> **This map is closed.** Its destination was reached on 2026-08-01 and all 14 tickets are
+> settled. It is kept as the decision trail those decisions live in — zoom its tickets
+> freely, but do not add work here.
+>
+> **The live map is [Map: UK roles alongside US in kelsa-hunt](uk-expansion/map.md)**, which
+> extends this one to cover UK roles. It reopens exactly one decision recorded below: the
+> **US eligibility boundary** becomes a two-region **Eligible Region** concept.
 
 ## Destination
 

@@ -44,7 +44,7 @@ A 0/3/5/10 rating `classify()` assigns a Record's title (and degree requirements
 _Avoid_: Rank, weight
 
 **Score Band**:
-The three tiers `classify()` produces: **10** (explicit new-grad wording), **5** (junior-level marker, e.g. "Engineer I", MTS), **3** (bachelors-eligible with no other signal — the "maybe" tier).
+The three tiers `classify()` produces: **10** (explicit new-grad wording, including UK graduate/graduate scheme conventions), **5** (junior-level marker, e.g. "Engineer I", MTS), **3** (bachelors-eligible with no other signal — the "maybe" tier).
 
 **Notification Threshold**:
 The `--min-score` a Record's Score must clear to be pushed to Discord. Decided default posture: **storage is recall-first** (every Record is kept no matter its Score), **notification is precision-first with some tolerated noise** — default threshold sits at Score Band 5, admitting junior-marker matches alongside explicit new-grad ones, while Band 3 stays a manual `query --min-score 3` sweep rather than an auto-notify tier.
@@ -59,20 +59,26 @@ The best source-provided activity timestamp used by the notification age gate, w
 `first_seen` as fallback when a source provides none. It may mean published, created,
 or last updated depending on the source; it is not uniformly an original-posting date.
 
-**US eligibility boundary** (location scope):
-Every user-visible Derived View and every notification fails closed on country: a Record
-must have explicit US evidence (`US`, `USA`, `United States`, a US state/territory, or a
-recognized US locality). Bare `Remote`, global, unknown, and foreign-only locations are
-out of scope. A multi-location posting remains eligible when at least one location is in
-the US, but the Derived View displays only its US locations; the Canonical Store retains
-the source's complete location list. This replaces the earlier permissive assumption that
-an unqualified `Remote` location was domestic.
+**Eligible Region** (location scope):
+Every user-visible Derived View and every notification fails closed on region: a Record
+must have explicit evidence of being in an eligible region (`US` or `UK`). Bare `Remote`,
+global, unknown, and foreign-only locations fail closed. A multi-location posting remains
+eligible in every region for which it has explicit evidence, but the Derived View displays
+only the in-region locations; the Canonical Store retains the source's complete location list.
+This replaces the earlier US-only boundary with a two-region concept.
 
-**Bay Area** (notification-locality scope):
+**Bay Area** (notification-locality scope, US):
 The `BAY_TERMS` city list (SF plus peninsula/south-bay/east-bay: San Jose, Mountain View,
 Palo Alto, Sunnyvale, Oakland, Berkeley, etc.) — additions to this are data changes, not
 design decisions. Local notifications still use this narrower area; remote notifications
-must also satisfy the US eligibility boundary above.
+must also satisfy the US eligibility evidence above.
+
+**UK notification locality** (notification-locality scope, UK):
+The `UK_NOTIFY_CITIES` city list (London, Edinburgh, Manchester, Belfast, Leeds,
+Cambridge, Bristol, Newcastle upon Tyne, Birmingham, Glasgow, Cardiff) — additions to
+this are data changes, not design decisions. Local notifications use this narrower area;
+remote notifications must also satisfy explicit UK-remote evidence (`Remote - UK`,
+`Remote in UK`, `Remote, United Kingdom`, `Remote, UK`). Bare `Remote` fails closed.
 
 **MTS (Member of Technical Staff)**:
 The generic IC title used by SF AI labs (e.g. Anthropic, one of the configured Greenhouse sources) at *every* seniority level, not just entry-level — the seniority signal lives in the job description (years of experience), which `classify()` never reads (title-only). Because there is no title-only way to separate a junior MTS req from a senior one, the classifier deliberately treats **any** MTS title as a junior-positive signal (+5) and accepts the resulting noise (occasional senior MTS pings), since the alternative — gating or dropping the bonus — would guarantee missing genuine entry-level lab roles rather than just occasionally over-including senior ones. This is a permanent, accepted limitation of title-only classification, not a bug to fix later.
@@ -108,7 +114,8 @@ and never mark the failed source's Records Closed.
 
 **Candidate**:
 A Record that currently passes `Store.candidates()` — i.e. it clears the Notification
-Threshold, is either Bay Area or explicitly US-remote, isn't closed, satisfies the age
+Threshold, is either Bay Area or explicitly US-remote (for US records), or is in a UK
+major city or explicitly UK-remote (for UK records), isn't closed, satisfies the age
 gate, and (usually) hasn't been notified yet. A Candidate is a filtered *view* over
 Records, not a stored state.
 _Avoid_: Match (ambiguous with the general English sense)
