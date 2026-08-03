@@ -1,8 +1,19 @@
-# Bay Area new-grad job alerter
+# US/UK new-grad job alerter
 
-Polls the Simplify and Ambicuity community new-grad feeds plus configured
+Polls the Simplify and Ambicuity community new-grad feeds plus 173 configured
 Greenhouse, Lever, Ashby, SmartRecruiters, Workable, and Recruitee boards, filters
-to Bay Area entry-level SWE/MLE roles, and pushes new hits to Discord.
+to eligible US/UK entry-level SWE/MLE roles, and pushes new hits to Discord.
+
+The Canonical Store is recall-first: every fetched Record is retained, including
+roles that fail the current score, age, or location filters. Notifications are
+precision-first and currently target Bay Area or explicit US-remote roles plus
+major UK cities or explicit UK-remote roles. Location eligibility fails closed;
+bare `Remote`, global, unknown, and foreign-only locations are never notified.
+
+The active expansion branch is `docs/update-project-context`. It contains the
+UK-aware classifier, region predicates, verified UK source inventory, and scan
+budget instrumentation. The public Pages ledger remains the deployed US view
+until the region-presentation work is merged and deployed from `main`.
 
 ## Setup
 
@@ -42,10 +53,11 @@ to Bay Area entry-level SWE/MLE roles, and pushes new hits to Discord.
 Scores: **10** = explicit new-grad wording, **5** = junior marker (`Engineer I`,
 `Associate`, MTS), **3** = bachelors-eligible only. Embed colour tracks score.
 
-Location filtering fails closed: local roles need a recognized US locality, state,
-territory, or country marker, and remote roles must explicitly say US/USA/United States
-or name a US state/territory. Bare `Remote`, global, unknown, and foreign-only roles are
-stored in history but never queried or notified as Candidates.
+Location filtering fails closed: US local roles need recognized US evidence and
+US-remote roles must explicitly say US/USA/United States or name a US state or
+territory. UK roles need explicit UK evidence; UK notifications are limited to
+major cities such as London, Edinburgh, Manchester, Belfast, Leeds, Cambridge,
+Bristol, Newcastle, Birmingham, Glasgow, or Cardiff, or explicit UK-remote.
 
 Run `--dry-run --min-score 3` for a week and watch what lands in the maybe pile
 before you tighten anything.
@@ -67,7 +79,7 @@ copies the static ledger into one ephemeral Pages artifact, and never commits th
 generated files. Open Records at Score 3+ are shown initially; search and status,
 source, and Score controls expose the complete US history, including Score 0.
 
-The deployed ledger is <https://n1tishc.github.io/kelsa-hunt/>. Pages must use
+The deployed US ledger is <https://n1tishc.github.io/kelsa-hunt/>. Pages must use
 **GitHub Actions** as its publishing source; the repository's custom `job-alert`
 workflow already builds and deploys the artifact, so do not install GitHub's suggested
 Jekyll or Static HTML starter workflow.
@@ -86,7 +98,10 @@ reads raw `jobs.json` through an explicit public-field allowlist, so local
 
 ## Canonical Store growth guardrail
 
-Every scan reports Record count, serialized bytes, and Store load/save timing.
+Every scan reports Record count, serialized bytes, Store load/save timing, and
+end-to-end wall-clock duration. A scan-duration warning starts at 240 seconds,
+leaving one minute inside the five-minute Actions timeout. The expanded inventory
+is measured on GitHub Actions because runner/network behavior is the relevant risk.
 The separate `growth-guardrail` workflow runs on every pull request, monthly from a
 full-history packed checkout, and whenever `sources.json` changes on `main`. It warns at 20 MiB,
 a 1.6-second five-round-trip median, or 200 MiB packed Git history. Further
@@ -101,6 +116,10 @@ the automation has a supported bypass. The check still reports on every pull req
 When the gate activates, the stated next response is deterministic 16-way UID sharding.
 The check never migrates, prunes, or rewrites the Canonical Store or Git history
 automatically.
+
+The inventory guard also rejects a company slug configured on multiple ATS
+platforms, because Opening Identity is platform-scoped and cannot safely deduplicate
+such Records across platforms.
 
 ## Adding sources
 
