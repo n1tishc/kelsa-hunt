@@ -131,6 +131,11 @@ Recorded here so no resolving session re-derives them.
 - [Assemble the UK sponsor-company list and verify board slugs](tickets/19-uk-sponsor-company-list.md)
   — 45 net-new slugs verified live against the Home Office sponsor register; per-board UK counts
   are upper bounds until the region predicate settles.
+- [Expand the Source Inventory for the fall new-grad cycle](tickets/22-fall-cycle-source-expansion.md)
+  — 21 net-new big-company/AI-startup slugs (173 → 195). Local scan-timing measurements proved
+  untrustworthy (5s to 10+min for the same inventory); a sharded-scan mitigation was built and
+  tested but the user chose to hold it and run a single unsharded scan first, to get one real
+  Actions observation before adding workflow complexity.
 
 ## Not yet specified
 

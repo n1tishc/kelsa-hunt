@@ -1853,6 +1853,23 @@ def show(rows, limit=50):
         print(f"  ... and {len(rows) - limit} more")
 
 
+SHARDED_PLATFORMS = (
+    "greenhouse", "lever", "ashby", "smartrecruiters", "workable", "recruitee",
+)
+
+
+def shard_sources(sources, shard, shard_count):
+    """Split the per-platform board slugs into shard_count deterministic shards.
+
+    simplify and ambicuity are cheap single-request aggregators on their own
+    host and are left out of every shard's slicing so they always run.
+    """
+    sharded = dict(sources)
+    for platform in SHARDED_PLATFORMS:
+        sharded[platform] = list(sources.get(platform, []))[shard::shard_count]
+    return sharded
+
+
 def configured_source_fetches(sources):
     """Build Source Fetch adapters for the configured inventory."""
     fetches = [
@@ -1929,6 +1946,8 @@ def cmd_scan(args, store, source_fetches=None):
     if source_fetches is None:
         if SOURCES_FILE.exists():
             sources.update(json.loads(SOURCES_FILE.read_text()))
+        if getattr(args, "shard", None) is not None:
+            sources = shard_sources(sources, args.shard, args.shard_count)
         source_fetches = configured_source_fetches(sources)
 
     previously_non_empty = {
@@ -2115,6 +2134,10 @@ def main():
     common(s)
     s.add_argument("--seed", action="store_true",
                    help="mark current matches notified without sending")
+    s.add_argument("--shard", type=int, default=None,
+                   help="0-indexed slice of the Source Inventory to fetch this run")
+    s.add_argument("--shard-count", type=int, default=2,
+                   help="total shards --shard indexes into")
 
     q = sub.add_parser("query", help="re-filter stored data, no fetch")
     common(q)
@@ -2140,7 +2163,8 @@ def main():
     if not args.cmd:
         args.cmd = "scan"
         for k, v in (("min_score", 5), ("no_remote", False),
-                     ("dry_run", False), ("seed", False)):
+                     ("dry_run", False), ("seed", False),
+                     ("shard", None), ("shard_count", 2)):
             setattr(args, k, v)
 
     store = Store()

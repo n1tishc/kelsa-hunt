@@ -121,6 +121,14 @@ source-specific in the Canonical Store. A derived Cross-post Group forms only wh
 the direct employer URL exposes an Opening Identity recognized by the ATS registry;
 similar company, title, or location text never triggers production deduplication.
 
+`job_alert.py scan` supports `--shard N --shard-count M` to fetch only a deterministic
+slice of the configured boards (`shard_sources()`; `simplify`/`ambicuity` run in every
+shard since they're single cheap requests). It exists in case the Source Inventory ever
+outgrows a single scan's 5-minute budget, but the scheduled workflow currently runs one
+unsharded `scan` job — local timing measurements here proved unreliable, so the split
+is being held until an actual GitHub Actions run shows it's needed rather than added
+pre-emptively.
+
 ## Applied tracking stays private
 
 `jobs.json` is committed to the repo (it has to be — the scan workflow needs

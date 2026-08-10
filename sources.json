@@ -90,7 +90,16 @@
     "workato",
     "yext",
     "ziprecruiter",
-    "zscaler"
+    "zscaler",
+    "coinbase",
+    "instacart",
+    "dropbox",
+    "block",
+    "airbnb",
+    "okta",
+    "adyen",
+    "gemini",
+    "upstart"
   ],
   "lever": [
     "moonpig",
@@ -169,7 +178,19 @@
     "vertice",
     "wayve",
     "zego",
-    "zilch"
+    "zilch",
+    "replit",
+    "cerebras",
+    "physicalintelligence",
+    "thinkingmachines",
+    "browserbase",
+    "e2b",
+    "attio",
+    "julius",
+    "fireworks",
+    "hex",
+    "warp",
+    "substack"
   ],
   "smartrecruiters": [
     "Visa",
