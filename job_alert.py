@@ -1229,12 +1229,15 @@ def fetch_smartrecruiters(slug, page_size=100):
         for posting in postings:
             if not isinstance(posting, dict) or not posting.get("id"):
                 raise ValueError("malformed posting")
+            # postingUrl is never present on the list endpoint (observed across all
+            # SmartRecruiters tenants), so it is deliberately excluded from this check --
+            # requiring it forced a detail fetch per posting (406 sequential requests,
+            # ~189s, for Wise alone) even though every other field is already complete.
             needs_detail = not (
                 posting.get("name")
                 and isinstance(posting.get("company"), dict)
                 and posting["company"].get("name")
                 and isinstance(posting.get("location"), dict)
-                and posting.get("postingUrl")
             )
             detail = {}
             if needs_detail:
@@ -1284,7 +1287,11 @@ def fetch_smartrecruiters(slug, page_size=100):
                 "title": normalized["name"],
                 "company": company.get("name") or slug.replace("-", " ").title(),
                 "locations": [full_location] if full_location else [],
-                "url": normalized.get("postingUrl") or normalized.get("applyUrl", ""),
+                "url": (
+                    normalized.get("postingUrl")
+                    or normalized.get("applyUrl")
+                    or f"https://jobs.smartrecruiters.com/{slug}/{posting['id']}"
+                ),
                 "posted": posted,
                 "degrees": [],
                 "category": department.get("label", ""),

@@ -142,6 +142,12 @@ Recorded here so no resolving session re-derives them.
   ticket 22 held is now enabled (`scan` + `scan-shard-1`, sequential, `dashboard` triggers on
   either shard's change). The second round of sources was added on extrapolated headroom before
   any sharded run had completed — flagged as the ticket's open item to confirm.
+- [Fix the SmartRecruiters detail-fetch bug that was the real scan-timing bottleneck](tickets/24-smartrecruiters-detail-fetch-bug.md)
+  — one source (`smartrecruiters/Wise`) accounted for 188.94 of `scan-shard-1`'s 197.65s, because
+  `fetch_smartrecruiters()` required a `postingUrl` field the list endpoint never provides,
+  forcing a sequential detail GET per posting (406 of them). Fixed: 189s → 3.15s for that source.
+  Retroactively reframes tickets 21–23's whole timing investigation — wall-clock was never really
+  about board count or sharding, it was hidden behind this bug.
 
 ## Not yet specified
 

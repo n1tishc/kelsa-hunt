@@ -35,6 +35,11 @@ def smartrecruiters_fixture_api():
 
 class SmartRecruitersFetchTests(unittest.TestCase):
     def test_fetches_all_pages_and_normalizes_records(self):
+        # The fixture list pages carry complete name/company/location but no
+        # postingUrl, mirroring every real SmartRecruiters tenant observed -- so this
+        # exercises the no-detail-fetch path, and the URL falls back to the
+        # constructed jobs.smartrecruiters.com/{slug}/{id} form rather than a detail
+        # fetch's slugified one.
         with mock.patch.object(
             job_alert,
             "get_json",
@@ -51,7 +56,7 @@ class SmartRecruitersFetchTests(unittest.TestCase):
                     "title": "Software Engineer I",
                     "company": "Example Co",
                     "locations": ["San Francisco, CA, United States"],
-                    "url": "https://jobs.smartrecruiters.com/ExampleCo/744000100000001-software-engineer-i",
+                    "url": "https://jobs.smartrecruiters.com/ExampleCo/744000100000001",
                     "posted": 1785501000,
                     "degrees": [],
                     "category": "Engineering",
@@ -63,7 +68,7 @@ class SmartRecruitersFetchTests(unittest.TestCase):
                     "title": "Senior Software Engineer",
                     "company": "Example Co",
                     "locations": ["London, United Kingdom"],
-                    "url": "https://jobs.smartrecruiters.com/ExampleCo/744000100000002-senior-software-engineer",
+                    "url": "https://jobs.smartrecruiters.com/ExampleCo/744000100000002",
                     "posted": 1785398400,
                     "degrees": [],
                     "category": "Engineering",
@@ -75,7 +80,7 @@ class SmartRecruitersFetchTests(unittest.TestCase):
                     "title": "Associate Machine Learning Engineer",
                     "company": "Example Co",
                     "locations": ["Remote, United States"],
-                    "url": "https://jobs.smartrecruiters.com/ExampleCo/744000100000003-associate-machine-learning-engineer",
+                    "url": "https://jobs.smartrecruiters.com/ExampleCo/744000100000003",
                     "posted": 1785316500,
                     "degrees": [],
                     "category": "Machine Learning",
@@ -84,6 +89,30 @@ class SmartRecruitersFetchTests(unittest.TestCase):
                 },
             ],
         )
+
+    def test_never_fetches_detail_when_list_already_has_required_fields(self):
+        # Regression guard for the perf bug: requiring postingUrl (never present on
+        # any real tenant's list endpoint) forced one detail GET per posting -- 406
+        # sequential requests, ~189s, observed for Wise alone in production.
+        page = {
+            "offset": 0,
+            "limit": 100,
+            "totalFound": 2,
+            "content": fixture("page-0.json")["content"],
+        }
+        calls = []
+
+        def get(url):
+            calls.append(url)
+            return page
+
+        with mock.patch.object(job_alert, "get_json", side_effect=get):
+            records, ok = job_alert.fetch_smartrecruiters("ExampleCo")
+
+        self.assertTrue(ok)
+        self.assertEqual(len(records), 2)
+        self.assertEqual(len(calls), 1)
+        self.assertTrue(all("/postings/" not in call for call in calls))
 
     def test_required_field_omission_fails_the_source_fetch(self):
         malformed_page = {
