@@ -116,21 +116,49 @@ notice them missing. Some companies migrate between ATSs over time — if a
 configured slug starts returning zero jobs, check whether the company moved
 boards rather than assuming the role's just gone.
 
+Company curation for Greenhouse/Ashby-style boards follows one bar, applied every
+time the inventory grows: fetch it live, confirm it's the intended company (not a
+same-named homonym — e.g. a Greenhouse `figure` slug turned out to be a fintech
+lender, not the robotics company of the same name), confirm the board is
+currently non-empty, and confirm real engineering-track titles are present rather
+than an all-sales/all-ops board. A `200` with zero jobs is a real, legitimately
+quiet tenant, not a broken slug — never read it as "this board is dead" and never
+treat "some engineering titles" as a strict cutoff on its own; judge each addition
+against the going inventory (see `docs/wayfinder/uk-expansion/tickets/22-`, `23-`,
+and `24-*.md` for the specific companies added and dropped, with the reasoning
+for each).
+
 Ambicuity is enabled by the `ambicuity/New-Grad-Jobs` entry. Its Records remain
 source-specific in the Canonical Store. A derived Cross-post Group forms only when
 the direct employer URL exposes an Opening Identity recognized by the ATS registry;
 similar company, title, or location text never triggers production deduplication.
 
+The SmartRecruiters fetcher only requests a posting's detail resource when the list
+endpoint is missing `name`, `company`, or `location` — **not** `postingUrl`, which is
+never present in the list response on any observed tenant. Requiring it used to force a
+sequential detail `GET` per posting; for a 406-posting board that was 189 seconds every
+scan, for one source, discovered by reading per-source fetch-duration logs rather than
+assuming wall-clock scaled with board count. When the list already has everything else,
+the record's URL falls back to a constructed `jobs.smartrecruiters.com/{slug}/{id}` link
+instead of paying for the detail call's nicer slugified one — verified to resolve to the
+same posting.
+
 `job_alert.py scan` supports `--shard N --shard-count M` to fetch only a deterministic
 slice of the configured boards (`shard_sources()`; `simplify`/`ambicuity` run in every
-shard since they're single cheap requests). The scheduled workflow uses it: two
-sequential jobs (`scan` running shard 0, `scan-shard-1` running shard 1, each against
-`--shard-count 2`) split the Source Inventory in half. This replaced a single unsharded
-`scan` job once real GitHub Actions runs — not the unreliable local timing measurements
-that preceded them — showed wall-clock regularly landing at 205–242s against the 240s
-warning / 300s hard gate, tripping the warning on at least one run before this
-expansion. `scan-shard-1` depends on `scan` completing first, so the two never push
-`jobs.json` concurrently. `dashboard` triggers if either shard changed the store.
+shard since they're single cheap requests). The scheduled workflow currently uses it:
+two sequential jobs (`scan` running shard 0, `scan-shard-1` running shard 1, each
+against `--shard-count 2`) split the Source Inventory in half, with `scan-shard-1`
+depending on `scan` completing first so the two never push `jobs.json` concurrently;
+`dashboard` triggers if either shard changed the store. This was enabled once real
+GitHub Actions runs — not the unreliable local timing measurements that preceded them —
+showed wall-clock regularly landing at 205–242s against the 240s warning / 300s hard
+gate, tripping the warning on at least one run. **That number turned out to be
+overwhelmingly one bug** (the SmartRecruiters issue above: 188.94 of one shard's 197.65
+observed seconds came from a single source), not board count or host congestion — fixing
+it dropped that source's own fetch time by roughly 60x. Whether sharding is still
+warranted at the current inventory size is an open question pending a fresh observed run
+against the fix; don't assume either the split or its removal without checking a real
+number first, the same mistake made twice already in this project's own history.
 
 ## Applied tracking stays private
 
