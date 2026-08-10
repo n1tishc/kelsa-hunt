@@ -154,11 +154,13 @@ GitHub Actions runs — not the unreliable local timing measurements that preced
 showed wall-clock regularly landing at 205–242s against the 240s warning / 300s hard
 gate, tripping the warning on at least one run. **That number turned out to be
 overwhelmingly one bug** (the SmartRecruiters issue above: 188.94 of one shard's 197.65
-observed seconds came from a single source), not board count or host congestion — fixing
-it dropped that source's own fetch time by roughly 60x. Whether sharding is still
-warranted at the current inventory size is an open question pending a fresh observed run
-against the fix; don't assume either the split or its removal without checking a real
-number first, the same mistake made twice already in this project's own history.
+observed seconds came from a single source), not board count or host congestion.
+Confirmed on the first real Actions run against the fix (225-source inventory):
+`scan`=12.60s, `scan-shard-1`=12.04s — combined wall-clock dropped from ~228s to ~25s,
+an order of magnitude under the 240s warning. The two-job split is no longer doing
+meaningful work at the current inventory size and is a candidate to revert back to a
+single `scan` job; that hasn't been done yet because it's a workflow-structure change
+someone should decide on deliberately, not because the data is still ambiguous.
 
 ## Applied tracking stays private
 
