@@ -136,6 +136,10 @@ Recorded here so no resolving session re-derives them.
   untrustworthy (5s to 10+min for the same inventory); a sharded-scan mitigation was built and
   tested but the user chose to hold it and run a single unsharded scan first, to get one real
   Actions observation before adding workflow complexity.
+- [Second source batch, and the real Actions timing that resolves ticket 22's open risk](tickets/23-second-source-batch-and-real-timing.md)
+  — 19 more net-new slugs (195 → 214). Real Actions runs on the pre-batch inventory landed at
+  205–242s against the 240s warning, already tripping it once; the shard split ticket 22 held is
+  now enabled (`scan` + `scan-shard-1`, sequential, `dashboard` triggers on either shard's change).
 
 ## Not yet specified
 

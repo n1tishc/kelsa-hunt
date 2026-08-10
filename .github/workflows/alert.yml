@@ -41,7 +41,45 @@ jobs:
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         run: |
-          python job_alert.py scan ${{ inputs.seed && '--seed' || '' }}
+          python job_alert.py scan --shard 0 --shard-count 2 ${{ inputs.seed && '--seed' || '' }}
+
+      - name: Persist state
+        id: persist
+        if: always()
+        run: |
+          if git diff --quiet -- jobs.json; then
+            echo "store_changed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          git config user.name  "job-alert-bot"
+          git config user.email "actions@github.com"
+          git add jobs.json
+          git commit -m "state: $(date -u +%Y-%m-%dT%H:%MZ)"
+          git push
+          echo "store_changed=true" >> "$GITHUB_OUTPUT"
+
+  scan-shard-1:
+    needs: scan
+    permissions:
+      contents: write
+    outputs:
+      store_changed: ${{ steps.persist.outputs.store_changed }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Scan for new roles
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        run: |
+          python job_alert.py scan --shard 1 --shard-count 2 ${{ inputs.seed && '--seed' || '' }}
 
       - name: Persist state
         id: persist
@@ -59,8 +97,8 @@ jobs:
           echo "store_changed=true" >> "$GITHUB_OUTPUT"
 
   dashboard:
-    needs: scan
-    if: ${{ always() && needs.scan.outputs.store_changed == 'true' }}
+    needs: [scan, scan-shard-1]
+    if: ${{ always() && (needs.scan.outputs.store_changed == 'true' || needs['scan-shard-1'].outputs.store_changed == 'true') }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

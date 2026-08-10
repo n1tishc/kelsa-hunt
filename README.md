@@ -123,11 +123,14 @@ similar company, title, or location text never triggers production deduplication
 
 `job_alert.py scan` supports `--shard N --shard-count M` to fetch only a deterministic
 slice of the configured boards (`shard_sources()`; `simplify`/`ambicuity` run in every
-shard since they're single cheap requests). It exists in case the Source Inventory ever
-outgrows a single scan's 5-minute budget, but the scheduled workflow currently runs one
-unsharded `scan` job — local timing measurements here proved unreliable, so the split
-is being held until an actual GitHub Actions run shows it's needed rather than added
-pre-emptively.
+shard since they're single cheap requests). The scheduled workflow uses it: two
+sequential jobs (`scan` running shard 0, `scan-shard-1` running shard 1, each against
+`--shard-count 2`) split the Source Inventory in half. This replaced a single unsharded
+`scan` job once real GitHub Actions runs — not the unreliable local timing measurements
+that preceded them — showed wall-clock regularly landing at 205–242s against the 240s
+warning / 300s hard gate, tripping the warning on at least one run before this
+expansion. `scan-shard-1` depends on `scan` completing first, so the two never push
+`jobs.json` concurrently. `dashboard` triggers if either shard changed the store.
 
 ## Applied tracking stays private
 

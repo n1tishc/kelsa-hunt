@@ -99,7 +99,20 @@
     "okta",
     "adyen",
     "gemini",
-    "upstart"
+    "upstart",
+    "cresta",
+    "observeai",
+    "assemblyai",
+    "roblox",
+    "discord",
+    "clickhouse",
+    "chainguard",
+    "calendly",
+    "speechify",
+    "otter",
+    "agilityrobotics",
+    "truveta",
+    "komodohealth"
   ],
   "lever": [
     "moonpig",
@@ -190,7 +203,13 @@
     "fireworks",
     "hex",
     "warp",
-    "substack"
+    "substack",
+    "render",
+    "railway",
+    "airbyte",
+    "socket",
+    "workos",
+    "middesk"
   ],
   "smartrecruiters": [
     "Visa",
