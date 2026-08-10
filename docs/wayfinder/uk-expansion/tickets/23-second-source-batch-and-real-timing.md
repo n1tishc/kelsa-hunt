@@ -98,6 +98,46 @@ almost exactly the same place: 205–242s against a 240s warning / 300s hard gat
 a number already sitting at the warning line made single-job unsharded scanning an
 unacceptable risk to add 19 more sources on top of.
 
+## Third round: 11 more slugs, added on the strength of the shard headroom
+
+Requested directly, same session: with sharding live, each scheduled job now covers
+roughly half the inventory instead of all of it, so more curation was requested before
+waiting on a confirmed post-split timing observation. That confirmation was still
+unavailable when this round landed — the merge that enabled sharding happened between
+scheduled runs, and the next cron firing (`17,47 14-23 * * 1-5`) had not yet produced a
+completed run. This round is therefore accepted on the same reasoning as ticket 22's
+original (superseded) shard proposal: informed extrapolation, not a confirmed number. Any
+correction belongs to whichever session first observes real post-split wall-clock.
+
+Verified live, non-empty, correct company, engineering-track titles present:
+
+| Platform | Slug | Jobs | Eng-track share |
+|---|---|---:|---:|
+| greenhouse | buildkite | 9 | 5/9 |
+| greenhouse | tines | 23 | 8/23 |
+| ashby | coder | 18 | 4/18 |
+| ashby | prefect | 6 | 5/6 |
+| ashby | astronomer | 28 | 14/28 |
+| ashby | unstructured | 6 | 3/6 |
+| ashby | letta | 4 | 4/4 |
+| ashby | braintrust | 24 | 13/24 |
+| ashby | speak | 45 | 5/45 |
+| ashby | elicit | 10 | 6/10 |
+| ashby | character | 13 | 9/13 |
+
+**Dropped this round:** `imbue` (2 total jobs, too thin); `merge` and `metronome` (real
+Ashby tenants, `200` with zero current openings — same non-empty rule as before);
+`galileo` (the live Greenhouse `galileo` slug is a telehealth company — Family Medicine
+Physician, Registered Nurse titles — not Galileo AI, the LLM-eval startup that was
+intended; wrong company). `hightouch`, `harvey`, `baseten`, `anyscale` were re-probed and
+are already configured — no duplicate introduced.
+
+`sources.json` inventory: 214 → 225 configured fetches (greenhouse 113→115, ashby
+88→97). `growth_guardrail.duplicate_source_names` still returns `{}`.
+`growth_guardrail.py` remains well within limits: 16.1 MB store (35,859 Records — grown
+again since the last check, confirming the scheduled workflow is still running cleanly),
+~0.38s load/save medians, 25.8 MB packed Git.
+
 ## Decision: re-enable the shard split
 
 Presented to the user with the real timing data; the user chose to enable sharding now
@@ -129,25 +169,31 @@ silent duplication.
 
 ## Acceptance
 
-- [x] `sources.json`: 19 net-new slugs added (195 → 214 fetches), verified live,
-      non-empty, correct company, engineering-track presence checked.
+- [x] `sources.json`: 30 net-new slugs added across two rounds (195 → 214 → 225 fetches),
+      each verified live, non-empty, correct company, engineering-track presence checked.
       `growth_guardrail.duplicate_source_names` returns `{}`.
-- [x] `tests/test_source_inventory.py` updated for the new counts (113/5/88, 214 total
+- [x] `tests/test_source_inventory.py` updated for the final counts (115/5/97, 225 total
       fetches).
 - [x] `.github/workflows/alert.yml` gains `scan-shard-1`; `dashboard`'s `if` condition
       checks both shards' `store_changed` outputs.
 - [x] `README.md` updated: sharding documented as active, with the real timing numbers
       that justified it.
-- [x] Full suite green: `.venv/bin/python -m unittest discover -s tests` — 142 tests, OK.
-- [x] `growth_guardrail.py --baseline-ref <HEAD>` run locally: within limits — 15.3 MB
-      store (33,865 Records — grown from 24,650 since ticket 22, confirming the scheduled
-      workflow has been running successfully throughout), ~0.30s load/save medians, 25.8 MB
-      packed Git. All well under their respective warning thresholds.
-- [ ] **Not yet observed:** Actions wall-clock for each shard under the new 214-source,
-      two-job split. Watch the next few scheduled runs; each shard now carries roughly
-      half of 214 fetches, so per-job wall-clock should land well under 240s, but this is
-      a prediction, not a measurement, until confirmed the same way ticket 22's gap was
-      closed here.
+- [x] Full suite green: `.venv/bin/python -m unittest discover -s tests` — 142 tests, OK,
+      re-confirmed after both rounds.
+- [x] `growth_guardrail.py --baseline-ref <HEAD>` run locally after both rounds: within
+      limits — 16.1 MB store (35,859 Records), ~0.38s load/save medians, 25.8 MB packed
+      Git. All well under their respective warning thresholds.
+- [ ] **Not yet observed, and now the ticket's single most important open item:**
+      Actions wall-clock for each shard under the final 225-source, two-job split. No
+      scheduled run had completed against the sharded workflow by the time the third
+      round of sources was added, so **the "each shard covers roughly half, so there's
+      headroom" reasoning behind the third round is extrapolation, not a confirmed
+      number** — the same epistemic position ticket 22's original shard proposal was in
+      before it got corrected by real data. Watch the next few scheduled runs closely. If
+      either shard is not comfortably under the 240s warning, the next lever is
+      `--shard-count 3` (a workflow-only change per ticket 22's note, though it needs a
+      third job and the aggregator-double-fetch question settled first) rather than
+      trimming sources reactively.
 
 ## Blocked by
 

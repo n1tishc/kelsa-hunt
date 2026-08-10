@@ -112,7 +112,9 @@
     "otter",
     "agilityrobotics",
     "truveta",
-    "komodohealth"
+    "komodohealth",
+    "buildkite",
+    "tines"
   ],
   "lever": [
     "moonpig",
@@ -209,7 +211,16 @@
     "airbyte",
     "socket",
     "workos",
-    "middesk"
+    "middesk",
+    "coder",
+    "prefect",
+    "astronomer",
+    "unstructured",
+    "letta",
+    "braintrust",
+    "speak",
+    "elicit",
+    "character"
   ],
   "smartrecruiters": [
     "Visa",

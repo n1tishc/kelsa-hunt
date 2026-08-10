@@ -18,7 +18,7 @@ class VerifiedSourceInventoryTests(unittest.TestCase):
                 family: len(sources[family])
                 for family in ("greenhouse", "lever", "ashby")
             },
-            {"greenhouse": 113, "lever": 5, "ashby": 88},
+            {"greenhouse": 115, "lever": 5, "ashby": 97},
         )
         self.assertTrue({"deepgram", "granola", "wayve"}.issubset(sources["ashby"]))
         self.assertEqual(sources["lever"][2], "palantir")
@@ -29,7 +29,7 @@ class VerifiedSourceInventoryTests(unittest.TestCase):
 
         fetches = job_alert.configured_source_fetches(sources)
         configured_names = {source.name for source in fetches}
-        self.assertEqual(len(fetches), 214)
+        self.assertEqual(len(fetches), 225)
         self.assertIn("greenhouse/zscaler", configured_names)
         self.assertIn("lever/palantir", configured_names)
         self.assertIn("ashby/openai", configured_names)
