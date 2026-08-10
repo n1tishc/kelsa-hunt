@@ -183,17 +183,38 @@ silent duplication.
 - [x] `growth_guardrail.py --baseline-ref <HEAD>` run locally after both rounds: within
       limits — 16.1 MB store (35,859 Records), ~0.38s load/save medians, 25.8 MB packed
       Git. All well under their respective warning thresholds.
-- [ ] **Not yet observed, and now the ticket's single most important open item:**
-      Actions wall-clock for each shard under the final 225-source, two-job split. No
-      scheduled run had completed against the sharded workflow by the time the third
-      round of sources was added, so **the "each shard covers roughly half, so there's
-      headroom" reasoning behind the third round is extrapolation, not a confirmed
-      number** — the same epistemic position ticket 22's original shard proposal was in
-      before it got corrected by real data. Watch the next few scheduled runs closely. If
-      either shard is not comfortably under the 240s warning, the next lever is
-      `--shard-count 3` (a workflow-only change per ticket 22's note, though it needs a
-      third job and the aggregator-double-fetch question settled first) rather than
-      trimming sources reactively.
+- [x] **Observed 2026-08-10, run `31431742922`, commit `52fb27e` (the full 225-source,
+      post-round-3 inventory).** Confirmed sequential as designed: `scan` (shard 0) ran
+      20:59:57–21:00:37, `scan-shard-1` started 21:00:40 (3s after `scan` finished, not
+      parallel) and ran to 21:04:07. `dashboard`/`deploy` completed normally after.
+
+      **The per-job timing is not what "roughly half each" predicted:**
+
+      | Job | `wall_seconds` | vs. 240s warning |
+      |---|---:|---|
+      | `scan` (shard 0) | 30.52 | 209s margin |
+      | `scan-shard-1` | 197.65 | 42s margin |
+
+      Combined (227.9s) is essentially the same total fetch time as the old unsharded
+      scan (205–242s) — the split moved work into two sequential jobs, it did not reduce
+      total work. `shard_sources()` splits by array position (`sources[shard::2]`), not
+      by measured latency, and this project's own earlier investigation (ticket 22) found
+      wall-clock is dominated by a small number of slow/hanging hosts, not evenly spread
+      across boards. Those hosts currently land on odd indices, so `scan-shard-1` carries
+      nearly all of the old single-job burden while `scan` is nearly idle.
+
+      **Correction to this ticket's own round-3 reasoning:** "each shard covers roughly
+      half the boards, so there's headroom" assumed wall-clock scales with board *count*.
+      It scales with which *specific* boards land in a shard. `scan-shard-1` at 197.65s
+      still has real margin (42s to the 240s warning, 102s to the 300s hard gate), so
+      nothing is broken today, but that margin is not the "roughly doubled" cushion round
+      3 was justified on — it is closer to the same margin the pre-split single job had.
+      Adding more sources without knowing which parity they land on could erode it
+      faster than the headroom framing implied. If a future round wants confirmed
+      headroom rather than extrapolated headroom, the honest next step is identifying
+      which specific slow host(s) dominate `scan-shard-1` and either moving them to shard
+      0 explicitly or splitting by measured latency rather than array position — not
+      simply trusting shard count as a proxy for wall-clock share.
 
 ## Blocked by
 
