@@ -19,6 +19,14 @@ non-candidate to infer historical reclassification would create the prohibited p
 mirror. A future owner-authorized, bounded inbox-state implementation may add an
 explicitly documented reclassification review, but it may not copy the Canonical Store.
 
+## Role snapshots
+
+Opening or shortlisting is the only permitted description-acquisition action. It creates
+an immutable, provenance-bearing Selected Role Snapshot and shows the bounded Relevant
+Profile Context used for that role; it never adds work to the public scanner. The
+implementation details and current Ticket #27 admission block are in
+[role-snapshots.md](../docs/career-command-centre/role-snapshots.md).
+
 ## Local preview
 
 Use a public, local `jobs.json` only:

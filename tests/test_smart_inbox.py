@@ -1,8 +1,11 @@
 import json
+import io
 import pathlib
+import re
 import tempfile
 import time
 import unittest
+import urllib.parse
 from wsgiref.util import setup_testing_defaults
 
 from career_command_centre.app import (
@@ -11,6 +14,10 @@ from career_command_centre.app import (
     SafeReviewFitPriorityProvider,
     SmartInboxService,
     create_application,
+)
+from career_command_centre.role_workspace import (
+    InMemoryRoleWorkspace,
+    ProfileItemRevision,
 )
 
 
@@ -50,6 +57,15 @@ class StaticIdentityVerifier:
 
     def identity(self, environ):
         return self._identity
+
+
+class RecordingDescriptionFetcher:
+    def __init__(self):
+        self.calls = []
+
+    def fetch(self, reference):
+        self.calls.append(reference.uid)
+        return "Build reliable developer tooling."
 
 
 def payload(now):
@@ -95,9 +111,16 @@ def payload(now):
     }
 
 
-def invoke(application, headers=()):
+def invoke(application, headers=(), method="GET", path="/", form_body=None):
     environ = {}
     setup_testing_defaults(environ)
+    environ["REQUEST_METHOD"] = method
+    environ["PATH_INFO"] = path
+    if form_body is not None:
+        encoded = form_body.encode()
+        environ["CONTENT_LENGTH"] = str(len(encoded))
+        environ["CONTENT_TYPE"] = "application/x-www-form-urlencoded"
+        environ["wsgi.input"] = io.BytesIO(encoded)
     for name, value in headers:
         environ[name] = value
     received = {}
@@ -108,6 +131,16 @@ def invoke(application, headers=()):
 
     body = b"".join(application(environ, start_response)).decode()
     return received["status"], body
+
+
+def csrf_form(application):
+    status, body = invoke(application)
+    if status != "200 OK":
+        raise AssertionError("could not retrieve CSRF token")
+    token = re.search(r'name="csrf_token" value="([a-f0-9]+)"', body)
+    if token is None:
+        raise AssertionError("CSRF token missing")
+    return urllib.parse.urlencode({"csrf_token": token.group(1)})
 
 
 class SmartInboxTests(unittest.TestCase):
@@ -225,6 +258,109 @@ class SmartInboxTests(unittest.TestCase):
 
         self.assertEqual(status, "200 OK")
         self.assertNotIn("href=\"javascript", body)
+
+    def test_open_creates_one_owner_authorized_snapshot_and_shows_profile_context(self):
+        fetcher = RecordingDescriptionFetcher()
+        workspace = InMemoryRoleWorkspace(
+            description_fetcher=fetcher,
+            profile_items=(
+                ProfileItemRevision("profile-item-1", "project", "Built a reliable API."),
+                ProfileItemRevision("profile-item-2", "preference", "Prefer developer tools."),
+                ProfileItemRevision("profile-item-3", "history", "Ran a marketing campaign."),
+            ),
+            now=lambda: 1_700_000_000,
+        )
+        application = create_application(
+            self.service,
+            "owner@example.com",
+            StaticIdentityVerifier("owner@example.com"),
+            role_workspace=workspace,
+        )
+
+        status, _ = invoke(
+            application,
+            method="POST",
+            path="/roles/new-grad/open",
+            form_body=csrf_form(application),
+        )
+
+        self.assertEqual(status, "303 See Other")
+        self.assertEqual(fetcher.calls, ["new-grad"])
+        snapshot = workspace.snapshot_for("new-grad")
+        self.assertIsNotNone(snapshot)
+        self.assertEqual(snapshot.source_url, "https://example.invalid/new-grad")
+        self.assertEqual(snapshot.captured_at, 1_700_000_000)
+        self.assertEqual(snapshot.description, "Build reliable developer tooling.")
+
+        status, body = invoke(application, path=f"/workspace/{snapshot.id}")
+        self.assertEqual(status, "200 OK")
+        self.assertIn("Selected Role Snapshot", body)
+        self.assertIn("Built a reliable API.", body)
+        self.assertIn("Prefer developer tools.", body)
+        self.assertNotIn("marketing campaign", body)
+        self.assertIn("record reference only", body)
+
+    def test_shortlist_is_owner_authorized_and_never_refetches_an_existing_snapshot(self):
+        fetcher = RecordingDescriptionFetcher()
+        workspace = InMemoryRoleWorkspace(description_fetcher=fetcher, now=lambda: 1_700_000_000)
+        application = create_application(
+            self.service,
+            "owner@example.com",
+            StaticIdentityVerifier("owner@example.com"),
+            role_workspace=workspace,
+        )
+
+        form_body = csrf_form(application)
+        first_status, _ = invoke(application, method="POST", path="/roles/new-grad/shortlist", form_body=form_body)
+        second_status, _ = invoke(application, method="POST", path="/roles/new-grad/shortlist", form_body=form_body)
+
+        self.assertEqual(first_status, "303 See Other")
+        self.assertEqual(second_status, "303 See Other")
+        self.assertEqual(fetcher.calls, ["new-grad"])
+        self.assertTrue(workspace.is_shortlisted("new-grad"))
+
+    def test_snapshot_action_rejects_a_role_that_is_not_in_the_current_inbox(self):
+        workspace = InMemoryRoleWorkspace(description_fetcher=RecordingDescriptionFetcher())
+        application = create_application(
+            self.service,
+            "owner@example.com",
+            StaticIdentityVerifier("owner@example.com"),
+            role_workspace=workspace,
+        )
+
+        status, _ = invoke(
+            application,
+            method="POST",
+            path="/roles/foreign/open",
+            form_body=csrf_form(application),
+        )
+
+        self.assertEqual(status, "404 Not Found")
+        self.assertEqual(workspace.snapshot_for("foreign"), None)
+
+    def test_cross_site_snapshot_post_without_csrf_token_is_rejected_before_fetch(self):
+        fetcher = RecordingDescriptionFetcher()
+        workspace = InMemoryRoleWorkspace(description_fetcher=fetcher)
+        application = create_application(
+            self.service,
+            "owner@example.com",
+            StaticIdentityVerifier("owner@example.com"),
+            role_workspace=workspace,
+        )
+
+        status, _ = invoke(application, method="POST", path="/roles/new-grad/open")
+
+        self.assertEqual(status, "403 Forbidden")
+        self.assertEqual(fetcher.calls, [])
+
+    def test_inbox_reads_never_fetch_a_description_or_create_private_workspace_state(self):
+        fetcher = RecordingDescriptionFetcher()
+        workspace = InMemoryRoleWorkspace(description_fetcher=fetcher)
+
+        self.service.items()
+
+        self.assertEqual(fetcher.calls, [])
+        self.assertEqual(workspace.snapshot_for("new-grad"), None)
 
 
 if __name__ == "__main__":

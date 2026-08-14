@@ -1241,31 +1241,19 @@ def fetch_smartrecruiters(slug, page_size=100):
         for posting in postings:
             if not isinstance(posting, dict) or not posting.get("id"):
                 raise ValueError("malformed posting")
-            # postingUrl is never present on the list endpoint (observed across all
-            # SmartRecruiters tenants), so it is deliberately excluded from this check --
-            # requiring it forced a detail fetch per posting (406 sequential requests,
-            # ~189s, for Wise alone) even though every other field is already complete.
-            needs_detail = not (
+            # A scan makes list requests only. Never use an incomplete list row as a
+            # reason to fan out into one detail request per posting: it would make the
+            # public scanner fetch descriptions and reintroduce Wise's 406 serial GET
+            # / ~189s failure. Treat this source observation as unhealthy instead, so
+            # it provides no false closure evidence.
+            if not (
                 posting.get("name")
                 and isinstance(posting.get("company"), dict)
                 and posting["company"].get("name")
                 and isinstance(posting.get("location"), dict)
-            )
-            detail = {}
-            if needs_detail:
-                ref = posting.get("ref")
-                if not isinstance(ref, str) or not ref.startswith("https://"):
-                    raise ValueError("posting has no public detail URL")
-                detail = get_json(ref)
-                if not isinstance(detail, dict):
-                    raise ValueError("malformed posting detail")
-            normalized = dict(detail)
-            normalized.update(posting)
-            for field in ("company", "location", "department"):
-                detail_value = detail.get(field)
-                posting_value = posting.get(field)
-                if isinstance(detail_value, dict) and isinstance(posting_value, dict):
-                    normalized[field] = {**detail_value, **posting_value}
+            ):
+                raise ValueError("posting list is missing required fields")
+            normalized = posting
             if (
                 not normalized.get("name")
                 or not isinstance(normalized.get("company"), dict)

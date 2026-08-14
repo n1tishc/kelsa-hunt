@@ -8,8 +8,10 @@ Vertex call, or access to application/Discord state.
 from __future__ import annotations
 
 import html
+import hmac
 import json
 import os
+import secrets
 import time
 import urllib.request
 import urllib.parse
@@ -20,6 +22,11 @@ from typing import Protocol
 from wsgiref.simple_server import make_server
 
 from job_alert import MAX_AGE_DAYS, candidates_from_records
+from career_command_centre.role_workspace import (
+    DescriptionUnavailable,
+    RoleWorkspace,
+    RoleWorkspacePacket,
+)
 
 
 class CanonicalStoreUnavailable(Exception):
@@ -200,6 +207,7 @@ def create_application(
     service: SmartInboxService,
     owner_email: str,
     identity_verifier: IdentityVerifier,
+    role_workspace: RoleWorkspace | None = None,
 ):
     """Create the WSGI app protected by direct Cloud Run IAP.
 
@@ -209,17 +217,25 @@ def create_application(
     normalized_owner = _normalize_iap_email(owner_email)
     if not normalized_owner:
         raise ValueError("owner_email must be a non-empty email address")
+    csrf_secret = secrets.token_bytes(32)
 
     def application(environ, start_response):
         caller = identity_verifier.identity(environ)
         if caller != normalized_owner:
             return _response(start_response, "403 Forbidden", _forbidden_page())
-        if environ.get("PATH_INFO", "/") == "/healthz":
+        csrf_token = _csrf_token(csrf_secret, caller)
+        path = environ.get("PATH_INFO", "/")
+        method = environ.get("REQUEST_METHOD", "GET")
+        if path == "/healthz":
             return _response(start_response, "200 OK", "ok", content_type="text/plain; charset=utf-8")
-        if environ.get("REQUEST_METHOD", "GET") != "GET" or environ.get("PATH_INFO", "/") != "/":
+        if method == "POST" and path.startswith("/roles/"):
+            return _select_role(start_response, service, role_workspace, path, environ, csrf_token)
+        if method == "GET" and path.startswith("/workspace/"):
+            return _workspace_page(start_response, role_workspace, path)
+        if method != "GET" or path != "/":
             return _response(start_response, "404 Not Found", "Not found", content_type="text/plain; charset=utf-8")
         try:
-            return _response(start_response, "200 OK", _inbox_page(service.items()))
+            return _response(start_response, "200 OK", _inbox_page(service.items(), role_workspace is not None, csrf_token))
         except CanonicalStoreUnavailable:
             return _response(start_response, "503 Service Unavailable", _unavailable_page())
 
@@ -273,8 +289,39 @@ def _escape(value: object) -> str:
     return html.escape(str(value), quote=True)
 
 
-def _inbox_page(items: Iterable[SmartInboxItem]) -> str:
-    rows = "".join(_item_row(item) for item in items)
+def _select_role(start_response, service: SmartInboxService, role_workspace: RoleWorkspace | None, path: str, environ, csrf_token: str):
+    if role_workspace is None:
+        return _response(start_response, "409 Conflict", _admission_blocked_page())
+    if not _valid_csrf_token(environ, csrf_token):
+        return _response(start_response, "403 Forbidden", _forbidden_page())
+    parts = path.split("/")
+    if len(parts) != 4 or not parts[2] or parts[3] not in {"open", "shortlist"}:
+        return _response(start_response, "404 Not Found", "Not found", content_type="text/plain; charset=utf-8")
+    try:
+        reference = next(item.reference for item in service.items() if item.reference.uid == parts[2])
+    except (CanonicalStoreUnavailable, StopIteration):
+        return _response(start_response, "404 Not Found", "Not found", content_type="text/plain; charset=utf-8")
+    try:
+        packet = role_workspace.select(reference, parts[3])
+    except DescriptionUnavailable:
+        return _response(start_response, "409 Conflict", _description_unavailable_page())
+    return _redirect(start_response, f"/workspace/{packet.snapshot.id}")
+
+
+def _workspace_page(start_response, role_workspace: RoleWorkspace | None, path: str):
+    if role_workspace is None:
+        return _response(start_response, "404 Not Found", "Not found", content_type="text/plain; charset=utf-8")
+    snapshot_id = path.removeprefix("/workspace/")
+    if not snapshot_id or "/" in snapshot_id:
+        return _response(start_response, "404 Not Found", "Not found", content_type="text/plain; charset=utf-8")
+    packet = role_workspace.packet_for(snapshot_id)
+    if packet is None:
+        return _response(start_response, "404 Not Found", "Not found", content_type="text/plain; charset=utf-8")
+    return _response(start_response, "200 OK", _role_workspace_page(packet))
+
+
+def _inbox_page(items: Iterable[SmartInboxItem], role_workspace_available: bool, csrf_token: str) -> str:
+    rows = "".join(_item_row(item, role_workspace_available, csrf_token) for item in items)
     if not rows:
         rows = '<p class="empty">No newly eligible open Records in this review window.</p>'
     return f"""<!doctype html>
@@ -286,16 +333,48 @@ def _inbox_page(items: Iterable[SmartInboxItem]) -> str:
 </main></body></html>"""
 
 
-def _item_row(item: SmartInboxItem) -> str:
+def _item_row(item: SmartInboxItem, role_workspace_available: bool, csrf_token: str) -> str:
     ref = item.reference
     role = _escape(ref.title)
     if _safe_source_url(ref.source_url):
         role = f'<a href="{_escape(ref.source_url)}" rel="noopener noreferrer" target="_blank">{role}</a>'
     fit = "Safe review state" if item.fit_priority.state == "safe_review" else _escape(item.fit_priority.band or "Unranked")
+    actions = (
+        f'<form method="post" action="/roles/{_escape(ref.uid)}/open"><input type="hidden" name="csrf_token" value="{_escape(csrf_token)}"><button>Open role</button></form>'
+        f'<form method="post" action="/roles/{_escape(ref.uid)}/shortlist"><input type="hidden" name="csrf_token" value="{_escape(csrf_token)}"><button>Shortlist role</button></form>'
+        if role_workspace_available
+        else '<p class="explanation">Role snapshots are unavailable until private-data admission is verified.</p>'
+    )
     return f"""<article><h2>{role}</h2><p>{_escape(ref.company)} · {_escape(' · '.join(ref.locations) or 'Location unavailable')} · {_escape(ref.source)}</p>
 <dl><div><dt>Deterministic Score</dt><dd>{ref.score} · {_escape(ref.score_reason)}</dd></div>
 <div><dt>Fit Priority (advisory)</dt><dd>{fit}</dd></div></dl>
-<p class="explanation">{_escape(item.fit_priority.explanation)}</p></article>"""
+<p class="explanation">{_escape(item.fit_priority.explanation)}</p><div class="actions">{actions}</div></article>"""
+
+
+def _role_workspace_page(packet: RoleWorkspacePacket) -> str:
+    snapshot = packet.snapshot
+    profile_rows = "".join(
+        f"<li><strong>{_escape(item.category)}</strong> · {_escape(item.text)}<br><small>{_escape(rationale)}</small></li>"
+        for item, rationale in zip(
+            packet.profile_context.items,
+            packet.profile_context.selection_rationales,
+            strict=True,
+        )
+    ) or "<li>No profile items were selected.</li>"
+    shortlist = "Shortlisted" if packet.shortlisted else "Opened for review"
+    source = _escape(snapshot.source_url)
+    source_link = (
+        f'<a href="{source}" rel="noopener noreferrer" target="_blank">{source}</a>'
+        if _safe_source_url(snapshot.source_url)
+        else source
+    )
+    return f"""<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Selected Role Snapshot</title><style>{_STYLE}</style></head><body><main>
+<p class="eyebrow">Career Command Centre · private working set</p><h1>Selected Role Snapshot</h1>
+<p class="boundary">{shortlist}. This is a private record reference only; it does not duplicate or change the Canonical Store.</p>
+<article><h2>Source provenance</h2><p>{source_link}</p><p>Captured: {_escape(snapshot.captured_at)} · Digest: {_escape(snapshot.description_digest)}</p>
+<h2>Captured description</h2><p>{_escape(snapshot.description)}</p></article>
+<article><h2>Relevant Profile Context</h2><p>Only these selected profile-item revisions are in this role’s bounded context.</p><ul>{profile_rows}</ul></article>
+</main></body></html>"""
 
 
 def _forbidden_page() -> str:
@@ -306,10 +385,40 @@ def _unavailable_page() -> str:
     return "<!doctype html><title>Smart Inbox unavailable</title><h1>Smart Inbox is temporarily unavailable</h1><p>No private or advisory result was produced. Try again later.</p>"
 
 
+def _admission_blocked_page() -> str:
+    return "<!doctype html><title>Private workspace blocked</title><h1>Private workspace admission is not yet verified</h1><p>No description was fetched and no snapshot was created.</p>"
+
+
+def _description_unavailable_page() -> str:
+    return "<!doctype html><title>Description unavailable</title><h1>Selected role description is unavailable</h1><p>No snapshot was created. The public scanner was not changed.</p>"
+
+
 def _response(start_response, status: str, body: str, content_type: str = "text/html; charset=utf-8"):
     encoded = body.encode("utf-8")
     start_response(status, [("Content-Type", content_type), ("Content-Length", str(len(encoded))), ("Cache-Control", "no-store")])
     return [encoded]
+
+
+def _redirect(start_response, location: str):
+    start_response("303 See Other", [("Location", location), ("Cache-Control", "no-store"), ("Content-Length", "0")])
+    return [b""]
+
+
+def _csrf_token(secret: bytes, caller: str) -> str:
+    return hmac.new(secret, caller.encode(), "sha256").hexdigest()
+
+
+def _valid_csrf_token(environ, expected: str) -> bool:
+    try:
+        content_length = int(environ.get("CONTENT_LENGTH", "0"))
+    except ValueError:
+        return False
+    if not 0 < content_length <= 256:
+        return False
+    raw_body = environ["wsgi.input"].read(content_length).decode("utf-8", errors="strict")
+    fields = urllib.parse.parse_qs(raw_body, strict_parsing=True)
+    supplied = fields.get("csrf_token", [])
+    return len(supplied) == 1 and hmac.compare_digest(supplied[0], expected)
 
 
 def _safe_source_url(value: str | None) -> bool:
@@ -325,7 +434,7 @@ main { max-width: 900px; margin: 0 auto; padding: 3rem 1.25rem; }
 h1 { margin: .1rem 0 1rem; } .eyebrow { color: #91caff; font-weight: 700; margin: 0; }
 .boundary { border-left: 4px solid #f4c95d; padding-left: 1rem; color: #dce7f5; }
 article { background: #162033; border: 1px solid #30445f; border-radius: 10px; margin: 1rem 0; padding: 1.1rem 1.25rem; }
-h2 { margin: 0 0 .45rem; } a { color: #91caff; } dl { display: flex; flex-wrap: wrap; gap: 1.5rem; } dt { color: #a9b9cf; font-size: .85rem; } dd { font-weight: 700; margin: .15rem 0 0; } .explanation { color: #dce7f5; } .empty { color: #dce7f5; }
+h2 { margin: 0 0 .45rem; } a { color: #91caff; } dl { display: flex; flex-wrap: wrap; gap: 1.5rem; } dt { color: #a9b9cf; font-size: .85rem; } dd { font-weight: 700; margin: .15rem 0 0; } .explanation { color: #dce7f5; } .empty { color: #dce7f5; } .actions { display: flex; gap: .75rem; } button { background: #91caff; border: 0; border-radius: 5px; color: #07101d; cursor: pointer; font-weight: 700; padding: .5rem .75rem; }
 """
 
 

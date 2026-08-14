@@ -133,15 +133,13 @@ source-specific in the Canonical Store. A derived Cross-post Group forms only wh
 the direct employer URL exposes an Opening Identity recognized by the ATS registry;
 similar company, title, or location text never triggers production deduplication.
 
-The SmartRecruiters fetcher only requests a posting's detail resource when the list
-endpoint is missing `name`, `company`, or `location` — **not** `postingUrl`, which is
-never present in the list response on any observed tenant. Requiring it used to force a
-sequential detail `GET` per posting; for a 406-posting board that was 189 seconds every
-scan, for one source, discovered by reading per-source fetch-duration logs rather than
-assuming wall-clock scaled with board count. When the list already has everything else,
-the record's URL falls back to a constructed `jobs.smartrecruiters.com/{slug}/{id}` link
-instead of paying for the detail call's nicer slugified one — verified to resolve to the
-same posting.
+The SmartRecruiters scanner makes paged list requests only; it never requests an
+individual posting detail resource. That keeps descriptions out of scheduled scans and
+prevents the former fan-out failure (406 serial Wise detail GETs, about 189 seconds for
+one board). A list row missing title, company, or location makes that source observation
+unhealthy and supplies no closure evidence rather than triggering a detail request.
+When the list has the required fields, the record URL falls back to the constructed
+`jobs.smartrecruiters.com/{slug}/{id}` form, verified to resolve to the opening.
 
 `job_alert.py scan` supports `--shard N --shard-count M` to fetch only a deterministic
 slice of the configured boards (`shard_sources()`; `simplify`/`ambicuity` run in every
