@@ -1,21 +1,32 @@
 # Evaluation decision status
 
 **Ticket:** [#30](https://github.com/n1tishc/kelsa-hunt/issues/30)
-**Status:** implementation ready; Vertex comparison intentionally **not admitted**.
+**Status:** synthetic Vertex comparison completed 2026-08-15; neither model path
+earned private-workspace admission.
 
-Ticket #27's foundation fact sheet records that the exact Free Trial credit/expiry and
-the corresponding day-75/day-80 dates still require owner verification. Its admission
-gate expressly prevents Ticket #30 from beginning until that fact is recorded. The
-evaluator therefore refuses a Vertex call unless the owner supplies a local, untracked
-admission-facts file and explicitly opts in at the command line.
+Ticket #27's owner-verifiable admission record was complete before this run. The
+evaluator used only the frozen, de-identified three-example corpus, the selected
+`gemini-2.5-flash` model in `us-central1`, no tools, and an aggregate-only local report.
+No Career Profile, real job description, public Store content, packet, or source was
+sent to Vertex.
 
-No result is claimed yet. In particular, no comparison of ADK and direct Gemini is
-decision-quality until the gate is opened and a human reviews the aggregate-only report.
-The evaluator is designed to fail closed: a malformed stage, missing evidence, invalid
-corpus, or absent admission fact produces no advisory proposal and no public-system
-action.
+| Comparator | Valid packets | Abstentions | Invalid / malformed | Median latency | Prompt / output tokens |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Deterministic metadata baseline | 0/3 | 3/3 | 0/3 | 0 ms | 0 / 0 |
+| Direct Vertex structured call | 0/3 | 3/3 | 2/3 | 7,491 ms | 364 / 753 |
+| Four-stage ADK no-tools pipeline | 0/3 | 3/3 | 2/3 | 27,247 ms | 4,070 / 913 |
 
-Once admitted, record only the aggregate table here: valid packets, abstentions,
-Evidence Card support/correctness, human review usefulness, stage-specific failures,
-latency, and token/cost signals. Do not add the raw corpus, prompts, responses,
-credentials, project ID, or private profile material to this repository.
+The direct and ADK paths each produced two locally rejected Evidence Card responses;
+the remaining example abstained. The ADK stages themselves completed, but produced no
+locally valid proposal. Evidence support, evidence correctness, and review usefulness
+were all 0.0 for both model comparators. The report contains no raw corpus, prompt, or
+model response.
+
+**Decision:** do not admit real private data or deploy this evaluator. The fixed ADK
+path is slower and uses substantially more prompt tokens without improving a valid-packet
+outcome. If this experiment continues, refine the de-identified corpus/label protocol
+and test the direct, deterministic-validation path only; retain the fail-closed gate.
+
+The aggregate report remains only in the local temporary workspace. Do not add its raw
+JSON, corpus, prompts, responses, credentials, project ID, or private profile material
+to this repository.
