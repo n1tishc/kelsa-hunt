@@ -15,6 +15,7 @@ from career_command_centre.app import (
     SmartInboxService,
     create_application,
 )
+from career_command_centre.application_studio import ApplicationStudio, ScriptedStageRunner
 from career_command_centre.role_workspace import (
     InMemoryRoleWorkspace,
     ProfileItemRevision,
@@ -361,6 +362,78 @@ class SmartInboxTests(unittest.TestCase):
 
         self.assertEqual(fetcher.calls, [])
         self.assertEqual(workspace.snapshot_for("new-grad"), None)
+
+    def test_owner_runs_reviews_and_edits_an_evidence_backed_application_packet(self):
+        workspace = InMemoryRoleWorkspace(
+            description_fetcher=RecordingDescriptionFetcher(),
+            profile_items=(ProfileItemRevision("profile-1", "project", "Built reliable developer tooling."),),
+            now=lambda: 1_700_000_000,
+        )
+        studio = ApplicationStudio(ScriptedStageRunner({
+            "role_analyst": {"claims": [{
+                "id": "fit-1", "kind": "fit", "text": "Tooling work is relevant.",
+                "evidence": [{"source": "role_snapshot", "quote": "Build reliable developer tooling."}],
+            }], "draft": None},
+            "career_strategist": {"claims": [], "draft": None},
+            "application_writer": {"claims": [{
+                "id": "tailored-1", "kind": "tailored_material", "text": "Lead with tooling work.",
+                "evidence": [],
+            }], "draft": "Draft: reliable tooling."},
+            "evidence_critic": {"claims": [], "draft": None},
+        }), now=lambda: 1_700_000_001)
+        application = create_application(
+            self.service,
+            "owner@example.com",
+            StaticIdentityVerifier("owner@example.com"),
+            role_workspace=workspace,
+            application_studio=studio,
+        )
+
+        status, _ = invoke(application, method="POST", path="/roles/new-grad/open", form_body=csrf_form(application))
+        self.assertEqual(status, "303 See Other")
+        snapshot = workspace.snapshot_for("new-grad")
+        self.assertIsNotNone(snapshot)
+        status, _ = invoke(
+            application,
+            method="POST",
+            path=f"/workspace/{snapshot.id}/application-studio/run",
+            form_body=csrf_form(application),
+        )
+        self.assertEqual(status, "303 See Other")
+        status, body = invoke(application, path=f"/workspace/{snapshot.id}")
+        self.assertEqual(status, "200 OK")
+        self.assertIn("Application Studio", body)
+        self.assertIn("Role Analyst", body)
+        self.assertIn("Evidence Cards", body)
+        self.assertIn("Suggestion", body)
+        self.assertIn("cannot send", body)
+        self.assertIn('name="owner_draft" rows="5">Draft: reliable tooling.', body)
+
+        status, _ = invoke(
+            application,
+            method="POST",
+            path=f"/workspace/{snapshot.id}/application-studio/review",
+            form_body=urllib.parse.urlencode({"csrf_token": re.search(r'name="csrf_token" value="([a-f0-9]+)"', body).group(1), "owner_draft": "Owner revision."}),
+        )
+        self.assertEqual(status, "303 See Other")
+        _, reviewed = invoke(application, path=f"/workspace/{snapshot.id}")
+        self.assertIn("Owner revision.", reviewed)
+        self.assertIn("Owner-reviewed", reviewed)
+
+    def test_application_studio_post_without_csrf_never_runs_a_packet(self):
+        workspace = InMemoryRoleWorkspace(description_fetcher=RecordingDescriptionFetcher())
+        studio = ApplicationStudio(ScriptedStageRunner({}))
+        application = create_application(
+            self.service, "owner@example.com", StaticIdentityVerifier("owner@example.com"), workspace, studio,
+        )
+        status, _ = invoke(application, method="POST", path="/roles/new-grad/open", form_body=csrf_form(application))
+        self.assertEqual(status, "303 See Other")
+        snapshot = workspace.snapshot_for("new-grad")
+
+        status, _ = invoke(application, method="POST", path=f"/workspace/{snapshot.id}/application-studio/run")
+
+        self.assertEqual(status, "403 Forbidden")
+        self.assertIsNone(studio.packet_for_snapshot(snapshot.id))
 
 
 if __name__ == "__main__":

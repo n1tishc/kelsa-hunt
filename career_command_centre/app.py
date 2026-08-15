@@ -22,6 +22,7 @@ from typing import Protocol
 from wsgiref.simple_server import make_server
 
 from job_alert import MAX_AGE_DAYS, candidates_from_records
+from career_command_centre.application_studio import ApplicationStudio, ApplicationStudioPacket
 from career_command_centre.role_workspace import (
     DescriptionUnavailable,
     RoleWorkspace,
@@ -208,6 +209,7 @@ def create_application(
     owner_email: str,
     identity_verifier: IdentityVerifier,
     role_workspace: RoleWorkspace | None = None,
+    application_studio: ApplicationStudio | None = None,
 ):
     """Create the WSGI app protected by direct Cloud Run IAP.
 
@@ -230,8 +232,10 @@ def create_application(
             return _response(start_response, "200 OK", "ok", content_type="text/plain; charset=utf-8")
         if method == "POST" and path.startswith("/roles/"):
             return _select_role(start_response, service, role_workspace, path, environ, csrf_token)
+        if method == "POST" and path.startswith("/workspace/"):
+            return _application_studio_action(start_response, role_workspace, application_studio, path, environ, csrf_token)
         if method == "GET" and path.startswith("/workspace/"):
-            return _workspace_page(start_response, role_workspace, path)
+            return _workspace_page(start_response, role_workspace, application_studio, path, csrf_token)
         if method != "GET" or path != "/":
             return _response(start_response, "404 Not Found", "Not found", content_type="text/plain; charset=utf-8")
         try:
@@ -308,7 +312,7 @@ def _select_role(start_response, service: SmartInboxService, role_workspace: Rol
     return _redirect(start_response, f"/workspace/{packet.snapshot.id}")
 
 
-def _workspace_page(start_response, role_workspace: RoleWorkspace | None, path: str):
+def _workspace_page(start_response, role_workspace: RoleWorkspace | None, application_studio: ApplicationStudio | None, path: str, csrf_token: str):
     if role_workspace is None:
         return _response(start_response, "404 Not Found", "Not found", content_type="text/plain; charset=utf-8")
     snapshot_id = path.removeprefix("/workspace/")
@@ -317,7 +321,36 @@ def _workspace_page(start_response, role_workspace: RoleWorkspace | None, path: 
     packet = role_workspace.packet_for(snapshot_id)
     if packet is None:
         return _response(start_response, "404 Not Found", "Not found", content_type="text/plain; charset=utf-8")
-    return _response(start_response, "200 OK", _role_workspace_page(packet))
+    studio_packet = application_studio.packet_for_snapshot(snapshot_id) if application_studio else None
+    return _response(start_response, "200 OK", _role_workspace_page(packet, studio_packet, application_studio is not None, csrf_token))
+
+
+def _application_studio_action(start_response, role_workspace: RoleWorkspace | None, application_studio: ApplicationStudio | None, path: str, environ, csrf_token: str):
+    if role_workspace is None or application_studio is None:
+        return _response(start_response, "409 Conflict", _admission_blocked_page())
+    fields = _post_fields(environ)
+    if fields is None or not _valid_csrf_fields(fields, csrf_token):
+        return _response(start_response, "403 Forbidden", _forbidden_page())
+    parts = path.split("/")
+    if len(parts) != 5 or parts[1] != "workspace" or not parts[2] or parts[3] != "application-studio" or parts[4] not in {"run", "review"}:
+        return _response(start_response, "404 Not Found", "Not found", content_type="text/plain; charset=utf-8")
+    role_packet = role_workspace.packet_for(parts[2])
+    if role_packet is None:
+        return _response(start_response, "404 Not Found", "Not found", content_type="text/plain; charset=utf-8")
+    try:
+        if parts[4] == "run":
+            application_studio.run(role_packet.snapshot, role_packet.profile_context)
+        else:
+            studio_packet = application_studio.packet_for_snapshot(role_packet.snapshot.id)
+            if studio_packet is None:
+                return _response(start_response, "409 Conflict", _application_studio_unavailable_page())
+            owner_draft = _single_field(fields, "owner_draft")
+            if owner_draft is None:
+                return _response(start_response, "400 Bad Request", "Invalid review", content_type="text/plain; charset=utf-8")
+            application_studio.review(studio_packet.id, owner_draft)
+    except (ValueError, KeyError):
+        return _response(start_response, "400 Bad Request", "Invalid application packet", content_type="text/plain; charset=utf-8")
+    return _redirect(start_response, f"/workspace/{role_packet.snapshot.id}")
 
 
 def _inbox_page(items: Iterable[SmartInboxItem], role_workspace_available: bool, csrf_token: str) -> str:
@@ -351,7 +384,7 @@ def _item_row(item: SmartInboxItem, role_workspace_available: bool, csrf_token: 
 <p class="explanation">{_escape(item.fit_priority.explanation)}</p><div class="actions">{actions}</div></article>"""
 
 
-def _role_workspace_page(packet: RoleWorkspacePacket) -> str:
+def _role_workspace_page(packet: RoleWorkspacePacket, studio_packet: ApplicationStudioPacket | None, studio_available: bool, csrf_token: str) -> str:
     snapshot = packet.snapshot
     profile_rows = "".join(
         f"<li><strong>{_escape(item.category)}</strong> · {_escape(item.text)}<br><small>{_escape(rationale)}</small></li>"
@@ -374,7 +407,40 @@ def _role_workspace_page(packet: RoleWorkspacePacket) -> str:
 <article><h2>Source provenance</h2><p>{source_link}</p><p>Captured: {_escape(snapshot.captured_at)} · Digest: {_escape(snapshot.description_digest)}</p>
 <h2>Captured description</h2><p>{_escape(snapshot.description)}</p></article>
 <article><h2>Relevant Profile Context</h2><p>Only these selected profile-item revisions are in this role’s bounded context.</p><ul>{profile_rows}</ul></article>
+{_application_studio_panel(studio_packet, studio_available, csrf_token, snapshot.id)}
 </main></body></html>"""
+
+
+def _application_studio_panel(packet: ApplicationStudioPacket | None, available: bool, csrf_token: str, snapshot_id: str) -> str:
+    boundary = "All results are advisory drafts. This workspace cannot send an application, outreach, or notification."
+    if not available:
+        return f"<article><h2>Application Studio</h2><p>{_escape(boundary)}</p><p class=\"explanation\">Application Studio is unavailable until private-data admission is verified.</p></article>"
+    if packet is None:
+        return f'''<article><h2>Application Studio</h2><p>{_escape(boundary)}</p><form method="post" action="/workspace/{_escape(snapshot_id)}/application-studio/run"><input type="hidden" name="csrf_token" value="{_escape(csrf_token)}"><button>Run bounded review</button></form></article>'''
+    stage_labels = {
+        "role_analyst": "Role Analyst", "career_strategist": "Career Strategist",
+        "application_writer": "Application Writer", "evidence_critic": "Evidence Critic",
+    }
+    stages = "".join(
+        f"<section><h3>{_escape(stage_labels[stage.name])} · {_escape(stage.status.title())}</h3><p>{_escape(stage.message)}</p>"
+        + "".join(
+            f"<p><strong>{_escape(claim.kind.replace('_', ' ').title())}</strong> · {_escape(claim.text)} "
+            f"<em>{'Supported' if claim.support_state == 'supported' else 'Suggestion — no validated Evidence Card'}</em></p>"
+            for claim in stage.claims
+        )
+        + (f"<p><strong>Draft</strong> · {_escape(stage.draft)}</p>" if stage.draft else "")
+        + "</section>"
+        for stage in packet.stages
+    )
+    cards = "".join(
+        f"<li>{_escape(card.claim_id)} · {_escape(card.source)} · <q>{_escape(card.quote)}</q></li>"
+        for card in packet.evidence_cards
+    ) or "<li>No validated Evidence Cards.</li>"
+    generated_draft = next((stage.draft for stage in packet.stages if stage.name == "application_writer" and stage.draft), "")
+    owner_draft = packet.owner_draft if packet.owner_draft is not None else generated_draft
+    review_label = "Owner-reviewed" if packet.reviewed else "Awaiting owner review"
+    return f'''<article><h2>Application Studio</h2><p>{_escape(boundary)}</p><p><strong>{review_label}</strong></p>{stages}<h3>Evidence Cards</h3><ul>{cards}</ul>
+<form method="post" action="/workspace/{_escape(snapshot_id)}/application-studio/review"><input type="hidden" name="csrf_token" value="{_escape(csrf_token)}"><label for="owner_draft">Owner draft revision</label><textarea id="owner_draft" name="owner_draft" rows="5">{_escape(owner_draft)}</textarea><button>Save reviewed draft</button></form></article>'''
 
 
 def _forbidden_page() -> str:
@@ -393,6 +459,10 @@ def _description_unavailable_page() -> str:
     return "<!doctype html><title>Description unavailable</title><h1>Selected role description is unavailable</h1><p>No snapshot was created. The public scanner was not changed.</p>"
 
 
+def _application_studio_unavailable_page() -> str:
+    return "<!doctype html><title>Application Studio unavailable</title><h1>Application Studio is unavailable</h1><p>No advisory packet was produced.</p>"
+
+
 def _response(start_response, status: str, body: str, content_type: str = "text/html; charset=utf-8"):
     encoded = body.encode("utf-8")
     start_response(status, [("Content-Type", content_type), ("Content-Length", str(len(encoded))), ("Cache-Control", "no-store")])
@@ -409,16 +479,33 @@ def _csrf_token(secret: bytes, caller: str) -> str:
 
 
 def _valid_csrf_token(environ, expected: str) -> bool:
+    fields = _post_fields(environ)
+    return fields is not None and _valid_csrf_fields(fields, expected)
+
+
+def _post_fields(environ) -> dict[str, list[str]] | None:
     try:
         content_length = int(environ.get("CONTENT_LENGTH", "0"))
     except ValueError:
-        return False
-    if not 0 < content_length <= 256:
-        return False
-    raw_body = environ["wsgi.input"].read(content_length).decode("utf-8", errors="strict")
-    fields = urllib.parse.parse_qs(raw_body, strict_parsing=True)
+        return None
+    if not 0 < content_length <= 65_536:
+        return None
+    try:
+        raw_body = environ["wsgi.input"].read(content_length).decode("utf-8", errors="strict")
+        fields = urllib.parse.parse_qs(raw_body, strict_parsing=True)
+    except (KeyError, UnicodeDecodeError, ValueError):
+        return None
+    return fields
+
+
+def _valid_csrf_fields(fields: Mapping[str, list[str]], expected: str) -> bool:
     supplied = fields.get("csrf_token", [])
     return len(supplied) == 1 and hmac.compare_digest(supplied[0], expected)
+
+
+def _single_field(fields: Mapping[str, list[str]], name: str) -> str | None:
+    values = fields.get(name, [])
+    return values[0] if len(values) == 1 else None
 
 
 def _safe_source_url(value: str | None) -> bool:

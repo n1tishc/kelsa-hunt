@@ -27,6 +27,16 @@ Profile Context used for that role; it never adds work to the public scanner. Th
 implementation details and current Ticket #27 admission block are in
 [role-snapshots.md](../docs/career-command-centre/role-snapshots.md).
 
+## Application Studio
+
+A selected snapshot can be given to the fixed, evidence-backed Application Studio only
+through an explicitly supplied workspace adapter. It shows four structured advisory
+stages, validates Evidence Cards against the selected role and bounded profile context,
+and lets the owner review/edit a draft. It has no action tools and cannot submit,
+contact, or notify. The direct Vertex adapter is deliberately unconstructed by the
+production entrypoint until the trial admission and durable private-storage work are
+complete. See [application-studio.md](../docs/career-command-centre/application-studio.md).
+
 ## Local preview
 
 Use a public, local `jobs.json` only:
