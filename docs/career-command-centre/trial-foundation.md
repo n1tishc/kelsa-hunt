@@ -2,9 +2,9 @@
 
 **Ticket:** [#27](https://github.com/n1tishc/kelsa-hunt/issues/27)
 **Recorded:** 2026-08-14
-**Status:** dedicated project and non-private foundation verified; private-data admission
-remains blocked until the owner records the Vertex throughput quota and makes the
-untracked local admission-facts file.
+**Status:** dedicated project and non-private foundation verified; the synthetic,
+de-identified Vertex evaluation admission gate is complete. Real private-data admission
+remains blocked on the durable workspace/deployment work.
 
 This is a non-secret operational fact sheet for the time-bounded Career Command Centre
 experiment. It intentionally contains no credentials, private Career Profile material,
@@ -20,7 +20,7 @@ job descriptions, prompts, model outputs, or application data.
 | Trial expiry | 2026-11-06 (the Billing UI exposes the date, not a precise time) | Owner verified in Cloud Billing on 2026-08-14; operational controls use an earlier safe date |
 | Region | `us-central1` | Selected for the bounded Flash smoke test and reminders |
 | Verified model | `gemini-2.5-flash` on Vertex AI | HTTP 200 synthetic request on 2026-08-14; 6 prompt / 29 total tokens; on-demand traffic |
-| Model quota | Gemini-specific sustained-throughput value not established | Owner must inspect Vertex AI quota UI before sustained evaluation |
+| Model quota | `gemini-2.5-flash` uses Dynamic Shared Quota; the console exposes no separate fixed row for it | Owner inspected 2026-08-15; run one packet at a time with no parallel calls and stop/review on any quota error |
 
 The synthetic model request used only `Return exactly FOUNDATION_OK`. It did not send
 repository, job, profile, or application material. It proves the selected project and
@@ -38,8 +38,9 @@ dedicated `career-command-centre-trial-reminders` Pub/Sub topic in `us-central1`
 
 Those dates are 15 and 10 days before the confirmed expiry date. The cron expressions
 would recur annually; pause both jobs after their 2026 execution. The topic has no
-public subscription or endpoint. Cloud Billing budget setup remains an operational
-follow-up; a budget is an alert, never a hard spending cap.
+public subscription or endpoint. A project-scoped, alerts-only monthly budget of USD 25
+is enabled with credit-inclusive 50%, 80%, and 100% current-spend thresholds and
+project-level email recipients. It is an alert, never a hard spending cap.
 
 ## Enabled APIs and empty-workspace check
 
@@ -51,14 +52,18 @@ snapshot, Career Profile, or generated artifact has been admitted.
 
 ## Admission gate and known blocks
 
-Before any private-data-bearing follow-up begins, the owner must:
+The owner has completed the synthetic-evaluation admission record: an untracked local
+JSON file contains a non-negative trial credit, conservative ISO-8601 expiry cutoff,
+the two reminder timestamps, and explicit reminder-retiming confirmation. Its structure
+and timestamps were validated locally on 2026-08-15; its contents and path are not
+recorded here.
 
-1. inspect the Vertex AI quota UI and decide an evaluation cadence within the displayed
-   Gemini Flash limit;
-2. create an untracked local JSON file with the verified credit, expiry date represented
-   as a conservative ISO-8601 operational cutoff, the two scheduled reminder timestamps,
-   and `"reminders_retimed": true`; and
-3. decide whether to configure a Cloud Billing budget alert for the dedicated project.
+Before any **private-data-bearing** follow-up begins, the workspace still needs:
+
+1. a durable Firestore/Storage adapter that implements the private-workspace data
+   contract, including export/deletion manifests; and
+2. an explicit owner decision to admit selected job descriptions and Career Profile data
+   to that deployed workspace.
 
 Keep the Career Profile, role snapshots, job descriptions, prompts, generated packets,
 and production deployment out of this project until those conditions and the private
