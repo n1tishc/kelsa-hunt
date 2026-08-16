@@ -4,20 +4,23 @@
 **Status:** technical spike ready; Vertex execution is blocked until Ticket #27's
 owner-verified Free Trial credit/expiry and reminder dates are recorded.
 
-This is a small, human-labelled, **de-identified** corpus for deciding whether the
-fixed no-tools ADK workflow earns its complexity. It compares three advisory-only
-paths over the same frozen input:
+This is a small, human-labelled, **de-identified** corpus for deciding whether a
+direct no-tools Gemini workflow is useful enough to pursue. It compares two
+advisory-only paths over the same frozen input:
 
 1. deterministic title/metadata baseline;
-2. one direct Vertex Gemini Flash structured-output call;
-3. Role Analyst → Career Strategist → Application Writer → Evidence Critic as four
-   fixed ADK `LlmAgent`s using an in-memory session and **no tools**.
+2. one direct Vertex Gemini Flash structured-output call.
 
-The script validates every returned Evidence Card locally: the card's source ID must
-be declared by the corpus and its quote must occur exactly in that input. Any malformed
-response, safety block, exception, missing final output, or failed stage is an
-abstention/no proposal. It cannot enter Candidate, Eligible Region, Score, source,
-or Discord paths, and it has no external write/action tool.
+Every corpus example declares a small, human-reviewed catalogue of stable evidence
+IDs. Gemini can select only those IDs; local code checks that each selected ID is both
+declared and human-approved for that example before counting it. This avoids treating
+word-for-word reproduction of a human-written claim as a quality requirement. The
+model's summary is always an owner-review suggestion, never a verified fact.
+
+Any malformed response, safety block, exception, invalid evidence selection, or
+missing final output is an abstention/no proposal. The evaluator cannot enter
+Candidate, Eligible Region, Score, source, or Discord paths, and it has no external
+write/action tool.
 
 ## Run
 
@@ -39,15 +42,20 @@ python3 scripts/evaluate_application_studio.py \
 ```
 
 The optional output is aggregate-only: corpus inputs, prompts, raw model responses,
-and private identifiers are never emitted. It reports support/correctness for Evidence
-Cards, usefulness against the human label, malformed/abstain and safe-stage-failure
-rates, median latency, and Vertex response token totals. Cloud Billing—not this script—
-is the cost source of truth.
+and private identifiers are never emitted. It reports selected-evidence
+support/correctness, verdict alignment/usefulness against the human label,
+rejected-proposal/safe-abstain and safe-failure rates, median latency, and Vertex response token
+totals. Cloud Billing—not this script—is the cost source of truth.
+
+If an execution environment has a short command lifetime, use `--offset` and
+`--limit` to run a small deterministic slice (for example, `--offset 0 --limit 2`).
+Each batch is independently aggregate-only; do not mix results from different corpus,
+prompt, schema, or model versions.
 
 ## Human decision rule
 
-Compare the three aggregate rows. The four-stage ADK path earns a follow-up only if it
-materially improves evidence support/correctness and review usefulness over direct
-Gemini without an unacceptable increase in abstention, safe failures, latency, or token
-signal. A model result is never a policy decision; a human must review the aggregate
-and underlying de-identified evaluation record before any private product work begins.
+Compare the two aggregate rows. The direct path earns a follow-up only when it has
+strong human-aligned verdicts and evidence selection without an unacceptable abstention,
+safe-failure, latency, or token signal. A model result is never a policy decision; a
+human must review the aggregate and underlying de-identified evaluation record before
+any private product work begins.

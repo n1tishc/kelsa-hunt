@@ -1,32 +1,33 @@
 # Evaluation decision status
 
 **Ticket:** [#30](https://github.com/n1tishc/kelsa-hunt/issues/30)
-**Status:** synthetic Vertex comparison completed 2026-08-15; neither model path
-earned private-workspace admission.
+**Status:** direct-only synthetic Vertex evaluation completed 2026-08-15; the
+workflow is promising for further synthetic refinement, but not admitted for private
+data or deployment.
 
 Ticket #27's owner-verifiable admission record was complete before this run. The
-evaluator used only the frozen, de-identified three-example corpus, the selected
-`gemini-2.5-flash` model in `us-central1`, no tools, and an aggregate-only local report.
-No Career Profile, real job description, public Store content, packet, or source was
-sent to Vertex.
+evaluator used a frozen, de-identified ten-example corpus and `gemini-2.5-flash` in
+`us-central1`, with no tools and aggregate-only batch reports. No Career Profile, real
+job description, public Store content, packet, or source was sent to Vertex.
 
-| Comparator | Valid packets | Abstentions | Invalid / malformed | Median latency | Prompt / output tokens |
-| --- | ---: | ---: | ---: | ---: | ---: |
-| Deterministic metadata baseline | 0/3 | 3/3 | 0/3 | 0 ms | 0 / 0 |
-| Direct Vertex structured call | 0/3 | 3/3 | 2/3 | 7,491 ms | 364 / 753 |
-| Four-stage ADK no-tools pipeline | 0/3 | 3/3 | 2/3 | 27,247 ms | 4,070 / 913 |
+| Comparator | Valid recommendations | Safe abstentions | Locally rejected recommendations | Prompt / output tokens |
+| --- | ---: | ---: | ---: | ---: |
+| Deterministic metadata baseline | 0/10 | 10/10 | 0/10 | 0 / 0 |
+| Direct Vertex structured call | 7/10 | 1/10 | 2/10 | 2,218 / 1,829 |
 
-The direct and ADK paths each produced two locally rejected Evidence Card responses;
-the remaining example abstained. The ADK stages themselves completed, but produced no
-locally valid proposal. Evidence support, evidence correctness, and review usefulness
-were all 0.0 for both model comparators. The report contains no raw corpus, prompt, or
-model response.
+Every accepted recommendation selected only human-approved, stable evidence IDs, so
+its evidence-support and evidence-correctness rates were both 1.0. The two rejected
+outputs attempted to recommend mismatched roles with unapproved evidence IDs; the
+deterministic gate withheld both packets. One remaining mismatch safely abstained.
+No stage/runtime failure occurred. Across the five two-example batches, median request
+latency ranged from 5,545 to 6,455 ms.
 
-**Decision:** do not admit real private data or deploy this evaluator. The fixed ADK
-path is slower and uses substantially more prompt tokens without improving a valid-packet
-outcome. If this experiment continues, refine the de-identified corpus/label protocol
-and test the direct, deterministic-validation path only; retain the fail-closed gate.
+**Decision:** retain the direct Vertex plus deterministic evidence-ID gate for the
+next synthetic iteration; do not use the deprecated ADK sequential path. Before any
+private-workspace admission, add a held-out de-identified corpus and evaluate
+human-reviewed usefulness separately from evidence selection. Real private data,
+durable private persistence, and deployment remain blocked.
 
-The aggregate report remains only in the local temporary workspace. Do not add its raw
-JSON, corpus, prompts, responses, credentials, project ID, or private profile material
-to this repository.
+The aggregate batch reports remain only in the local temporary workspace. Do not add
+their raw JSON, corpus, prompts, responses, credentials, project ID, or private
+profile material to this repository.

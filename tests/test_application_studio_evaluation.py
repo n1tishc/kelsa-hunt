@@ -17,38 +17,43 @@ class ApplicationStudioEvaluationTests(unittest.TestCase):
             "id": "synthetic-platform-01",
             "record": {"title": "Platform Engineer", "location": "Bay Area, US", "description": "Improve reliable services."},
             "profile_context": {"project": "Improved API reliability."},
-            "labels": {"useful": True, "accepted_evidence_cards": [
-                {"claim": "Service work aligns.", "source_id": "record.description", "quote": "Improve reliable services."},
-                {"claim": "API work aligns.", "source_id": "profile.project", "quote": "Improved API reliability."},
-            ]},
+            "evidence_catalog": [
+                {"id": "role-reliability", "source_id": "record.description", "quote": "Improve reliable services."},
+                {"id": "profile-api", "source_id": "profile.project", "quote": "Improved API reliability."},
+            ],
+            "labels": {"useful": True, "expected_verdict": "recommend", "accepted_evidence_ids": ["role-reliability", "profile-api"]},
         }
         self.proposal = {
             "verdict": "recommend",
             "summary": "A reviewable fit.",
-            "evidence_cards": [
-                {"claim": "Service work aligns.", "source_id": "record.description", "quote": "Improve reliable services."},
-                {"claim": "API work aligns.", "source_id": "profile.project", "quote": "Improved API reliability."},
-            ],
+            "evidence_ids": ["role-reliability", "profile-api"],
             "review_questions": ["Confirm ownership scope."],
             "abstain_reason": None,
         }
 
-    def test_local_validation_requires_exact_declared_evidence(self):
+    def test_local_validation_requires_human_approved_stable_evidence_ids(self):
         result = evaluation.validate_proposal(self.example, self.proposal)
         self.assertTrue(result.valid)
         self.assertEqual(result.supported_cards, 2)
 
         unsupported = dict(self.proposal)
-        unsupported["evidence_cards"] = [{"claim": "Invented.", "source_id": "record.description", "quote": "not present"}]
+        unsupported["evidence_ids"] = ["not-in-catalog"]
         result = evaluation.validate_proposal(self.example, unsupported)
         self.assertFalse(result.valid)
-        self.assertEqual(result.reason, "evidence_quote_not_found")
+        self.assertEqual(result.reason, "invalid_evidence_id")
 
         unlabelled = dict(self.proposal)
-        unlabelled["evidence_cards"] = [{"claim": "Different claim.", "source_id": "record.description", "quote": "Improve reliable services."}]
+        self.example["evidence_catalog"].append({"id": "unrelated", "source_id": "record.description", "quote": "Improve reliable services."})
+        unlabelled["evidence_ids"] = ["unrelated"]
         result = evaluation.validate_proposal(self.example, unlabelled)
         self.assertFalse(result.valid)
-        self.assertEqual(result.reason, "evidence_card_not_human_labelled")
+        self.assertEqual(result.reason, "evidence_id_not_human_labelled")
+
+    def test_recommendation_requires_evidence_but_abstention_is_a_safe_valid_result(self):
+        recommendation = dict(self.proposal, evidence_ids=[])
+        self.assertEqual(evaluation.validate_proposal(self.example, recommendation).reason, "missing_evidence_ids")
+        abstention = dict(self.proposal, verdict="abstain", evidence_ids=[], abstain_reason="not enough support")
+        self.assertTrue(evaluation.validate_proposal(self.example, abstention).valid)
 
     def test_stage_failure_abstains_and_never_calls_another_comparator(self):
         calls = []
@@ -60,7 +65,8 @@ class ApplicationStudioEvaluationTests(unittest.TestCase):
         report = evaluation.evaluate([self.example], {"direct": direct})
         row = report["comparators"]["direct"]
         self.assertEqual(calls, ["direct"])
-        self.assertEqual(row["abstain_count"], 1)
+        self.assertEqual(row["abstain_count"], 0)
+        self.assertEqual(row["no_valid_packet_count"], 1)
         self.assertEqual(row["valid_proposal_count"], 0)
         self.assertEqual(row["failure_counts"], {"timeout": 1})
 
@@ -92,9 +98,9 @@ class ApplicationStudioEvaluationTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             evaluation.parse_model_json("here is the JSON: {}")
 
-    def test_normalizes_adk_structured_state_dict_before_local_validation(self):
-        proposal = evaluation.normalize_evidence_critic({"verdict": "recommend", "claim": "Service work aligns.", "source_id": "record.description", "quote": "Improve reliable services.", "review_question": "Confirm scope.", "abstain_reason": None})
-        self.assertTrue(evaluation.validate_proposal(self.example, proposal).valid)
+    def test_schema_limits_model_to_catalog_evidence_ids(self):
+        evidence_ids = evaluation.proposal_schema(self.example)["properties"]["evidence_ids"]["items"]["enum"]
+        self.assertEqual(evidence_ids, ["role-reliability", "profile-api"])
 
 
 if __name__ == "__main__":
