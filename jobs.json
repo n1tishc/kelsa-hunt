@@ -1,5 +1,5 @@
 {
-"count": 43586,
+"count": 43592,
 "jobs": {
 "ambicuity:1-click-logistics-software-engineer-i---md-hagerstown,-md,-us:b448a2fd309a057a38d7d41a0a41d603": {
 "aggregator_source": "JobSpy (Indeed)",
@@ -442,6 +442,40 @@
 "title": "Associate Backend Software Engineer II",
 "uid": "ambicuity:abbvie-associate-backend-software-engineer-ii-mettawa,-il,-us:2a55d438b3d9ace91f0c438232f4f9ae",
 "url": "https://www.indeed.com/viewjob?jk=bfe7cd7858a2a84b"
+},
+"ambicuity:abbvie-associate-scientific-technical-engineer-ii,-pds&t-cmc-waltham,-ma,-us:a4f4fc4392cfcb0c4cdf24a90d7c6f65": {
+"aggregator_source": "JobSpy (Indeed)",
+"category": "Hardware Engineering",
+"closed_at": null,
+"company": "AbbVie",
+"degrees": [],
+"first_seen": 1786978806,
+"locations": [
+"Waltham, MA, US"
+],
+"posted": 1786924800,
+"source": "Ambicuity",
+"sponsorship": "",
+"title": "Associate Scientific Technical Engineer II, PDS&T CMC",
+"uid": "ambicuity:abbvie-associate-scientific-technical-engineer-ii,-pds&t-cmc-waltham,-ma,-us:a4f4fc4392cfcb0c4cdf24a90d7c6f65",
+"url": "https://www.indeed.com/viewjob?jk=dd4fa506997c9d91"
+},
+"ambicuity:abbvie-associate-scientific-technical-engineer-ii,-pds&t-cmc-worcester,-ma,-us:7593b488178d6fe50004a44c54fd67f7": {
+"aggregator_source": "JobSpy (Indeed)",
+"category": "Hardware Engineering",
+"closed_at": null,
+"company": "AbbVie",
+"degrees": [],
+"first_seen": 1786978806,
+"locations": [
+"Worcester, MA, US"
+],
+"posted": 1786924800,
+"source": "Ambicuity",
+"sponsorship": "",
+"title": "Associate Scientific Technical Engineer II, PDS&T CMC",
+"uid": "ambicuity:abbvie-associate-scientific-technical-engineer-ii,-pds&t-cmc-worcester,-ma,-us:7593b488178d6fe50004a44c54fd67f7",
+"url": "https://www.indeed.com/viewjob?jk=e97a7a884716018a"
 },
 "ambicuity:abbvie-associate-software-engineer-i-north-chicago,-il,-us:b970ef902d35631dc1ccce7e88f1264c": {
 "aggregator_source": "JobSpy (Indeed)",
@@ -11654,7 +11688,7 @@
 "ambicuity:anduril-industries-rf-mission-systems-engineer,-air-dominance-&-strike,-active-clearance-costa-mesa,:833be85bd2fa31f0c34fab18d5909790": {
 "aggregator_source": "Greenhouse",
 "category": "Software Engineering",
-"closed_at": 1786977772,
+"closed_at": 1786978806,
 "company": "Anduril Industries",
 "degrees": [],
 "first_seen": 1785610065,
@@ -13150,7 +13184,7 @@
 "ambicuity:anduril-industries-software-engineer,-quality-integration---boston,-massachusetts,-united-states:05f22abf781f895f32a7351e7a190928": {
 "aggregator_source": "Greenhouse",
 "category": "Software Engineering",
-"closed_at": 1786977772,
+"closed_at": 1786978806,
 "company": "Anduril Industries",
 "degrees": [],
 "first_seen": 1785610065,
@@ -13167,7 +13201,7 @@
 "ambicuity:anduril-industries-software-engineer,-quality-integration---costa-mesa,-california,-united-states:1790118ed1f2e9e38ab10e672e101c11": {
 "aggregator_source": "Greenhouse",
 "category": "Software Engineering",
-"closed_at": 1786977772,
+"closed_at": 1786978806,
 "company": "Anduril Industries",
 "degrees": [],
 "first_seen": 1785610065,
@@ -13184,7 +13218,7 @@
 "ambicuity:anduril-industries-software-engineer,-quality-integration---seattle,-washington,-united-states:43e2d0168baa2bb313554476273da834": {
 "aggregator_source": "Greenhouse",
 "category": "Software Engineering",
-"closed_at": 1786977772,
+"closed_at": 1786978806,
 "company": "Anduril Industries",
 "degrees": [],
 "first_seen": 1785610065,
@@ -14119,7 +14153,7 @@
 "ambicuity:anduril-industries-systems-engineer,-reliability-irvine,-california,-united-states:2a8be899e6abd5f4b5389fd4164ed74f": {
 "aggregator_source": "Greenhouse",
 "category": "Software Engineering",
-"closed_at": 1786977772,
+"closed_at": 1786978806,
 "company": "Anduril Industries",
 "degrees": [],
 "first_seen": 1785610065,
@@ -18959,7 +18993,7 @@
 "locations": [
 "San Francisco, CA, United States of America"
 ],
-"posted": 1786126573,
+"posted": 1786976265,
 "source": "Ambicuity",
 "sponsorship": "",
 "title": "Legal Systems Engineer",
@@ -24045,7 +24079,7 @@
 "ambicuity:booz-allen-hamilton-software-engineer-chantilly,-va:c4021224886f5fa7d6d50b4a947b1082": {
 "aggregator_source": "Workday",
 "category": "Software Engineering",
-"closed_at": null,
+"closed_at": 1786978806,
 "company": "Booz Allen Hamilton",
 "degrees": [],
 "first_seen": 1786644354,
@@ -28758,6 +28792,23 @@
 "title": "Software Engineer",
 "uid": "ambicuity:cisco-software-engineer-ka,-in:b88636c5b14364b4b537fcfbcd9dc119",
 "url": "https://in.indeed.com/viewjob?jk=8322620bebe8d841"
+},
+"ambicuity:cisco-software-engineer-ka,-in:bf3ffb0e493e7aa99f8f545ffdc1b3cb": {
+"aggregator_source": "JobSpy (Indeed)",
+"category": "Software Engineering",
+"closed_at": null,
+"company": "Cisco",
+"degrees": [],
+"first_seen": 1786978806,
+"locations": [
+"KA, IN"
+],
+"posted": 1786924800,
+"source": "Ambicuity",
+"sponsorship": "",
+"title": "Software Engineer",
+"uid": "ambicuity:cisco-software-engineer-ka,-in:bf3ffb0e493e7aa99f8f545ffdc1b3cb",
+"url": "https://in.indeed.com/viewjob?jk=c22d6f67e8f7d4b0"
 },
 "ambicuity:citi-aws-data-engineer-pune-maharashtra-india:d341d78c7a0849a80f8a1649a6778de5": {
 "aggregator_source": "Workday",
@@ -33817,7 +33868,7 @@
 "ambicuity:datadog-security-engineer-2---cyber-threat-intelligence-new-york,-new-york,-usa:9c83b3955ce4627785c8ef0d65c61fe8": {
 "aggregator_source": "Greenhouse",
 "category": "Security Engineering",
-"closed_at": 1786977772,
+"closed_at": 1786978806,
 "company": "Datadog",
 "degrees": [],
 "first_seen": 1785610065,
@@ -39699,6 +39750,23 @@
 "title": "Associate QA Engineer",
 "uid": "ambicuity:finastra-associate-qa-engineer-mh,-in:5423290957fc8f422e9818ac94438c29",
 "url": "https://in.indeed.com/viewjob?jk=9bcc747a93287d33"
+},
+"ambicuity:finastra-associate-qa-engineer-mh,-in:5d39722466dc5fc10b70c0206f8b4358": {
+"aggregator_source": "JobSpy (Indeed)",
+"category": "Infrastructure & SRE",
+"closed_at": null,
+"company": "Finastra",
+"degrees": [],
+"first_seen": 1786978806,
+"locations": [
+"MH, IN"
+],
+"posted": 1786924800,
+"source": "Ambicuity",
+"sponsorship": "",
+"title": "Associate QA Engineer",
+"uid": "ambicuity:finastra-associate-qa-engineer-mh,-in:5d39722466dc5fc10b70c0206f8b4358",
+"url": "https://in.indeed.com/viewjob?jk=155b6cc4e8410326"
 },
 "ambicuity:finastra-software-engineer-mh,-in:a4864177ad7a235a89848e18b5c7eccf": {
 "aggregator_source": "JobSpy (Indeed)",
@@ -47717,7 +47785,7 @@
 "ambicuity:infineon-technologies-young-graduate-trainee-ka,-in:15fdc144e803e29eef99cc86e38c6a57": {
 "aggregator_source": "JobSpy (Indeed)",
 "category": "Hardware Engineering",
-"closed_at": null,
+"closed_at": 1786978806,
 "company": "Infineon Technologies",
 "degrees": [],
 "first_seen": 1786641012,
@@ -49470,7 +49538,7 @@
 "ambicuity:jpmorganchase-ai/ml-software-engineer-ii-new-york,-ny,-us:ca591febb4b8522164935468c7424dca": {
 "aggregator_source": "JobSpy (Indeed)",
 "category": "Software Engineering",
-"closed_at": null,
+"closed_at": 1786978806,
 "company": "JPMorganChase",
 "degrees": [],
 "first_seen": 1786950829,
@@ -50116,7 +50184,7 @@
 "ambicuity:kbr,-inc.-associate-project-engineer-columbus,-ohio:98e63312ec140414879b3adb508047f5": {
 "aggregator_source": "Workday",
 "category": "Other",
-"closed_at": null,
+"closed_at": 1786978806,
 "company": "KBR, Inc.",
 "degrees": [],
 "first_seen": 1786573387,
@@ -52701,7 +52769,7 @@
 "ambicuity:las-palmas-del-sol-healthcare-new-grad-rn-resident-oncology-el-paso,-tx,-us:8ab8e1c0b29cb075736193552e9472e9": {
 "aggregator_source": "JobSpy (Indeed)",
 "category": "Other",
-"closed_at": null,
+"closed_at": 1786978806,
 "company": "Las Palmas Del Sol Healthcare",
 "degrees": [],
 "first_seen": 1786885283,
@@ -55982,7 +56050,7 @@
 "ambicuity:light-&-wonder-associate-qa-engineer,-software-mh,-in:46839c68553d0a5a21e0cc32641ed1ed": {
 "aggregator_source": "JobSpy (Indeed)",
 "category": "Other",
-"closed_at": null,
+"closed_at": 1786978806,
 "company": "Light & Wonder",
 "degrees": [],
 "first_seen": 1786963624,
@@ -55999,7 +56067,7 @@
 "ambicuity:light-&-wonder-associate-qa-engineer,-software-mh,-in:c43998398c0067312b701d1b966d8c60": {
 "aggregator_source": "JobSpy (Indeed)",
 "category": "Other",
-"closed_at": null,
+"closed_at": 1786978806,
 "company": "Light & Wonder",
 "degrees": [],
 "first_seen": 1786963624,
@@ -56114,6 +56182,23 @@
 "title": "Maintenance & Reliability Engineer I",
 "uid": "ambicuity:linde-maintenance-&-reliability-engineer-i-vancouver,-bc,-ca:5f4c4ee0a6a60e2882680cd86c5e9ef1",
 "url": "https://ca.indeed.com/viewjob?jk=62ef5a2cb2d893a2"
+},
+"ambicuity:lister-digital-azure-devops-engineer-hr,-in:eb3894eb9671ed8860c8c4f9ea9135e3": {
+"aggregator_source": "JobSpy (Indeed)",
+"category": "Infrastructure & SRE",
+"closed_at": null,
+"company": "Lister Digital",
+"degrees": [],
+"first_seen": 1786978806,
+"locations": [
+"HR, IN"
+],
+"posted": 1786924800,
+"source": "Ambicuity",
+"sponsorship": "",
+"title": "Azure DevOps Engineer",
+"uid": "ambicuity:lister-digital-azure-devops-engineer-hr,-in:eb3894eb9671ed8860c8c4f9ea9135e3",
+"url": "https://in.indeed.com/viewjob?jk=70cd28bbc10a49ee"
 },
 "ambicuity:lja-engineering,-inc-graduate-engineer-i---land-development-houston,-tx,-us:cdda253f86a79d34eaca46856f6b5354": {
 "aggregator_source": "JobSpy (Indeed)",
@@ -64965,7 +65050,7 @@
 "ambicuity:newsbreak-applied-ai-engineer,-advertising-agents-(new-grad)-mountain-view,-california,-united-state:fb64d5b6dd09715c5f21517370e476ac": {
 "aggregator_source": "Greenhouse",
 "category": "Data Science & ML",
-"closed_at": 1786977772,
+"closed_at": 1786978806,
 "company": "NewsBreak",
 "degrees": [],
 "first_seen": 1786573387,
@@ -70391,7 +70476,7 @@
 "ambicuity:nuro-software-engineer,-applied-ai-infrastructure-mountain-view,-california-(hq):bea4e8ab99ae779befef6ee37be1c935": {
 "aggregator_source": "Greenhouse",
 "category": "Software Engineering",
-"closed_at": 1786977772,
+"closed_at": 1786978806,
 "company": "Nuro",
 "degrees": [],
 "first_seen": 1786487035,
@@ -70510,7 +70595,7 @@
 "ambicuity:nuro-software-engineer,-ml-infrastructure-platform-mountain-view,-california-(hq):519032faa40e77eb69cb63fed6e216dd": {
 "aggregator_source": "Greenhouse",
 "category": "Software Engineering",
-"closed_at": 1786977772,
+"closed_at": 1786978806,
 "company": "Nuro",
 "degrees": [],
 "first_seen": 1786479742,
@@ -71893,7 +71978,7 @@
 "ambicuity:openai-data-scientist,-b2b-demand-generation,-growth-&-measurement-san-francisco,-california,-united:02c2d25f5e38331dc714343107bae8a0": {
 "aggregator_source": "Ashby",
 "category": "Data Science & ML",
-"closed_at": 1786977772,
+"closed_at": 1786978806,
 "company": "OpenAI",
 "degrees": [],
 "first_seen": 1786072589,
@@ -73338,7 +73423,7 @@
 "ambicuity:oscar-health-associate,-government-affairs-new-york,-new-york,-united-states:52d0fbc557d3bcfab4f23f5f4e56c2db": {
 "aggregator_source": "Greenhouse",
 "category": "Software Engineering",
-"closed_at": null,
+"closed_at": 1786978806,
 "company": "Oscar Health",
 "degrees": [],
 "first_seen": 1785610065,
@@ -73355,7 +73440,7 @@
 "ambicuity:oscar-health-associate,-government-affairs-washington,-d.c.,-united-states:11e9037aad4337c265a559f90655bfe2": {
 "aggregator_source": "Greenhouse",
 "category": "Software Engineering",
-"closed_at": null,
+"closed_at": 1786978806,
 "company": "Oscar Health",
 "degrees": [],
 "first_seen": 1785610065,
@@ -73763,7 +73848,7 @@
 "ambicuity:palantir-offensive-security-engineer-washington,-d.c.:a9e0a0f7c0a43d9d41af77436668446c": {
 "aggregator_source": "Lever",
 "category": "Security Engineering",
-"closed_at": 1786977772,
+"closed_at": 1786978806,
 "company": "Palantir",
 "degrees": [],
 "first_seen": 1786727363,
@@ -86052,7 +86137,7 @@
 "ambicuity:spacex-data-engineer-(starlink)-bastrop,-tx:1ff73703bcd72628b235e0b6bd906549": {
 "aggregator_source": "Greenhouse",
 "category": "Software Engineering",
-"closed_at": 1786977772,
+"closed_at": 1786978806,
 "company": "SpaceX",
 "degrees": [],
 "first_seen": 1785610065,
@@ -86069,7 +86154,7 @@
 "ambicuity:spacex-data-engineer-(starlink)-hawthorne,-ca:b571ec21e1bc1b7de62b5e8da68e2dd2": {
 "aggregator_source": "Greenhouse",
 "category": "Software Engineering",
-"closed_at": 1786977772,
+"closed_at": 1786978806,
 "company": "SpaceX",
 "degrees": [],
 "first_seen": 1785610065,
@@ -89847,7 +89932,7 @@
 "ambicuity:spacex-software-engineer-(starlink)-hawthorne,-ca:e55b44af100e542a548d5bc2ca0b2914": {
 "aggregator_source": "Greenhouse",
 "category": "Software Engineering",
-"closed_at": 1786977772,
+"closed_at": 1786978806,
 "company": "SpaceX",
 "degrees": [],
 "first_seen": 1786641012,
@@ -97205,7 +97290,7 @@
 "locations": [
 "Remote - India"
 ],
-"posted": 1786717695,
+"posted": 1786976885,
 "source": "Ambicuity",
 "sponsorship": "",
 "title": "Associate Application Engineer",
@@ -97222,7 +97307,7 @@
 "locations": [
 "Remote - Ireland"
 ],
-"posted": 1786717684,
+"posted": 1786976750,
 "source": "Ambicuity",
 "sponsorship": "",
 "title": "DevOps Engineer (Observability)",
@@ -97256,7 +97341,7 @@
 "locations": [
 "Remote - Ireland"
 ],
-"posted": 1786717857,
+"posted": 1786976930,
 "source": "Ambicuity",
 "sponsorship": "",
 "title": "Machine Learning Engineer",
@@ -97273,7 +97358,7 @@
 "locations": [
 "Remote - Spain"
 ],
-"posted": 1786717840,
+"posted": 1786976907,
 "source": "Ambicuity",
 "sponsorship": "",
 "title": "Machine Learning Engineer",
@@ -97307,7 +97392,7 @@
 "locations": [
 "Remote - Ireland"
 ],
-"posted": 1786717879,
+"posted": 1786976949,
 "source": "Ambicuity",
 "sponsorship": "",
 "title": "Security Engineer, Incident Response",
@@ -97324,7 +97409,7 @@
 "locations": [
 "Remote - United Kingdom"
 ],
-"posted": 1786717879,
+"posted": 1786976949,
 "source": "Ambicuity",
 "sponsorship": "",
 "title": "Security Engineer, Incident Response",
@@ -97341,7 +97426,7 @@
 "locations": [
 "Remote - Colombia"
 ],
-"posted": 1786717724,
+"posted": 1786976764,
 "source": "Ambicuity",
 "sponsorship": "",
 "title": "Software Development Engineer (L3)",
@@ -97580,7 +97665,7 @@
 "locations": [
 "Remote - Ireland"
 ],
-"posted": 1786718040,
+"posted": 1786977181,
 "source": "Ambicuity",
 "sponsorship": "",
 "title": "Software Engineer ",
@@ -97684,7 +97769,7 @@
 "locations": [
 "Remote - Estonia"
 ],
-"posted": 1786718093,
+"posted": 1786977218,
 "source": "Ambicuity",
 "sponsorship": "",
 "title": "Software Engineer",
@@ -97850,7 +97935,7 @@
 "ambicuity:u.s.-bank-software-engineer-tn,-in:77d60967d86676b3e4fbc582f8b0a551": {
 "aggregator_source": "JobSpy (Indeed)",
 "category": "Software Engineering",
-"closed_at": null,
+"closed_at": 1786978806,
 "company": "U.S. Bank",
 "degrees": [],
 "first_seen": 1786906022,
@@ -102483,7 +102568,7 @@
 "locations": [
 "Hybrid - San Francisco, New York City, London"
 ],
-"posted": 1786657098,
+"posted": 1786977393,
 "source": "Ambicuity",
 "sponsorship": "",
 "title": "IT Systems Engineer",
@@ -104366,7 +104451,7 @@
 "ambicuity:waymo-perception-machine-learning-engineer---continuous-learning-mountain-view,-ca,-usa;-san-francis:1acf8b9853883562a2e6bdf72631c151": {
 "aggregator_source": "Greenhouse",
 "category": "Data Science & ML",
-"closed_at": 1786977772,
+"closed_at": 1786978806,
 "company": "Waymo",
 "degrees": [],
 "first_seen": 1786668161,
@@ -105080,7 +105165,7 @@
 "ambicuity:webflow-associate-infrastructure-engineer-ca-remote-(bc-&-on-only);-u.s.-remote:f33fa9b3a7ea670bf35bef0b2ab32e97": {
 "aggregator_source": "Greenhouse",
 "category": "Infrastructure & SRE",
-"closed_at": 1786977772,
+"closed_at": 1786978806,
 "company": "Webflow",
 "degrees": [],
 "first_seen": 1786566079,
@@ -151157,7 +151242,7 @@
 },
 "ashby:legora:15727f85-e552-451b-90cb-e85c3347b536": {
 "category": "People",
-"closed_at": null,
+"closed_at": 1786978806,
 "company": "Legora",
 "degrees": [],
 "first_seen": 1785793958,
@@ -151601,7 +151686,7 @@
 ],
 "posted": 1782369087,
 "source": "Ashby",
-"title": "Senior Product Manager - Billing and Pricing ",
+"title": "Senior Product Manager - Billing ",
 "uid": "ashby:legora:2dfdbd92-5307-49a0-80ab-fa95824474f0",
 "url": "https://jobs.ashbyhq.com/legora/2dfdbd92-5307-49a0-80ab-fa95824474f0"
 },
@@ -221585,7 +221670,7 @@
 },
 "gh:anthropic:5076754008": {
 "category": "",
-"closed_at": null,
+"closed_at": 1786978806,
 "company": "Anthropic",
 "degrees": [],
 "first_seen": 1785401837,
@@ -223205,7 +223290,7 @@
 },
 "gh:anthropic:5191785008": {
 "category": "",
-"closed_at": null,
+"closed_at": 1786978806,
 "company": "Anthropic",
 "degrees": [],
 "first_seen": 1785401837,
@@ -272961,7 +273046,7 @@
 },
 "gh:cresta:4990743008": {
 "category": "",
-"closed_at": null,
+"closed_at": 1786978806,
 "company": "Cresta",
 "degrees": [],
 "first_seen": 1786395627,
@@ -275163,6 +275248,21 @@
 "title": "Partner Business Manager, Japan",
 "uid": "gh:cribl:6137610004",
 "url": "https://cribl.io/job-detail/?gh_jid=6137610004"
+},
+"gh:cribl:6137830004": {
+"category": "",
+"closed_at": null,
+"company": "Cribl",
+"degrees": [],
+"first_seen": 1786978806,
+"locations": [
+"Remote - Seattle, Washington"
+],
+"posted": 1786978621,
+"source": "Greenhouse",
+"title": "Sales Engineer, Seattle and Pacific Northwest",
+"uid": "gh:cribl:6137830004",
+"url": "https://cribl.io/job-detail/?gh_jid=6137830004"
 },
 "gh:cribl:6137900004": {
 "category": "",
@@ -291081,7 +291181,7 @@
 },
 "gh:datadog:7449072": {
 "category": "",
-"closed_at": null,
+"closed_at": 1786978806,
 "company": "Datadog",
 "degrees": [],
 "first_seen": 1785610065,
@@ -293857,7 +293957,7 @@
 },
 "gh:datadog:7997872": {
 "category": "",
-"closed_at": null,
+"closed_at": 1786978806,
 "company": "Datadog",
 "degrees": [],
 "first_seen": 1785610065,
@@ -295274,9 +295374,9 @@
 "locations": [
 "Boston, Massachusetts, USA; New York, New York, USA"
 ],
-"posted": 1786977136,
+"posted": 1786978303,
 "source": "Greenhouse",
-"title": "Software Engineering Intern",
+"title": "Software Engineering Intern (Winter)",
 "uid": "gh:datadog:8052095",
 "url": "https://careers.datadoghq.com/detail/8052095/?gh_jid=8052095"
 },
@@ -296504,7 +296604,7 @@
 "locations": [
 "California, USA, Remote"
 ],
-"posted": 1786564748,
+"posted": 1786977829,
 "source": "Greenhouse",
 "title": "Senior Sales Engineer - Bay Area",
 "uid": "gh:datadog:8105684",
@@ -360430,7 +360530,7 @@
 },
 "gh:mongodb:8121860": {
 "category": "",
-"closed_at": null,
+"closed_at": 1786978806,
 "company": "Mongodb",
 "degrees": [],
 "first_seen": 1786719956,
@@ -362582,7 +362682,7 @@
 "locations": [
 "Sydney, Australia"
 ],
-"posted": 1785160535,
+"posted": 1786977994,
 "source": "Greenhouse",
 "title": "Associate Technical Success Manager",
 "uid": "gh:newrelic:5239963008",
@@ -703404,6 +703504,6 @@
 "url": "https://apply.workable.com/j/F26F8B9006"
 }
 },
-"updated": "2026-08-17T14:42:55+00:00",
+"updated": "2026-08-17T15:00:10+00:00",
 "version": 2
 }
