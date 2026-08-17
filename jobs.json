@@ -1,5 +1,5 @@
 {
-"count": 43592,
+"count": 43598,
 "jobs": {
 "ambicuity:1-click-logistics-software-engineer-i---md-hagerstown,-md,-us:b448a2fd309a057a38d7d41a0a41d603": {
 "aggregator_source": "JobSpy (Indeed)",
@@ -132773,14 +132773,14 @@
 },
 "ashby:deliveroo:94498ca6-d194-400d-a7cf-6051c9749b56": {
 "category": "All Cost Centers",
-"closed_at": 1786369475,
+"closed_at": null,
 "company": "Deliveroo",
 "degrees": [],
 "first_seen": 1785793958,
 "locations": [
 "London - The River Building HQ"
 ],
-"posted": 1784295143,
+"posted": 1786978667,
 "source": "Ashby",
 "title": "Creative Lead - Fixed Term Contract",
 "uid": "ashby:deliveroo:94498ca6-d194-400d-a7cf-6051c9749b56",
@@ -156639,6 +156639,21 @@
 "title": "Senior PHP Engineer",
 "uid": "ashby:lendable:d5dbc5ab-d0b0-4f6b-b704-46c8a34aeaac",
 "url": "https://jobs.ashbyhq.com/lendable/d5dbc5ab-d0b0-4f6b-b704-46c8a34aeaac"
+},
+"ashby:lendable:d676fe6a-8645-4180-8017-d53d83a4feb7": {
+"category": "Engineering & Product",
+"closed_at": null,
+"company": "Lendable",
+"degrees": [],
+"first_seen": 1786978838,
+"locations": [
+"Virginia"
+],
+"posted": 1786978228,
+"source": "Ashby",
+"title": "Senior Product Manager ",
+"uid": "ashby:lendable:d676fe6a-8645-4180-8017-d53d83a4feb7",
+"url": "https://jobs.ashbyhq.com/lendable/d676fe6a-8645-4180-8017-d53d83a4feb7"
 },
 "ashby:lendable:d9effa9b-07c2-4075-a350-2f84fc580e8d": {
 "category": "Engineering & Product",
@@ -202752,16 +202767,16 @@
 },
 "ashby:vanta:a0090ea4-5e19-439c-91e3-eb8a3f117eee": {
 "category": "Revenue",
-"closed_at": 1786399015,
+"closed_at": null,
 "company": "Vanta",
 "degrees": [],
 "first_seen": 1786389514,
 "locations": [
 "Remote U.S."
 ],
-"posted": 1786387977,
+"posted": 1786978647,
 "source": "Ashby",
-"title": "Manager, Commercial Customer Success (East Region)",
+"title": "Sr. Manager, Commercial Customer Success (East Region)",
 "uid": "ashby:vanta:a0090ea4-5e19-439c-91e3-eb8a3f117eee",
 "url": "https://jobs.ashbyhq.com/vanta/a0090ea4-5e19-439c-91e3-eb8a3f117eee"
 },
@@ -209735,7 +209750,7 @@
 "locations": [
 "London"
 ],
-"posted": 1786977307,
+"posted": 1786978180,
 "source": "Greenhouse",
 "title": "Team Lead, Account Management",
 "uid": "gh:adyen:8043989",
@@ -210081,7 +210096,7 @@
 "locations": [
 "London"
 ],
-"posted": 1786977310,
+"posted": 1786978183,
 "source": "Greenhouse",
 "title": "Manager, Enterprise Account Management",
 "uid": "gh:adyen:8064197",
@@ -218383,6 +218398,36 @@
 "uid": "gh:airbnb:8129504",
 "url": "https://careers.airbnb.com/positions/8129504?gh_jid=8129504"
 },
+"gh:airbnb:8129510": {
+"category": "",
+"closed_at": null,
+"company": "Airbnb",
+"degrees": [],
+"first_seen": 1786978838,
+"locations": [
+"Alberta, Canada, British Columbia, Canada"
+],
+"posted": 1786978193,
+"source": "Greenhouse",
+"title": "Market Manager",
+"uid": "gh:airbnb:8129510",
+"url": "https://careers.airbnb.com/positions/8129510?gh_jid=8129510"
+},
+"gh:airbnb:8129515": {
+"category": "",
+"closed_at": null,
+"company": "Airbnb",
+"degrees": [],
+"first_seen": 1786978838,
+"locations": [
+"Ontario, Canada"
+],
+"posted": 1786978190,
+"source": "Greenhouse",
+"title": "Market Manager",
+"uid": "gh:airbnb:8129515",
+"url": "https://careers.airbnb.com/positions/8129515?gh_jid=8129515"
+},
 "gh:airbnb:8129728": {
 "category": "",
 "closed_at": null,
@@ -218427,6 +218472,36 @@
 "title": "Staff Software Engineer, Passport & Commerce (Backend)",
 "uid": "gh:airbnb:8130817",
 "url": "https://careers.airbnb.com/positions/8130817?gh_jid=8130817"
+},
+"gh:airbnb:8131269": {
+"category": "",
+"closed_at": null,
+"company": "Airbnb",
+"degrees": [],
+"first_seen": 1786978838,
+"locations": [
+"Sao Paulo, Brazil"
+],
+"posted": 1786978216,
+"source": "Greenhouse",
+"title": "Market Manager",
+"uid": "gh:airbnb:8131269",
+"url": "https://careers.airbnb.com/positions/8131269?gh_jid=8131269"
+},
+"gh:airbnb:8131310": {
+"category": "",
+"closed_at": null,
+"company": "Airbnb",
+"degrees": [],
+"first_seen": 1786978838,
+"locations": [
+"Mexico"
+],
+"posted": 1786978231,
+"source": "Greenhouse",
+"title": "Market Manager",
+"uid": "gh:airbnb:8131310",
+"url": "https://careers.airbnb.com/positions/8131310?gh_jid=8131310"
 },
 "gh:airtable:7497304002": {
 "category": "",
@@ -229950,7 +230025,7 @@
 },
 "gh:asana:8027425": {
 "category": "",
-"closed_at": null,
+"closed_at": 1786978838,
 "company": "Asana",
 "degrees": [],
 "first_seen": 1785610065,
@@ -230130,7 +230205,7 @@
 },
 "gh:asana:8036335": {
 "category": "",
-"closed_at": null,
+"closed_at": 1786978838,
 "company": "Asana",
 "degrees": [],
 "first_seen": 1785610065,
@@ -230145,7 +230220,7 @@
 },
 "gh:asana:8036338": {
 "category": "",
-"closed_at": null,
+"closed_at": 1786978838,
 "company": "Asana",
 "degrees": [],
 "first_seen": 1785610065,
@@ -254385,7 +254460,7 @@
 },
 "gh:celonis:7804430003": {
 "category": "",
-"closed_at": null,
+"closed_at": 1786978838,
 "company": "Celonis",
 "degrees": [],
 "first_seen": 1785610065,
@@ -318375,6 +318450,21 @@
 "uid": "gh:fivetran:7872211003",
 "url": "https://www.fivetran.com/careers/job?gh_jid=7872211003"
 },
+"gh:fivetran:7885745003": {
+"category": "",
+"closed_at": null,
+"company": "Fivetran",
+"degrees": [],
+"first_seen": 1786978838,
+"locations": [
+"Dublin, Dublin, Ireland, EMEA"
+],
+"posted": 1786978016,
+"source": "Greenhouse",
+"title": "Business Development Representative",
+"uid": "gh:fivetran:7885745003",
+"url": "https://www.fivetran.com/careers/job?gh_jid=7885745003"
+},
 "gh:flexport:5578487": {
 "category": "",
 "closed_at": null,
@@ -373753,7 +373843,7 @@
 "locations": [
 "London, United Kingdom"
 ],
-"posted": 1786625519,
+"posted": 1786978388,
 "source": "Greenhouse",
 "title": "Associate Manager, Accounting (Hybrid)",
 "uid": "gh:opentable:8702802002",
@@ -395390,7 +395480,7 @@
 "locations": [
 "Remote - US"
 ],
-"posted": 1786726950,
+"posted": 1786978037,
 "source": "Greenhouse",
 "title": "Business Technology Engineer II",
 "uid": "gh:samsara:8022729",
@@ -395525,7 +395615,7 @@
 "locations": [
 "Remote - Canada"
 ],
-"posted": 1786726950,
+"posted": 1786978037,
 "source": "Greenhouse",
 "title": "Business Technology Engineer II",
 "uid": "gh:samsara:8031880",
@@ -694460,7 +694550,7 @@
 },
 "smartrecruiters:Wise:744000133020674": {
 "category": "",
-"closed_at": null,
+"closed_at": 1786978839,
 "company": "Wise",
 "degrees": [],
 "first_seen": 1785793958,
@@ -703504,6 +703594,6 @@
 "url": "https://apply.workable.com/j/F26F8B9006"
 }
 },
-"updated": "2026-08-17T15:00:10+00:00",
+"updated": "2026-08-17T15:00:41+00:00",
 "version": 2
 }
