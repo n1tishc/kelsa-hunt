@@ -1,5 +1,5 @@
 {
-"count": 43550,
+"count": 43586,
 "jobs": {
 "ambicuity:1-click-logistics-software-engineer-i---md-hagerstown,-md,-us:b448a2fd309a057a38d7d41a0a41d603": {
 "aggregator_source": "JobSpy (Indeed)",
@@ -102,6 +102,23 @@
 "title": "ATSU - Campus Safety Officer",
 "uid": "ambicuity:a-t-still-university-of-health-sciences-atsu---campus-safety-officer-mesa,-az,-us:24613ca43940601097c4c2ac8122d888",
 "url": "https://www.indeed.com/viewjob?jk=1388cd5452868e77"
+},
+"ambicuity:aaa-club-alliance-associate-retail-travel-agent-aurora,-in,-us:aca7c168580348438d147872d85cc2e4": {
+"aggregator_source": "JobSpy (Indeed)",
+"category": "Other",
+"closed_at": null,
+"company": "AAA Club Alliance",
+"degrees": [],
+"first_seen": 1786977772,
+"locations": [
+"Aurora, IN, US"
+],
+"posted": 1786924800,
+"source": "Ambicuity",
+"sponsorship": "",
+"title": "Associate Retail Travel Agent",
+"uid": "ambicuity:aaa-club-alliance-associate-retail-travel-agent-aurora,-in,-us:aca7c168580348438d147872d85cc2e4",
+"url": "https://www.indeed.com/viewjob?jk=026889bd31b0b2f3"
 },
 "ambicuity:aaa-club-alliance-associate-retail-travel-agent-midlothian,-va,-us:def27c70d1b3446b7212b9aded8fdc61": {
 "aggregator_source": "JobSpy (Indeed)",
@@ -10532,14 +10549,14 @@
 "ambicuity:anduril-industries-applied-llm-systems-engineer-costa-mesa,-california,-united-states:2d63de556062426f858d0792e388d60c": {
 "aggregator_source": "Greenhouse",
 "category": "Software Engineering",
-"closed_at": 1786737273,
+"closed_at": null,
 "company": "Anduril Industries",
 "degrees": [],
 "first_seen": 1786119057,
 "locations": [
 "Costa Mesa, California, United States"
 ],
-"posted": 1786715269,
+"posted": 1786974897,
 "source": "Ambicuity",
 "sponsorship": "",
 "title": "Applied LLM Systems Engineer",
@@ -11637,7 +11654,7 @@
 "ambicuity:anduril-industries-rf-mission-systems-engineer,-air-dominance-&-strike,-active-clearance-costa-mesa,:833be85bd2fa31f0c34fab18d5909790": {
 "aggregator_source": "Greenhouse",
 "category": "Software Engineering",
-"closed_at": 1786971853,
+"closed_at": 1786977772,
 "company": "Anduril Industries",
 "degrees": [],
 "first_seen": 1785610065,
@@ -13133,7 +13150,7 @@
 "ambicuity:anduril-industries-software-engineer,-quality-integration---boston,-massachusetts,-united-states:05f22abf781f895f32a7351e7a190928": {
 "aggregator_source": "Greenhouse",
 "category": "Software Engineering",
-"closed_at": 1786971853,
+"closed_at": 1786977772,
 "company": "Anduril Industries",
 "degrees": [],
 "first_seen": 1785610065,
@@ -13150,7 +13167,7 @@
 "ambicuity:anduril-industries-software-engineer,-quality-integration---costa-mesa,-california,-united-states:1790118ed1f2e9e38ab10e672e101c11": {
 "aggregator_source": "Greenhouse",
 "category": "Software Engineering",
-"closed_at": 1786971853,
+"closed_at": 1786977772,
 "company": "Anduril Industries",
 "degrees": [],
 "first_seen": 1785610065,
@@ -13167,7 +13184,7 @@
 "ambicuity:anduril-industries-software-engineer,-quality-integration---seattle,-washington,-united-states:43e2d0168baa2bb313554476273da834": {
 "aggregator_source": "Greenhouse",
 "category": "Software Engineering",
-"closed_at": 1786971853,
+"closed_at": 1786977772,
 "company": "Anduril Industries",
 "degrees": [],
 "first_seen": 1785610065,
@@ -14102,7 +14119,7 @@
 "ambicuity:anduril-industries-systems-engineer,-reliability-irvine,-california,-united-states:2a8be899e6abd5f4b5389fd4164ed74f": {
 "aggregator_source": "Greenhouse",
 "category": "Software Engineering",
-"closed_at": 1786971853,
+"closed_at": 1786977772,
 "company": "Anduril Industries",
 "degrees": [],
 "first_seen": 1785610065,
@@ -15735,7 +15752,7 @@
 "ambicuity:arrow-electronics-software-systems-engineer-ka,-in:afb021ec3237d5a8afddffa078986801": {
 "aggregator_source": "JobSpy (Indeed)",
 "category": "Software Engineering",
-"closed_at": null,
+"closed_at": 1786977772,
 "company": "Arrow Electronics",
 "degrees": [],
 "first_seen": 1786963624,
@@ -17554,6 +17571,23 @@
 "title": "Front-End Software Engineer 3",
 "uid": "ambicuity:base-2-solutions,-llc-front-end-software-engineer-3-us:64995d1123e0635bdc19a364749309be",
 "url": "https://www.indeed.com/viewjob?jk=413fc4d83c723e09"
+},
+"ambicuity:base-2-solutions,-llc-gpu-systems-engineer-3-us:ae93d6e4dc7a824c7f3e3e79b35e3106": {
+"aggregator_source": "JobSpy (Indeed)",
+"category": "Software Engineering",
+"closed_at": null,
+"company": "Base-2 Solutions, LLC",
+"degrees": [],
+"first_seen": 1786977772,
+"locations": [
+"US"
+],
+"posted": 1786924800,
+"source": "Ambicuity",
+"sponsorship": "",
+"title": "GPU Systems Engineer 3",
+"uid": "ambicuity:base-2-solutions,-llc-gpu-systems-engineer-3-us:ae93d6e4dc7a824c7f3e3e79b35e3106",
+"url": "https://www.indeed.com/viewjob?jk=12ce25d18a801f26"
 },
 "ambicuity:base-2-solutions,-llc-junior-software-engineer-us:441a7594c9e5bafe9f8c46f8f89751c8": {
 "aggregator_source": "JobSpy (Indeed)",
@@ -19955,6 +19989,23 @@
 "uid": "ambicuity:boeing-entry-level-or-associate-software-safety-engineer-usa---oklahoma-city,-ok:756b287180cbb04e2903cf644eaf434b",
 "url": "https://boeing.wd1.myworkdayjobs.com/job/USA---Oklahoma-City-OK/Entry-Level-or-Associate-Software-Safety-Engineer_JR2026520085-1"
 },
+"ambicuity:boeing-entry-level-product-repair/-modification-technician-usa---heath,-oh:32bfc903c1275a1b5f427675a362b527": {
+"aggregator_source": "Workday",
+"category": "Other",
+"closed_at": null,
+"company": "Boeing",
+"degrees": [],
+"first_seen": 1786977772,
+"locations": [
+"USA - Heath, OH"
+],
+"posted": 1786924800,
+"source": "Ambicuity",
+"sponsorship": "",
+"title": "Entry-Level Product Repair/ Modification Technician",
+"uid": "ambicuity:boeing-entry-level-product-repair/-modification-technician-usa---heath,-oh:32bfc903c1275a1b5f427675a362b527",
+"url": "https://boeing.wd1.myworkdayjobs.com/job/USA---Heath-OH/Entry-Level-Product-Repair--Modification-Technician_JR2026509646-1"
+},
 "ambicuity:boeing-entry-level-product-review-engineer-(liaison-engineer)-usa---north-charleston,-sc:70d696c2a53574063eb1d536c7df7e87": {
 "aggregator_source": "Workday",
 "category": "Other",
@@ -20828,7 +20879,7 @@
 "ambicuity:boeing-real-time-software-engineers-(associate-or-experienced)-usa---saint-charles,-mo:1ec76ca48e5a2d5e75f324e92b505c53": {
 "aggregator_source": "Workday",
 "category": "Other",
-"closed_at": null,
+"closed_at": 1786977772,
 "company": "Boeing",
 "degrees": [],
 "first_seen": 1786471528,
@@ -21729,6 +21780,23 @@
 "title": "Data Engineer, Mid",
 "uid": "ambicuity:booz-allen-hamilton-data-engineer,-mid-alexandria,-va:946533e8d46f1f07a9646ea33be8d764",
 "url": "https://bah.wd1.myworkdayjobs.com/job/Alexandria-VA/Data-Engineer--Mid_R0240987"
+},
+"ambicuity:booz-allen-hamilton-data-engineer,-mid-aurora,-co:86719c480be5232b1a051e20f9d417c7": {
+"aggregator_source": "Workday",
+"category": "Data Engineering",
+"closed_at": null,
+"company": "Booz Allen Hamilton",
+"degrees": [],
+"first_seen": 1786977772,
+"locations": [
+"Aurora, CO"
+],
+"posted": 1786924800,
+"source": "Ambicuity",
+"sponsorship": "",
+"title": "Data Engineer, Mid",
+"uid": "ambicuity:booz-allen-hamilton-data-engineer,-mid-aurora,-co:86719c480be5232b1a051e20f9d417c7",
+"url": "https://bah.wd1.myworkdayjobs.com/job/Aurora-CO/Data-Engineer--Mid_R0247098"
 },
 "ambicuity:booz-allen-hamilton-data-engineer-albuquerque,-nm:92916b775a354f9013a571955cdaf71d": {
 "aggregator_source": "Workday",
@@ -26666,6 +26734,23 @@
 "uid": "ambicuity:canadian-natural-new-graduate-\u2013-commercial-operations-(supply-chain-and-joint-ventures)-calgary,-ab,:0693051991247b97a3f19d2e93cfef0b",
 "url": "https://ca.indeed.com/viewjob?jk=171acbcf5f8a71bf"
 },
+"ambicuity:canobi-technologies-mechanical-/-industrial-design-engineer-(entry-level)-maxville,-on,-ca:0284db38271c71957c26dbfcc108e308": {
+"aggregator_source": "JobSpy (Indeed)",
+"category": "Other",
+"closed_at": null,
+"company": "Canobi Technologies",
+"degrees": [],
+"first_seen": 1786977772,
+"locations": [
+"Maxville, ON, CA"
+],
+"posted": 1786924800,
+"source": "Ambicuity",
+"sponsorship": "",
+"title": "Mechanical / Industrial Design Engineer (Entry-Level)",
+"uid": "ambicuity:canobi-technologies-mechanical-/-industrial-design-engineer-(entry-level)-maxville,-on,-ca:0284db38271c71957c26dbfcc108e308",
+"url": "https://ca.indeed.com/viewjob?jk=38d07bf480ca6bdb"
+},
 "ambicuity:capgemini-associate-software-engineer-seattle,-wa,-us:44b4e4a9b1bf15cf91592c1fcc926d93": {
 "aggregator_source": "JobSpy (Indeed)",
 "category": "Software Engineering",
@@ -28078,6 +28163,23 @@
 "uid": "ambicuity:cherokee-federal-network-engineer--expert-herndon,-va,-us:fed4dfa9c94cb29e8477e529641c1d4c",
 "url": "https://www.indeed.com/viewjob?jk=56269972132b3997"
 },
+"ambicuity:children's-health-february-2027-nurse-residency-program-tx,-us:8c8c5b5841f7f29ca81626000a2f4c4c": {
+"aggregator_source": "JobSpy (Indeed)",
+"category": "Other",
+"closed_at": null,
+"company": "Children's Health",
+"degrees": [],
+"first_seen": 1786977772,
+"locations": [
+"TX, US"
+],
+"posted": 1786838400,
+"source": "Ambicuity",
+"sponsorship": "",
+"title": "February 2027 Nurse Residency Program",
+"uid": "ambicuity:children's-health-february-2027-nurse-residency-program-tx,-us:8c8c5b5841f7f29ca81626000a2f4c4c",
+"url": "https://www.indeed.com/viewjob?jk=345a6bacabf0ad03"
+},
 "ambicuity:children's-mercy-hospitals-&-clinics-graduate-nurse---dec-2026-kansas-city,-mo,-us:8856831a48eedecdc51a442928eb0d63": {
 "aggregator_source": "JobSpy (Indeed)",
 "category": "Other",
@@ -28847,7 +28949,7 @@
 "ambicuity:citi-functions---finance,-full-time-analyst,-buffalo---usa,-2027-getzville-new-york-united-states:ed84553f7a445f69ac8997b1fc1e07c3": {
 "aggregator_source": "Workday",
 "category": "Other",
-"closed_at": null,
+"closed_at": 1786977772,
 "company": "Citi",
 "degrees": [],
 "first_seen": 1786723472,
@@ -28860,6 +28962,40 @@
 "title": "Functions - Finance, Full Time Analyst, Buffalo - USA, 2027",
 "uid": "ambicuity:citi-functions---finance,-full-time-analyst,-buffalo---usa,-2027-getzville-new-york-united-states:ed84553f7a445f69ac8997b1fc1e07c3",
 "url": "https://citi.wd5.myworkdayjobs.com/job/Getzville-New-York-United-States/Functions---Finance--Full-Time-Analyst--Buffalo---USA--2027_26986336"
+},
+"ambicuity:citi-functions---finance,-full-time-analyst,-new-york---usa,-2027-new-york-new-york-united-states:c74f0fe2eda14521271dae6e4d97b721": {
+"aggregator_source": "Workday",
+"category": "Other",
+"closed_at": null,
+"company": "Citi",
+"degrees": [],
+"first_seen": 1786977772,
+"locations": [
+"New York New York United States"
+],
+"posted": 1786924800,
+"source": "Ambicuity",
+"sponsorship": "",
+"title": "Functions - Finance, Full Time Analyst, New York - USA, 2027",
+"uid": "ambicuity:citi-functions---finance,-full-time-analyst,-new-york---usa,-2027-new-york-new-york-united-states:c74f0fe2eda14521271dae6e4d97b721",
+"url": "https://citi.wd5.myworkdayjobs.com/job/New-York-New-York-United-States/Functions---Finance--Full-Time-Analyst--New-York---USA--2027_26987289"
+},
+"ambicuity:citi-functions---finance,-full-time-analyst,-tampa---usa,-2027-tampa-florida-united-states:a0a810fe739e687fd897feb3b686d788": {
+"aggregator_source": "Workday",
+"category": "Other",
+"closed_at": null,
+"company": "Citi",
+"degrees": [],
+"first_seen": 1786977772,
+"locations": [
+"Tampa Florida United States"
+],
+"posted": 1786924800,
+"source": "Ambicuity",
+"sponsorship": "",
+"title": "Functions - Finance, Full Time Analyst, Tampa - USA, 2027",
+"uid": "ambicuity:citi-functions---finance,-full-time-analyst,-tampa---usa,-2027-tampa-florida-united-states:a0a810fe739e687fd897feb3b686d788",
+"url": "https://citi.wd5.myworkdayjobs.com/job/Tampa-Florida-United-States/Functions---Finance--Full-Time-Analyst--Tampa---USA--2027_26987293"
 },
 "ambicuity:citi-investment-banking-associate---consumer-&-retail-new-york-new-york-united-states:987ccd55a3d04b3d1ce365a7cf81cdad": {
 "aggregator_source": "Workday",
@@ -33681,7 +33817,7 @@
 "ambicuity:datadog-security-engineer-2---cyber-threat-intelligence-new-york,-new-york,-usa:9c83b3955ce4627785c8ef0d65c61fe8": {
 "aggregator_source": "Greenhouse",
 "category": "Security Engineering",
-"closed_at": 1786971853,
+"closed_at": 1786977772,
 "company": "Datadog",
 "degrees": [],
 "first_seen": 1785610065,
@@ -34154,6 +34290,23 @@
 "title": "Project - Software Engineer III - DevOps Engineering",
 "uid": "ambicuity:deloitte-project---software-engineer-iii---devops-engineering-tampa,-fl,-us:8726fe25a7ae277f04f3a2e19a717f63",
 "url": "https://www.indeed.com/viewjob?jk=79b26bf81d70f61e"
+},
+"ambicuity:deloitte-tax-&-legal---tax-analyst---new-grad-2027---multiple-locations-brossard,-qc,-ca:ad5ee987d5b90a89a1596de43adb72a7": {
+"aggregator_source": "JobSpy (Indeed)",
+"category": "Other",
+"closed_at": null,
+"company": "Deloitte",
+"degrees": [],
+"first_seen": 1786977772,
+"locations": [
+"Brossard, QC, CA"
+],
+"posted": 1786924800,
+"source": "Ambicuity",
+"sponsorship": "",
+"title": "Tax & Legal - Tax Analyst - New Grad 2027 - Multiple Locations",
+"uid": "ambicuity:deloitte-tax-&-legal---tax-analyst---new-grad-2027---multiple-locations-brossard,-qc,-ca:ad5ee987d5b90a89a1596de43adb72a7",
+"url": "https://ca.indeed.com/viewjob?jk=56a60f80a595ccfd"
 },
 "ambicuity:deloitte-tax-&-legal---tax-analyst---new-grad-2027---multiple-locations-toronto,-on,-ca:2f235d5f4a0a295ba68a6fada6d491a7": {
 "aggregator_source": "JobSpy (Indeed)",
@@ -36249,7 +36402,7 @@
 "ambicuity:dusane-infotech-india-pvt.ltd-junior-software-developer-mh,-in:73ff13c4dc6916937bc188eebe4b291b": {
 "aggregator_source": "JobSpy (Indeed)",
 "category": "Software Engineering",
-"closed_at": null,
+"closed_at": 1786977772,
 "company": "Dusane Infotech India Pvt.Ltd",
 "degrees": [],
 "first_seen": 1786963624,
@@ -37523,6 +37676,23 @@
 "uid": "ambicuity:epik-solutions-quantitative-data-engineer-boston,-ma,-us:f07b1faa4595a914ae4ba28c60c78b75",
 "url": "https://www.indeed.com/viewjob?jk=5a4b502556d9d92b"
 },
+"ambicuity:epsilon-software-engineer-ka,-in:c7fdef2f8d0e3fef840f03b160fef2bd": {
+"aggregator_source": "JobSpy (Indeed)",
+"category": "Software Engineering",
+"closed_at": null,
+"company": "Epsilon",
+"degrees": [],
+"first_seen": 1786977772,
+"locations": [
+"KA, IN"
+],
+"posted": 1786924800,
+"source": "Ambicuity",
+"sponsorship": "",
+"title": "Software Engineer",
+"uid": "ambicuity:epsilon-software-engineer-ka,-in:c7fdef2f8d0e3fef840f03b160fef2bd",
+"url": "https://in.indeed.com/viewjob?jk=42c4ff119e6055c3"
+},
 "ambicuity:equifax-data-scientist---intermediate-ind-pune-equifax-analytics-pec:288486583f89ecd590a2f242eb7f18af": {
 "aggregator_source": "Workday",
 "category": "Data Science & ML",
@@ -38207,7 +38377,7 @@
 "ambicuity:exostar-india-associate-devops-engineer-ka,-in:4a4aa49f72068b107704b2e1401497bd": {
 "aggregator_source": "JobSpy (Indeed)",
 "category": "Software Engineering",
-"closed_at": null,
+"closed_at": 1786977772,
 "company": "Exostar India",
 "degrees": [],
 "first_seen": 1786957124,
@@ -38316,7 +38486,7 @@
 "locations": [
 "San Francisco, CA"
 ],
-"posted": 1786466247,
+"posted": 1786973549,
 "source": "Ambicuity",
 "sponsorship": "",
 "title": "Data Engineer",
@@ -39778,7 +39948,7 @@
 "locations": [
 "Oakland, California, United States, AMER"
 ],
-"posted": 1786723050,
+"posted": 1786974772,
 "source": "Ambicuity",
 "sponsorship": "",
 "title": "Software Engineer ",
@@ -39795,7 +39965,7 @@
 "locations": [
 "Oakland, California, United States, AMER"
 ],
-"posted": 1786723046,
+"posted": 1786974768,
 "source": "Ambicuity",
 "sponsorship": "",
 "title": "Software Engineer ",
@@ -39846,7 +40016,7 @@
 "locations": [
 "Oakland, California, United States, AMER"
 ],
-"posted": 1786723044,
+"posted": 1786974766,
 "source": "Ambicuity",
 "sponsorship": "",
 "title": "Systems Engineer, Integrations (Data and Systems)",
@@ -47173,7 +47343,7 @@
 "ambicuity:ies-electrical-project-engineer---entry-level-chester,-va,-us:12d9fa925dee11d0cf44f6f1c78e3832": {
 "aggregator_source": "JobSpy (Indeed)",
 "category": "Infrastructure & SRE",
-"closed_at": null,
+"closed_at": 1786977772,
 "company": "IES ELECTRICAL",
 "degrees": [],
 "first_seen": 1786790383,
@@ -47207,7 +47377,7 @@
 "ambicuity:ies-electrical-project-engineer---entry-level-pecos,-tx,-us:cb047ad8c517555fecd461b677ea5864": {
 "aggregator_source": "JobSpy (Indeed)",
 "category": "Infrastructure & SRE",
-"closed_at": null,
+"closed_at": 1786977772,
 "company": "IES ELECTRICAL",
 "degrees": [],
 "first_seen": 1786790383,
@@ -47598,7 +47768,7 @@
 "ambicuity:infineon-technologies-young-graduate-trainee-ka,-in:dd3fc1454d5ccee416c19c0fe8c30503": {
 "aggregator_source": "JobSpy (Indeed)",
 "category": "Hardware Engineering",
-"closed_at": null,
+"closed_at": 1786977772,
 "company": "Infineon Technologies",
 "degrees": [],
 "first_seen": 1786641012,
@@ -49147,7 +49317,7 @@
 "ambicuity:johns-hopkins-university-applied-physics-laboratory-2027-phd-graduate---reliability-engineer-system-:cf7f623e1341c78b3009c42905bc4ebb": {
 "aggregator_source": "JobSpy (Indeed)",
 "category": "Infrastructure & SRE",
-"closed_at": null,
+"closed_at": 1786977772,
 "company": "Johns Hopkins University Applied Physics Laboratory",
 "degrees": [],
 "first_seen": 1786748311,
@@ -55506,7 +55676,7 @@
 "ambicuity:leidos-systems-engineer-keyport,-wa:fe41550fb60605b2b66fb93a04f9c26b": {
 "aggregator_source": "Workday",
 "category": "Software Engineering",
-"closed_at": null,
+"closed_at": 1786977772,
 "company": "Leidos",
 "degrees": [],
 "first_seen": 1786061991,
@@ -56951,7 +57121,7 @@
 "ambicuity:lyft-software-engineer,-core-maps-toronto,-canada:f1eeb4d2968fa6c951ff70b6aa2f76d2": {
 "aggregator_source": "Greenhouse",
 "category": "Software Engineering",
-"closed_at": null,
+"closed_at": 1786977772,
 "company": "Lyft",
 "degrees": [],
 "first_seen": 1785610065,
@@ -57219,6 +57389,23 @@
 "title": "December 2026 New Graduate Engineer, Software / GNC",
 "uid": "ambicuity:mach-industries-december-2026-new-graduate-engineer,-software-/-gnc-huntington-beach,-ca,-us:944aa918a5c17af9515d9c577a62e733",
 "url": "https://www.indeed.com/viewjob?jk=c73034ce61232163"
+},
+"ambicuity:maersk-ai/ml-engineer-(data-engineering-+-ai-focus)-ka,-in:bb0a2c83aa813e3fabaf9bc340eede4b": {
+"aggregator_source": "JobSpy (Indeed)",
+"category": "Data Science & ML",
+"closed_at": null,
+"company": "MAERSK",
+"degrees": [],
+"first_seen": 1786977772,
+"locations": [
+"KA, IN"
+],
+"posted": 1786924800,
+"source": "Ambicuity",
+"sponsorship": "",
+"title": "AI/ML Engineer (Data Engineering + AI Focus)",
+"uid": "ambicuity:maersk-ai/ml-engineer-(data-engineering-+-ai-focus)-ka,-in:bb0a2c83aa813e3fabaf9bc340eede4b",
+"url": "https://in.indeed.com/viewjob?jk=01e9297945e4aa6b"
 },
 "ambicuity:maersk-data-engineer-ka,-in:0a29444adc55ed144c3ef9d0c1581b30": {
 "aggregator_source": "JobSpy (Indeed)",
@@ -60744,7 +60931,7 @@
 "ambicuity:mongodb-software-engineer-3-gurugram:e4a7e298ac1f3236f172d305d2e99025": {
 "aggregator_source": "Greenhouse",
 "category": "Software Engineering",
-"closed_at": null,
+"closed_at": 1786977772,
 "company": "MongoDB",
 "degrees": [],
 "first_seen": 1785610065,
@@ -62547,6 +62734,23 @@
 "title": "Network Engineer",
 "uid": "ambicuity:nan-network-engineer-philadelphia,-pa,-us:fe61733b57ef0da833931766ad67999e",
 "url": "https://www.indeed.com/viewjob?jk=4f0bd3d97599c5bb"
+},
+"ambicuity:nan-new-graduate-nurse-residency---vermont-&-new-york-summer-2026-cohorts-burlington,-vt,-us:eecad896ae8e5de7a5484f3c3cb2d598": {
+"aggregator_source": "JobSpy (Indeed)",
+"category": "Other",
+"closed_at": null,
+"company": "",
+"degrees": [],
+"first_seen": 1786977772,
+"locations": [
+"Burlington, VT, US"
+],
+"posted": 1786924800,
+"source": "Ambicuity",
+"sponsorship": "",
+"title": "New Graduate Nurse Residency - Vermont & New York Summer 2026 Cohorts",
+"uid": "ambicuity:nan-new-graduate-nurse-residency---vermont-&-new-york-summer-2026-cohorts-burlington,-vt,-us:eecad896ae8e5de7a5484f3c3cb2d598",
+"url": "https://www.indeed.com/viewjob?jk=f9c8d2ad2d417240"
 },
 "ambicuity:nan-new-graduate-nurse-residency-program---home-health-&-hospice-colchester,-vt,-us:e51e1e5a54239deb7ca3f21d394ea98e": {
 "aggregator_source": "JobSpy (Indeed)",
@@ -64761,7 +64965,7 @@
 "ambicuity:newsbreak-applied-ai-engineer,-advertising-agents-(new-grad)-mountain-view,-california,-united-state:fb64d5b6dd09715c5f21517370e476ac": {
 "aggregator_source": "Greenhouse",
 "category": "Data Science & ML",
-"closed_at": 1786971853,
+"closed_at": 1786977772,
 "company": "NewsBreak",
 "degrees": [],
 "first_seen": 1786573387,
@@ -66599,7 +66803,7 @@
 "ambicuity:northrop-grumman-databricks-security-engineer-united-states-remote:93dcbe2ef2f725c10303831e5932f40c": {
 "aggregator_source": "Workday",
 "category": "Security Engineering",
-"closed_at": null,
+"closed_at": 1786977772,
 "company": "Northrop Grumman",
 "degrees": [],
 "first_seen": 1786637338,
@@ -70187,7 +70391,7 @@
 "ambicuity:nuro-software-engineer,-applied-ai-infrastructure-mountain-view,-california-(hq):bea4e8ab99ae779befef6ee37be1c935": {
 "aggregator_source": "Greenhouse",
 "category": "Software Engineering",
-"closed_at": 1786971853,
+"closed_at": 1786977772,
 "company": "Nuro",
 "degrees": [],
 "first_seen": 1786487035,
@@ -70306,7 +70510,7 @@
 "ambicuity:nuro-software-engineer,-ml-infrastructure-platform-mountain-view,-california-(hq):519032faa40e77eb69cb63fed6e216dd": {
 "aggregator_source": "Greenhouse",
 "category": "Software Engineering",
-"closed_at": 1786971853,
+"closed_at": 1786977772,
 "company": "Nuro",
 "degrees": [],
 "first_seen": 1786479742,
@@ -71689,7 +71893,7 @@
 "ambicuity:openai-data-scientist,-b2b-demand-generation,-growth-&-measurement-san-francisco,-california,-united:02c2d25f5e38331dc714343107bae8a0": {
 "aggregator_source": "Ashby",
 "category": "Data Science & ML",
-"closed_at": 1786971853,
+"closed_at": 1786977772,
 "company": "OpenAI",
 "degrees": [],
 "first_seen": 1786072589,
@@ -73559,7 +73763,7 @@
 "ambicuity:palantir-offensive-security-engineer-washington,-d.c.:a9e0a0f7c0a43d9d41af77436668446c": {
 "aggregator_source": "Lever",
 "category": "Security Engineering",
-"closed_at": 1786971853,
+"closed_at": 1786977772,
 "company": "Palantir",
 "degrees": [],
 "first_seen": 1786727363,
@@ -78268,6 +78472,23 @@
 "uid": "ambicuity:radiance-technologies-entry-level-microelectronics-r&d-engineer-ruston,-la:8953205e4edd22bc58b860d898e49d42",
 "url": "https://radiancetech.wd12.myworkdayjobs.com/job/Ruston-LA/Entry-level-Microelectronics-R-D-Engineer_HR102340"
 },
+"ambicuity:radiance-technologies-junior-software-engineer-beavercreek,-oh:5bdb7e1de0a07b678c39fd8b120c0ce1": {
+"aggregator_source": "Workday",
+"category": "Software Engineering",
+"closed_at": null,
+"company": "Radiance Technologies",
+"degrees": [],
+"first_seen": 1786977772,
+"locations": [
+"Beavercreek, OH"
+],
+"posted": 1786924800,
+"source": "Ambicuity",
+"sponsorship": "",
+"title": "Junior Software Engineer",
+"uid": "ambicuity:radiance-technologies-junior-software-engineer-beavercreek,-oh:5bdb7e1de0a07b678c39fd8b120c0ce1",
+"url": "https://radiancetech.wd12.myworkdayjobs.com/job/Beavercreek-OH/Junior-Software-Engineer_HR102352-1"
+},
 "ambicuity:radiance-technologies-machine-learning-engineer-beavercreek,-oh:638e8d9f2f0d26b60baea75cf984f4bd": {
 "aggregator_source": "Workday",
 "category": "Data Science & ML",
@@ -78641,6 +78862,40 @@
 "title": "RF Mechanical Engineer II",
 "uid": "ambicuity:raytheon-rf-mechanical-engineer-ii-tucson,-az,-us:d66c71bfe188b25d83c4ede20c2bf5a2",
 "url": "https://www.indeed.com/viewjob?jk=4e5c721986e27315"
+},
+"ambicuity:rbc-2027-winter-student-opportunities-technology-&-operations---data-specialists,-8-12-months-toront:2115662ff4d2655dbe9809fba875e44c": {
+"aggregator_source": "Workday",
+"category": "Other",
+"closed_at": null,
+"company": "RBC",
+"degrees": [],
+"first_seen": 1786977772,
+"locations": [
+"TORONTO, Ontario, Canada"
+],
+"posted": 1786924800,
+"source": "Ambicuity",
+"sponsorship": "",
+"title": "2027 Winter Student Opportunities Technology & Operations - Data Specialists, 8-12 months",
+"uid": "ambicuity:rbc-2027-winter-student-opportunities-technology-&-operations---data-specialists,-8-12-months-toront:2115662ff4d2655dbe9809fba875e44c",
+"url": "https://rbc.wd3.myworkdayjobs.com/job/TORONTO-Ontario-Canada/XMLNAME-2027-Winter-Student-Opportunities-Technology---Operations---Data-Specialists--8-12-months_R-0000184547"
+},
+"ambicuity:rbc-2027-winter-student-opportunities-technology-&-operations---technical-systems-analyst,-4-12-mont:e97d25e3121e78f42d716da0bfbac30e": {
+"aggregator_source": "Workday",
+"category": "Other",
+"closed_at": null,
+"company": "RBC",
+"degrees": [],
+"first_seen": 1786977772,
+"locations": [
+"TORONTO, Ontario, Canada"
+],
+"posted": 1786924800,
+"source": "Ambicuity",
+"sponsorship": "",
+"title": "2027 Winter Student Opportunities Technology & Operations - Technical Systems Analyst, 4-12 Months",
+"uid": "ambicuity:rbc-2027-winter-student-opportunities-technology-&-operations---technical-systems-analyst,-4-12-mont:e97d25e3121e78f42d716da0bfbac30e",
+"url": "https://rbc.wd3.myworkdayjobs.com/job/TORONTO-Ontario-Canada/XMLNAME-2027-Winter-Student-Opportunities-Technology---Operations---Technical-Systems-Analyst--4-12-Months_R-0000184552"
 },
 "ambicuity:rbc-salesforce-devops-engineer-rbc-centre,-155-wellington-st-w:toronto:69fb3740caa50e1515801c5b7c207350": {
 "aggregator_source": "Workday",
@@ -80042,7 +80297,7 @@
 "ambicuity:roots-group-of-companies-associate---robotics-engineer-tn,-in:402616623795d747d2edcc18255565c4": {
 "aggregator_source": "JobSpy (Indeed)",
 "category": "Infrastructure & SRE",
-"closed_at": null,
+"closed_at": 1786977772,
 "company": "Roots Group of Companies",
 "degrees": [],
 "first_seen": 1786619393,
@@ -84434,6 +84689,23 @@
 "uid": "ambicuity:smiths-group-graduate-apprentice-trainee-mh,-in:18d074c318b4ed64ac23ddbccce9d24e",
 "url": "https://in.indeed.com/viewjob?jk=e72710249d580e5e"
 },
+"ambicuity:smiths-group-graduate-apprentice-trainee-mh,-in:ecf6888206173815f01ceddb8c25a848": {
+"aggregator_source": "JobSpy (Indeed)",
+"category": "Other",
+"closed_at": null,
+"company": "Smiths Group",
+"degrees": [],
+"first_seen": 1786977772,
+"locations": [
+"MH, IN"
+],
+"posted": 1786924800,
+"source": "Ambicuity",
+"sponsorship": "",
+"title": "Graduate Apprentice Trainee",
+"uid": "ambicuity:smiths-group-graduate-apprentice-trainee-mh,-in:ecf6888206173815f01ceddb8c25a848",
+"url": "https://in.indeed.com/viewjob?jk=4d625ccfaa39bf4c"
+},
 "ambicuity:snapcyte-solutions-inc.-junior-machine-learning-engineer-vancouver,-bc,-ca:fe77e01491c5a3fa13abdd6376a7d181": {
 "aggregator_source": "JobSpy (Indeed)",
 "category": "Data Science & ML",
@@ -84450,6 +84722,23 @@
 "title": "Junior Machine Learning Engineer",
 "uid": "ambicuity:snapcyte-solutions-inc.-junior-machine-learning-engineer-vancouver,-bc,-ca:fe77e01491c5a3fa13abdd6376a7d181",
 "url": "https://ca.indeed.com/viewjob?jk=9e40d364d6182dfb"
+},
+"ambicuity:snaphomz-data-engineer-ts,-in:07b6b9fff83d30185c1d6afdc5ea4f2f": {
+"aggregator_source": "JobSpy (Indeed)",
+"category": "Data Engineering",
+"closed_at": null,
+"company": "Snaphomz",
+"degrees": [],
+"first_seen": 1786977772,
+"locations": [
+"TS, IN"
+],
+"posted": 1786924800,
+"source": "Ambicuity",
+"sponsorship": "",
+"title": "Data Engineer",
+"uid": "ambicuity:snaphomz-data-engineer-ts,-in:07b6b9fff83d30185c1d6afdc5ea4f2f",
+"url": "https://in.indeed.com/viewjob?jk=05880bd5a2577d82"
 },
 "ambicuity:snowflake--software-engineer---data-clean-room/-ai-data-hub-bellevue,-washington,-united-states:224f4153ee8adb55f6d7797a2b7d2017": {
 "aggregator_source": "Ashby",
@@ -85763,7 +86052,7 @@
 "ambicuity:spacex-data-engineer-(starlink)-bastrop,-tx:1ff73703bcd72628b235e0b6bd906549": {
 "aggregator_source": "Greenhouse",
 "category": "Software Engineering",
-"closed_at": 1786971853,
+"closed_at": 1786977772,
 "company": "SpaceX",
 "degrees": [],
 "first_seen": 1785610065,
@@ -85780,7 +86069,7 @@
 "ambicuity:spacex-data-engineer-(starlink)-hawthorne,-ca:b571ec21e1bc1b7de62b5e8da68e2dd2": {
 "aggregator_source": "Greenhouse",
 "category": "Software Engineering",
-"closed_at": 1786971853,
+"closed_at": 1786977772,
 "company": "SpaceX",
 "degrees": [],
 "first_seen": 1785610065,
@@ -89558,7 +89847,7 @@
 "ambicuity:spacex-software-engineer-(starlink)-hawthorne,-ca:e55b44af100e542a548d5bc2ca0b2914": {
 "aggregator_source": "Greenhouse",
 "category": "Software Engineering",
-"closed_at": 1786971853,
+"closed_at": 1786977772,
 "company": "SpaceX",
 "degrees": [],
 "first_seen": 1786641012,
@@ -92842,7 +93131,7 @@
 "ambicuity:teradata-associate-devops-engineer-(observability)-in:2bb48c9a113b1aa424e28edee8ce3992": {
 "aggregator_source": "JobSpy (Indeed)",
 "category": "Infrastructure & SRE",
-"closed_at": null,
+"closed_at": 1786977772,
 "company": "Teradata",
 "degrees": [],
 "first_seen": 1786950829,
@@ -93624,7 +93913,7 @@
 "ambicuity:the-ohio-state-university-biology-lecturer-9m-(marion-campus)-marion,-oh,-us:574a03ea3b5a4bb576fce1970da7e349": {
 "aggregator_source": "JobSpy (Indeed)",
 "category": "Other",
-"closed_at": null,
+"closed_at": 1786977772,
 "company": "The Ohio State University",
 "degrees": [],
 "first_seen": 1786737273,
@@ -96480,6 +96769,23 @@
 "title": "Systems Engineer",
 "uid": "ambicuity:transsight-llc-systems-engineer-los-angeles,-ca,-us:6d95ed74ebb7148c0e4a5ffb7fab1a3c",
 "url": "https://www.indeed.com/viewjob?jk=a90096361063e2d9"
+},
+"ambicuity:transunion-advisor--ai-security-engineer-bengaluru:ca69b0e90dde926c562b2eb1d5e4e112": {
+"aggregator_source": "Workday",
+"category": "Security Engineering",
+"closed_at": null,
+"company": "TransUnion",
+"degrees": [],
+"first_seen": 1786977772,
+"locations": [
+"Bengaluru"
+],
+"posted": 1786924800,
+"source": "Ambicuity",
+"sponsorship": "",
+"title": "Advisor -AI Security Engineer",
+"uid": "ambicuity:transunion-advisor--ai-security-engineer-bengaluru:ca69b0e90dde926c562b2eb1d5e4e112",
+"url": "https://transunion.wd5.myworkdayjobs.com/job/Bengaluru/Advisor--AI-Security-Engineer_19041664"
 },
 "ambicuity:transunion-cloud/big-data-engineer-chennai:ad053c703b4e0380ea77ffaceada370a": {
 "aggregator_source": "Workday",
@@ -104060,7 +104366,7 @@
 "ambicuity:waymo-perception-machine-learning-engineer---continuous-learning-mountain-view,-ca,-usa;-san-francis:1acf8b9853883562a2e6bdf72631c151": {
 "aggregator_source": "Greenhouse",
 "category": "Data Science & ML",
-"closed_at": 1786971853,
+"closed_at": 1786977772,
 "company": "Waymo",
 "degrees": [],
 "first_seen": 1786668161,
@@ -104774,7 +105080,7 @@
 "ambicuity:webflow-associate-infrastructure-engineer-ca-remote-(bc-&-on-only);-u.s.-remote:f33fa9b3a7ea670bf35bef0b2ab32e97": {
 "aggregator_source": "Greenhouse",
 "category": "Infrastructure & SRE",
-"closed_at": 1786971853,
+"closed_at": 1786977772,
 "company": "Webflow",
 "degrees": [],
 "first_seen": 1786566079,
@@ -130972,7 +131278,7 @@
 },
 "ashby:deliveroo:33d5f7a4-c9b0-4d03-a25c-0b80dccb35e7": {
 "category": "All Cost Centers",
-"closed_at": null,
+"closed_at": 1786977772,
 "company": "Deliveroo",
 "degrees": [],
 "first_seen": 1785854440,
@@ -137722,7 +138028,7 @@
 },
 "ashby:elevenlabs:de45ff43-e0ea-4f42-a2f3-9219c8d2b38e": {
 "category": "Revenue",
-"closed_at": null,
+"closed_at": 1786977772,
 "company": "Elevenlabs",
 "degrees": [],
 "first_seen": 1785793958,
@@ -139129,6 +139435,21 @@
 "title": "Lead Machine Learning Engineer",
 "uid": "ashby:faculty:3c808ef2-1d15-4352-bf87-93fef11027d1",
 "url": "https://jobs.ashbyhq.com/faculty/3c808ef2-1d15-4352-bf87-93fef11027d1"
+},
+"ashby:faculty:449fa059-c78d-4cf0-b406-c0a04d1e7f3e": {
+"category": "Professional & Financial Services",
+"closed_at": null,
+"company": "Faculty",
+"degrees": [],
+"first_seen": 1786977772,
+"locations": [
+"UK - London"
+],
+"posted": 1786977367,
+"source": "Ashby",
+"title": "Head of Banking",
+"uid": "ashby:faculty:449fa059-c78d-4cf0-b406-c0a04d1e7f3e",
+"url": "https://jobs.ashbyhq.com/faculty/449fa059-c78d-4cf0-b406-c0a04d1e7f3e"
 },
 "ashby:faculty:4e905b6e-edea-455d-80b8-8ad7cebca65a": {
 "category": "National Security & AI Safety",
@@ -144295,7 +144616,7 @@
 },
 "ashby:harvey:6fef4451-dbbf-40e7-a41c-5569641bcc16": {
 "category": "Legal",
-"closed_at": null,
+"closed_at": 1786977772,
 "company": "Harvey",
 "degrees": [],
 "first_seen": 1785879436,
@@ -146500,7 +146821,7 @@
 },
 "ashby:harvey:c59ad688-0106-4f49-a1d3-94c2ea0f5a48": {
 "category": "Legal",
-"closed_at": null,
+"closed_at": 1786977772,
 "company": "Harvey",
 "degrees": [],
 "first_seen": 1785879436,
@@ -147527,9 +147848,9 @@
 "locations": [
 "London"
 ],
-"posted": 1786954612,
+"posted": 1786972787,
 "source": "Ashby",
-"title": "Legal Engineer, Product Specialist, EMEA",
+"title": "Legal Engineer, Product Specialist (in-house)",
 "uid": "ashby:harvey:ec9e2cd5-af31-4f9c-8b12-d2088a83753a",
 "url": "https://jobs.ashbyhq.com/harvey/ec9e2cd5-af31-4f9c-8b12-d2088a83753a"
 },
@@ -156099,6 +156420,21 @@
 "uid": "ashby:lendable:bcaae532-3000-47c8-a891-316c6fbb5949",
 "url": "https://jobs.ashbyhq.com/lendable/bcaae532-3000-47c8-a891-316c6fbb5949"
 },
+"ashby:lendable:bd20e1a3-bc89-41f4-a0ad-faa2496b707f": {
+"category": "Engineering & Product",
+"closed_at": null,
+"company": "Lendable",
+"degrees": [],
+"first_seen": 1786977772,
+"locations": [
+"London"
+],
+"posted": 1786973788,
+"source": "Ashby",
+"title": "Senior Product Engineer (Product Manager)",
+"uid": "ashby:lendable:bd20e1a3-bc89-41f4-a0ad-faa2496b707f",
+"url": "https://jobs.ashbyhq.com/lendable/bd20e1a3-bc89-41f4-a0ad-faa2496b707f"
+},
 "ashby:lendable:be9394d6-9dde-403d-8898-096e8154f10e": {
 "category": "Growth & Analytics",
 "closed_at": null,
@@ -158892,7 +159228,7 @@
 },
 "ashby:marshmallow:9c4c710f-6e8a-4081-84ad-325d58832e3b": {
 "category": "Data",
-"closed_at": null,
+"closed_at": 1786977773,
 "company": "Marshmallow",
 "degrees": [],
 "first_seen": 1785793958,
@@ -158952,7 +159288,7 @@
 },
 "ashby:marshmallow:ecb457b5-1773-496c-a8b5-fabec42759e2": {
 "category": "Data",
-"closed_at": null,
+"closed_at": 1786977773,
 "company": "Marshmallow",
 "degrees": [],
 "first_seen": 1785793958,
@@ -171058,7 +171394,7 @@
 },
 "ashby:openai:6b73e475-e2c3-4134-b9ac-34996d9cb638": {
 "category": "Finance",
-"closed_at": null,
+"closed_at": 1786977773,
 "company": "Openai",
 "degrees": [],
 "first_seen": 1785610065,
@@ -201339,6 +201675,21 @@
 "uid": "ashby:vanta:06fbe631-946a-4628-a3f8-9d5d523b9fb2",
 "url": "https://jobs.ashbyhq.com/vanta/06fbe631-946a-4628-a3f8-9d5d523b9fb2"
 },
+"ashby:vanta:092119bc-d640-46f4-b25f-b494d755af00": {
+"category": "Software Engineering",
+"closed_at": null,
+"company": "Vanta",
+"degrees": [],
+"first_seen": 1786977772,
+"locations": [
+"Remote U.S."
+],
+"posted": 1786973198,
+"source": "Ashby",
+"title": "Senior Backend Software Engineer, Integrations Platform",
+"uid": "ashby:vanta:092119bc-d640-46f4-b25f-b494d755af00",
+"url": "https://jobs.ashbyhq.com/vanta/092119bc-d640-46f4-b25f-b494d755af00"
+},
 "ashby:vanta:0b61d6ac-14a1-4cbf-9613-a8b69bd126e2": {
 "category": "Marketing",
 "closed_at": null,
@@ -202074,6 +202425,21 @@
 "uid": "ashby:vanta:7600575b-fb06-485e-bc13-626e661a34aa",
 "url": "https://jobs.ashbyhq.com/vanta/7600575b-fb06-485e-bc13-626e661a34aa"
 },
+"ashby:vanta:77aff9b6-4b9b-4ed6-b1fc-3b647227b16b": {
+"category": "Software Engineering",
+"closed_at": null,
+"company": "Vanta",
+"degrees": [],
+"first_seen": 1786977772,
+"locations": [
+"Remote U.S."
+],
+"posted": 1786973258,
+"source": "Ashby",
+"title": "Senior Fullstack Software Engineer, Integrations Platform",
+"uid": "ashby:vanta:77aff9b6-4b9b-4ed6-b1fc-3b647227b16b",
+"url": "https://jobs.ashbyhq.com/vanta/77aff9b6-4b9b-4ed6-b1fc-3b647227b16b"
+},
 "ashby:vanta:77d1b868-40d3-44a3-b290-f48ebe77f403": {
 "category": "Revenue",
 "closed_at": null,
@@ -202220,7 +202586,7 @@
 ],
 "posted": 1786557782,
 "source": "Ashby",
-"title": "Lead Product GRC Subject Matter Expert",
+"title": "Product GRC Subject Matter Expert, (V4G)",
 "uid": "ashby:vanta:8738b34f-cf9a-4d68-90ac-76a19dc56ac0",
 "url": "https://jobs.ashbyhq.com/vanta/8738b34f-cf9a-4d68-90ac-76a19dc56ac0"
 },
@@ -207026,7 +207392,7 @@
 },
 "gh:adyen:7407157": {
 "category": "",
-"closed_at": null,
+"closed_at": 1786977773,
 "company": "Adyen",
 "degrees": [],
 "first_seen": 1786389514,
@@ -209284,7 +209650,7 @@
 "locations": [
 "London"
 ],
-"posted": 1786970966,
+"posted": 1786977307,
 "source": "Greenhouse",
 "title": "Team Lead, Account Management",
 "uid": "gh:adyen:8043989",
@@ -209518,7 +209884,7 @@
 },
 "gh:adyen:8053785": {
 "category": "",
-"closed_at": null,
+"closed_at": 1786977773,
 "company": "Adyen",
 "degrees": [],
 "first_seen": 1786699160,
@@ -209630,7 +209996,7 @@
 "locations": [
 "London"
 ],
-"posted": 1786970969,
+"posted": 1786977310,
 "source": "Greenhouse",
 "title": "Manager, Enterprise Account Management",
 "uid": "gh:adyen:8064197",
@@ -210131,6 +210497,21 @@
 "uid": "gh:adyen:8110058",
 "url": "https://job-boards.greenhouse.io/adyen/jobs/8110058"
 },
+"gh:adyen:8113927": {
+"category": "",
+"closed_at": null,
+"company": "Adyen",
+"degrees": [],
+"first_seen": 1786977772,
+"locations": [
+"Amsterdam; Chicago; New York"
+],
+"posted": 1786973521,
+"source": "Greenhouse",
+"title": "Senior Strategy & Business Ops Manager",
+"uid": "gh:adyen:8113927",
+"url": "https://job-boards.greenhouse.io/adyen/jobs/8113927"
+},
 "gh:adyen:8121083": {
 "category": "",
 "closed_at": null,
@@ -210155,9 +210536,9 @@
 "locations": [
 "Stockholm"
 ],
-"posted": 1786544867,
+"posted": 1786974773,
 "source": "Greenhouse",
-"title": "Pooled Account Manager ",
+"title": "Account Manager ",
 "uid": "gh:adyen:8122720",
 "url": "https://job-boards.greenhouse.io/adyen/jobs/8122720"
 },
@@ -210175,6 +210556,21 @@
 "title": "Senior Software Engineer (Java) - Banking Accounts",
 "uid": "gh:adyen:8128101",
 "url": "https://job-boards.greenhouse.io/adyen/jobs/8128101"
+},
+"gh:adyen:8129704": {
+"category": "",
+"closed_at": null,
+"company": "Adyen",
+"degrees": [],
+"first_seen": 1786977772,
+"locations": [
+"Amsterdam"
+],
+"posted": 1786973467,
+"source": "Greenhouse",
+"title": "Senior Storage Engineer ",
+"uid": "gh:adyen:8129704",
+"url": "https://job-boards.greenhouse.io/adyen/jobs/8129704"
 },
 "gh:adyen:8130201": {
 "category": "",
@@ -235356,7 +235752,7 @@
 "locations": [
 "S\u00e3o Paulo"
 ],
-"posted": 1784228621,
+"posted": 1786977125,
 "source": "Greenhouse",
 "title": "Data Scientist II (AI Deployment)",
 "uid": "gh:braze:7668561",
@@ -236046,7 +236442,7 @@
 "locations": [
 "S\u00e3o Paulo"
 ],
-"posted": 1784228621,
+"posted": 1786977125,
 "source": "Greenhouse",
 "title": "Senior Data Scientist (AI Deployment)",
 "uid": "gh:braze:7956629",
@@ -252201,9 +252597,9 @@
 "locations": [
 "Redwood City, US, California"
 ],
-"posted": 1786561134,
+"posted": 1786975924,
 "source": "Greenhouse",
-"title": "Lead Applied Value Engineer",
+"title": "Lead Applied Value Engineer - Technology Consultant",
 "uid": "gh:celonis:7725802003",
 "url": "https://job-boards.greenhouse.io/celonis/jobs/7725802003?gh_jid=7725802003"
 },
@@ -255111,7 +255507,7 @@
 "locations": [
 "Raleigh, US, North Carolina"
 ],
-"posted": 1786950980,
+"posted": 1786975659,
 "source": "Greenhouse",
 "title": "Senior Value Engineer - Technology Consultant",
 "uid": "gh:celonis:7875762003",
@@ -255141,11 +255537,26 @@
 "locations": [
 "Redwood City, US, California"
 ],
-"posted": 1786971749,
+"posted": 1786975750,
 "source": "Greenhouse",
 "title": "Senior Value Engineer - Technology Consultant",
 "uid": "gh:celonis:7886038003",
 "url": "https://job-boards.greenhouse.io/celonis/jobs/7886038003?gh_jid=7886038003"
+},
+"gh:celonis:7886119003": {
+"category": "",
+"closed_at": null,
+"company": "Celonis",
+"degrees": [],
+"first_seen": 1786977772,
+"locations": [
+"Remote, US, Texas"
+],
+"posted": 1786975793,
+"source": "Greenhouse",
+"title": "Client Value Partner - Technology Consultant",
+"uid": "gh:celonis:7886119003",
+"url": "https://job-boards.greenhouse.io/celonis/jobs/7886119003?gh_jid=7886119003"
 },
 "gh:chainguard:4037494006": {
 "category": "",
@@ -263062,7 +263473,7 @@
 "locations": [
 "Hybrid"
 ],
-"posted": 1786959454,
+"posted": 1786975818,
 "source": "Greenhouse",
 "title": "Forward Deployed Engineer, Hebrew speaker",
 "uid": "gh:cloudflare:7778816",
@@ -266910,7 +267321,7 @@
 },
 "gh:cloudflare:8109620": {
 "category": "",
-"closed_at": null,
+"closed_at": 1786977773,
 "company": "Cloudflare",
 "degrees": [],
 "first_seen": 1786375094,
@@ -278835,7 +279246,7 @@
 },
 "gh:databricks:8397564002": {
 "category": "",
-"closed_at": null,
+"closed_at": 1786977773,
 "company": "Databricks",
 "degrees": [],
 "first_seen": 1785401837,
@@ -281107,7 +281518,7 @@
 "locations": [
 "Bengaluru, India; Mumbai, India"
 ],
-"posted": 1786474477,
+"posted": 1786976136,
 "source": "Greenhouse",
 "title": "Manager, Partner Strategy & Operations ",
 "uid": "gh:databricks:8482368002",
@@ -283380,7 +283791,7 @@
 },
 "gh:databricks:8568033002": {
 "category": "",
-"closed_at": null,
+"closed_at": 1786977773,
 "company": "Databricks",
 "degrees": [],
 "first_seen": 1785401837,
@@ -299048,9 +299459,9 @@
 "locations": [
 "Pittsburgh, PA"
 ],
-"posted": 1786650132,
+"posted": 1786976667,
 "source": "Greenhouse",
-"title": "Recruiter II",
+"title": "Technical Recruiter",
 "uid": "gh:duolingo:8708178002",
 "url": "https://careers.duolingo.com/jobs/8708178002?gh_jid=8708178002"
 },
@@ -313478,7 +313889,7 @@
 "locations": [
 "Oakland, California, United States, AMER"
 ],
-"posted": 1786723043,
+"posted": 1786974766,
 "source": "Greenhouse",
 "title": "Senior Product Manager, Reverse ETL",
 "uid": "gh:fivetran:6648720003",
@@ -313493,7 +313904,7 @@
 "locations": [
 "Denver, Colorado, United States, AMER"
 ],
-"posted": 1786723044,
+"posted": 1786974765,
 "source": "Greenhouse",
 "title": "Senior Product Manager, Reverse ETL",
 "uid": "gh:fivetran:6666499003",
@@ -313523,7 +313934,7 @@
 "locations": [
 "Denver, Colorado, United States, AMER"
 ],
-"posted": 1786723043,
+"posted": 1786974765,
 "source": "Greenhouse",
 "title": "Senior Account Executive, Commercial",
 "uid": "gh:fivetran:7494261003",
@@ -313538,7 +313949,7 @@
 "locations": [
 "Oakland, California, United States, AMER"
 ],
-"posted": 1786723043,
+"posted": 1786974765,
 "source": "Greenhouse",
 "title": "Senior Account Executive, Commercial",
 "uid": "gh:fivetran:7503045003",
@@ -313553,7 +313964,7 @@
 "locations": [
 "Oakland, California, United States, AMER"
 ],
-"posted": 1786723043,
+"posted": 1786974765,
 "source": "Greenhouse",
 "title": "Senior Product Manager, Data & Integrations",
 "uid": "gh:fivetran:7524543003",
@@ -313568,7 +313979,7 @@
 "locations": [
 "Denver, Colorado, United States, AMER"
 ],
-"posted": 1786723043,
+"posted": 1786974765,
 "source": "Greenhouse",
 "title": "Senior Product Manager, Data & Integrations",
 "uid": "gh:fivetran:7524547003",
@@ -313583,7 +313994,7 @@
 "locations": [
 "Oakland, California, United States, AMER"
 ],
-"posted": 1786723044,
+"posted": 1786974765,
 "source": "Greenhouse",
 "title": "Senior Product Manager, Enterprise Platform",
 "uid": "gh:fivetran:7535819003",
@@ -313598,7 +314009,7 @@
 "locations": [
 "Denver, Colorado, United States, AMER"
 ],
-"posted": 1786723043,
+"posted": 1786974765,
 "source": "Greenhouse",
 "title": "Senior Product Manager, Enterprise Platform",
 "uid": "gh:fivetran:7547715003",
@@ -313643,7 +314054,7 @@
 "locations": [
 "Remote, Illinois, United States, AMER"
 ],
-"posted": 1786723043,
+"posted": 1786974766,
 "source": "Greenhouse",
 "title": "Regional Director, Enterprise",
 "uid": "gh:fivetran:7583477003",
@@ -313658,7 +314069,7 @@
 "locations": [
 "Remote,  Minnesota, United States, AMER"
 ],
-"posted": 1786723045,
+"posted": 1786974766,
 "source": "Greenhouse",
 "title": "Regional Director, Enterprise",
 "uid": "gh:fivetran:7618979003",
@@ -313673,7 +314084,7 @@
 "locations": [
 "Remote, Michigan, United States, AMER"
 ],
-"posted": 1786723043,
+"posted": 1786974766,
 "source": "Greenhouse",
 "title": "Regional Director, Enterprise",
 "uid": "gh:fivetran:7618982003",
@@ -313688,7 +314099,7 @@
 "locations": [
 "Remote, Ohio, United States, AMER"
 ],
-"posted": 1786723043,
+"posted": 1786974767,
 "source": "Greenhouse",
 "title": "Regional Director, Enterprise",
 "uid": "gh:fivetran:7618988003",
@@ -313703,7 +314114,7 @@
 "locations": [
 "Remote, Wisconsin, United States, AMER"
 ],
-"posted": 1786723044,
+"posted": 1786974767,
 "source": "Greenhouse",
 "title": "Regional Director, Enterprise",
 "uid": "gh:fivetran:7618992003",
@@ -313718,7 +314129,7 @@
 "locations": [
 "Denver, Colorado, United States, AMER"
 ],
-"posted": 1786723044,
+"posted": 1786974766,
 "source": "Greenhouse",
 "title": "Customer Support Engineer",
 "uid": "gh:fivetran:7626166003",
@@ -313733,7 +314144,7 @@
 "locations": [
 "Oakland, California, United States, AMER"
 ],
-"posted": 1786723043,
+"posted": 1786974765,
 "source": "Greenhouse",
 "title": "Staff Product Manager, Reverse ETL",
 "uid": "gh:fivetran:7644168003",
@@ -313748,7 +314159,7 @@
 "locations": [
 "Oakland, California, United States, AMER"
 ],
-"posted": 1786723044,
+"posted": 1786974766,
 "source": "Greenhouse",
 "title": "Senior Technical Product Marketing Manager",
 "uid": "gh:fivetran:7649908003",
@@ -313763,7 +314174,7 @@
 "locations": [
 "Oakland, California, United States, AMER"
 ],
-"posted": 1786723044,
+"posted": 1786974766,
 "source": "Greenhouse",
 "title": "Sr. Principal AI Systems Architect",
 "uid": "gh:fivetran:7651403003",
@@ -313778,7 +314189,7 @@
 "locations": [
 "Bengaluru, Karnataka, India, APAC"
 ],
-"posted": 1786723044,
+"posted": 1786974766,
 "source": "Greenhouse",
 "title": "Senior Software Development Engineer in Test",
 "uid": "gh:fivetran:7655370003",
@@ -313793,7 +314204,7 @@
 "locations": [
 "Bengaluru, Karnataka, India, APAC"
 ],
-"posted": 1786723044,
+"posted": 1786974766,
 "source": "Greenhouse",
 "title": "Senior Tax Analyst",
 "uid": "gh:fivetran:7655493003",
@@ -313808,7 +314219,7 @@
 "locations": [
 "Oakland, California, United States, AMER"
 ],
-"posted": 1786723044,
+"posted": 1786974766,
 "source": "Greenhouse",
 "title": "Principal Product Designer",
 "uid": "gh:fivetran:7656004003",
@@ -313823,7 +314234,7 @@
 "locations": [
 "Remote, Germany, EMEA"
 ],
-"posted": 1786723044,
+"posted": 1786974766,
 "source": "Greenhouse",
 "title": "Senior Account Executive, Enterprise",
 "uid": "gh:fivetran:7659463003",
@@ -313838,7 +314249,7 @@
 "locations": [
 "Denver, Colorado, United States, AMER"
 ],
-"posted": 1786723043,
+"posted": 1786974766,
 "source": "Greenhouse",
 "title": "Senior Technical Product Marketing Manager",
 "uid": "gh:fivetran:7661577003",
@@ -313853,7 +314264,7 @@
 "locations": [
 "Oakland, California, United States, AMER"
 ],
-"posted": 1786723044,
+"posted": 1786974766,
 "source": "Greenhouse",
 "title": "Systems Engineer, Integrations (Data and Systems)",
 "uid": "gh:fivetran:7668146003",
@@ -313868,7 +314279,7 @@
 "locations": [
 "Oakland, California, United States, AMER"
 ],
-"posted": 1786723044,
+"posted": 1786974766,
 "source": "Greenhouse",
 "title": "Senior Marketing Insights Analyst",
 "uid": "gh:fivetran:7674622003",
@@ -313883,7 +314294,7 @@
 "locations": [
 "Oakland, California, United States, AMER"
 ],
-"posted": 1786750260,
+"posted": 1786974766,
 "source": "Greenhouse",
 "title": "Senior Marketing Operations & Technology Manager",
 "uid": "gh:fivetran:7677540003",
@@ -313898,7 +314309,7 @@
 "locations": [
 "Oakland, California, United States, AMER"
 ],
-"posted": 1786723043,
+"posted": 1786974766,
 "source": "Greenhouse",
 "title": "Customer Support Engineer",
 "uid": "gh:fivetran:7679244003",
@@ -313913,7 +314324,7 @@
 "locations": [
 "Denver, Colorado, United States, AMER"
 ],
-"posted": 1786750260,
+"posted": 1786974766,
 "source": "Greenhouse",
 "title": "Senior Marketing Operations & Technology Manager",
 "uid": "gh:fivetran:7685551003",
@@ -313958,7 +314369,7 @@
 "locations": [
 "Bengaluru, Karnataka, India, APAC"
 ],
-"posted": 1786723044,
+"posted": 1786974767,
 "source": "Greenhouse",
 "title": "Staff Software Development Engineer in Test",
 "uid": "gh:fivetran:7687902003",
@@ -313973,7 +314384,7 @@
 "locations": [
 "Oakland, California, United States, AMER"
 ],
-"posted": 1786723044,
+"posted": 1786974767,
 "source": "Greenhouse",
 "title": "Senior Site Reliability Engineer",
 "uid": "gh:fivetran:7688580003",
@@ -313988,7 +314399,7 @@
 "locations": [
 "Novi Sad, South Ba\u010dka, Serbia, EMEA"
 ],
-"posted": 1786723044,
+"posted": 1786974767,
 "source": "Greenhouse",
 "title": "Staff Site Reliability Engineer",
 "uid": "gh:fivetran:7688674003",
@@ -314018,7 +314429,7 @@
 "locations": [
 "Toronto, Ontario, Canada"
 ],
-"posted": 1786723044,
+"posted": 1786974767,
 "source": "Greenhouse",
 "title": "Senior Software Engineer, R&D Business Systems",
 "uid": "gh:fivetran:7692115003",
@@ -314063,7 +314474,7 @@
 "locations": [
 "Remote, New Jersey, United States, AMER"
 ],
-"posted": 1786723045,
+"posted": 1786974767,
 "source": "Greenhouse",
 "title": "Regional Director, Enterprise",
 "uid": "gh:fivetran:7702143003",
@@ -314078,7 +314489,7 @@
 "locations": [
 "Remote, New York, United States, AMER"
 ],
-"posted": 1786723045,
+"posted": 1786974767,
 "source": "Greenhouse",
 "title": "Regional Director, Enterprise",
 "uid": "gh:fivetran:7708774003",
@@ -314093,7 +314504,7 @@
 "locations": [
 "Remote, Pennsylvania, United States, AMER"
 ],
-"posted": 1786723045,
+"posted": 1786974767,
 "source": "Greenhouse",
 "title": "Regional Director, Enterprise",
 "uid": "gh:fivetran:7708787003",
@@ -314108,7 +314519,7 @@
 "locations": [
 "Remote, Washington DC, United States, AMER"
 ],
-"posted": 1786723045,
+"posted": 1786974767,
 "source": "Greenhouse",
 "title": "Regional Director, Enterprise",
 "uid": "gh:fivetran:7708796003",
@@ -314123,7 +314534,7 @@
 "locations": [
 "Oakland, California, United States, AMER"
 ],
-"posted": 1786723045,
+"posted": 1786974767,
 "source": "Greenhouse",
 "title": "Principal Software Engineer",
 "uid": "gh:fivetran:7711200003",
@@ -314138,7 +314549,7 @@
 "locations": [
 "Bengaluru, Karnataka, India, APAC"
 ],
-"posted": 1786723045,
+"posted": 1786974767,
 "source": "Greenhouse",
 "title": "Staff Site Reliability Engineer",
 "uid": "gh:fivetran:7723267003",
@@ -314153,7 +314564,7 @@
 "locations": [
 "Remote, Japan, APAC"
 ],
-"posted": 1786723045,
+"posted": 1786974767,
 "source": "Greenhouse",
 "title": "Business Development Representative, Commercial",
 "uid": "gh:fivetran:7724750003",
@@ -314168,7 +314579,7 @@
 "locations": [
 "Novi Sad, South Ba\u010dka, Serbia, EMEA"
 ],
-"posted": 1786723045,
+"posted": 1786974767,
 "source": "Greenhouse",
 "title": "Senior Full Stack Engineer - Developer Productivity",
 "uid": "gh:fivetran:7725857003",
@@ -314213,7 +314624,7 @@
 "locations": [
 "Novi Sad, South Ba\u010dka, Serbia, EMEA"
 ],
-"posted": 1786723045,
+"posted": 1786974767,
 "source": "Greenhouse",
 "title": "Senior Software Engineer - SaaS Connectors",
 "uid": "gh:fivetran:7727208003",
@@ -314228,7 +314639,7 @@
 "locations": [
 "Oakland, California, United States, AMER"
 ],
-"posted": 1786741883,
+"posted": 1786974767,
 "source": "Greenhouse",
 "title": "Business Development Representative, Enterprise",
 "uid": "gh:fivetran:7734857003",
@@ -314258,7 +314669,7 @@
 "locations": [
 "Novi Sad, South Ba\u010dka, Serbia, EMEA"
 ],
-"posted": 1786723045,
+"posted": 1786974767,
 "source": "Greenhouse",
 "title": "Senior Product Manager, Monetization Platform",
 "uid": "gh:fivetran:7735002003",
@@ -314273,7 +314684,7 @@
 "locations": [
 "Dublin, Dublin, Ireland, EMEA"
 ],
-"posted": 1786723045,
+"posted": 1786974767,
 "source": "Greenhouse",
 "title": "Senior Sales Engineer, Commercial",
 "uid": "gh:fivetran:7735023003",
@@ -314288,7 +314699,7 @@
 "locations": [
 "Novi Sad, South Ba\u010dka, Serbia, EMEA"
 ],
-"posted": 1786723045,
+"posted": 1786974767,
 "source": "Greenhouse",
 "title": "Senior Software Engineer - Database Connectors",
 "uid": "gh:fivetran:7735025003",
@@ -314303,7 +314714,7 @@
 "locations": [
 "Oakland, California, United States, AMER"
 ],
-"posted": 1786723045,
+"posted": 1786974767,
 "source": "Greenhouse",
 "title": "Senior Product Manager, Growth",
 "uid": "gh:fivetran:7735422003",
@@ -314318,7 +314729,7 @@
 "locations": [
 "Novi Sad, South Ba\u010dka, Serbia, EMEA"
 ],
-"posted": 1786723045,
+"posted": 1786974767,
 "source": "Greenhouse",
 "title": "Senior Systems Engineer - R&D Business Systems",
 "uid": "gh:fivetran:7739966003",
@@ -314333,7 +314744,7 @@
 "locations": [
 "Remote, Germany, EMEA"
 ],
-"posted": 1786723045,
+"posted": 1786974768,
 "source": "Greenhouse",
 "title": "Senior Sales Engineer, Enterprise",
 "uid": "gh:fivetran:7742243003",
@@ -314348,7 +314759,7 @@
 "locations": [
 "Denver, Colorado, United States, AMER"
 ],
-"posted": 1786723045,
+"posted": 1786974768,
 "source": "Greenhouse",
 "title": "Senior Sales Engineer, Commercial",
 "uid": "gh:fivetran:7746783003",
@@ -314363,7 +314774,7 @@
 "locations": [
 "Bengaluru, Karnataka, India, APAC"
 ],
-"posted": 1786723046,
+"posted": 1786974768,
 "source": "Greenhouse",
 "title": "Senior Software Engineer",
 "uid": "gh:fivetran:7747138003",
@@ -314378,7 +314789,7 @@
 "locations": [
 "Remote, Japan, APAC"
 ],
-"posted": 1786723046,
+"posted": 1786974768,
 "source": "Greenhouse",
 "title": "Customer Solutions Architect",
 "uid": "gh:fivetran:7747140003",
@@ -314393,7 +314804,7 @@
 "locations": [
 "Novi Sad, South Ba\u010dka, Serbia, EMEA"
 ],
-"posted": 1786723044,
+"posted": 1786974767,
 "source": "Greenhouse",
 "title": "Staff DevOps Engineer",
 "uid": "gh:fivetran:7747624003",
@@ -314423,7 +314834,7 @@
 "locations": [
 "Oakland, California, United States, AMER"
 ],
-"posted": 1786723046,
+"posted": 1786974768,
 "source": "Greenhouse",
 "title": "Senior Software Engineer",
 "uid": "gh:fivetran:7768594003",
@@ -314453,7 +314864,7 @@
 "locations": [
 "Remote, Germany, EMEA"
 ],
-"posted": 1786723046,
+"posted": 1786974768,
 "source": "Greenhouse",
 "title": "Principal Software Engineer - Data Lakes",
 "uid": "gh:fivetran:7771684003",
@@ -314468,7 +314879,7 @@
 "locations": [
 "Toronto, Ontario, Canada"
 ],
-"posted": 1786723046,
+"posted": 1786974768,
 "source": "Greenhouse",
 "title": "Staff Software Engineer",
 "uid": "gh:fivetran:7772283003",
@@ -314498,7 +314909,7 @@
 "locations": [
 "Oakland, California, United States, AMER"
 ],
-"posted": 1786723046,
+"posted": 1786974768,
 "source": "Greenhouse",
 "title": "Software Engineer ",
 "uid": "gh:fivetran:7778979003",
@@ -314513,7 +314924,7 @@
 "locations": [
 "Bengaluru, Karnataka, India, APAC"
 ],
-"posted": 1786723046,
+"posted": 1786974768,
 "source": "Greenhouse",
 "title": "Senior Software Engineer",
 "uid": "gh:fivetran:7780075003",
@@ -314528,7 +314939,7 @@
 "locations": [
 "Sydney, New South Wales, Australia, APAC"
 ],
-"posted": 1786723046,
+"posted": 1786974768,
 "source": "Greenhouse",
 "title": "Deal Desk Analyst",
 "uid": "gh:fivetran:7780210003",
@@ -314543,7 +314954,7 @@
 "locations": [
 "USA - New York"
 ],
-"posted": 1786723044,
+"posted": 1786974766,
 "source": "Greenhouse",
 "title": "Senior Technical Product Marketing Manager",
 "uid": "gh:fivetran:7780519003",
@@ -314558,7 +314969,7 @@
 "locations": [
 "Toronto, Ontario, Canada"
 ],
-"posted": 1786723046,
+"posted": 1786974768,
 "source": "Greenhouse",
 "title": "Senior Technical Product Marketing Manager",
 "uid": "gh:fivetran:7781597003",
@@ -314573,7 +314984,7 @@
 "locations": [
 "Remote, Ireland, EMEA"
 ],
-"posted": 1786723045,
+"posted": 1786974768,
 "source": "Greenhouse",
 "title": "Senior Sales Engineer, Enterprise - German Speaking ",
 "uid": "gh:fivetran:7785672003",
@@ -314588,7 +314999,7 @@
 "locations": [
 "Remote, United Kingdom, EMEA"
 ],
-"posted": 1786723045,
+"posted": 1786974768,
 "source": "Greenhouse",
 "title": "Senior Sales Engineer, Enterprise - German Speaking ",
 "uid": "gh:fivetran:7785674003",
@@ -314633,7 +315044,7 @@
 "locations": [
 "Denver, Colorado, United States, AMER"
 ],
-"posted": 1786723046,
+"posted": 1786974768,
 "source": "Greenhouse",
 "title": "Director, GTM Strategy & Planning",
 "uid": "gh:fivetran:7785999003",
@@ -314648,7 +315059,7 @@
 "locations": [
 "Denver, Colorado, United States, AMER"
 ],
-"posted": 1786723046,
+"posted": 1786974768,
 "source": "Greenhouse",
 "title": "Senior Revenue Operations Manager, Global Commercial Expansion",
 "uid": "gh:fivetran:7786001003",
@@ -314663,7 +315074,7 @@
 "locations": [
 "USA - Austin (dbt)"
 ],
-"posted": 1786723046,
+"posted": 1786974768,
 "source": "Greenhouse",
 "title": "Customer Solutions Architect 3",
 "uid": "gh:fivetran:7786036003",
@@ -314723,7 +315134,7 @@
 "locations": [
 "Bangalore, India"
 ],
-"posted": 1786723046,
+"posted": 1786974768,
 "source": "Greenhouse",
 "title": "Staff Technical Writer",
 "uid": "gh:fivetran:7787879003",
@@ -314738,7 +315149,7 @@
 "locations": [
 "Remote, Australia, APAC"
 ],
-"posted": 1786723046,
+"posted": 1786974768,
 "source": "Greenhouse",
 "title": "Enterprise Sales Director",
 "uid": "gh:fivetran:7787881003",
@@ -314753,7 +315164,7 @@
 "locations": [
 "Remote, Colorado, United States, AMER"
 ],
-"posted": 1786723046,
+"posted": 1786974769,
 "source": "Greenhouse",
 "title": "Product Manager - Fusion",
 "uid": "gh:fivetran:7787885003",
@@ -314768,7 +315179,7 @@
 "locations": [
 "Dublin, Dublin, Ireland, EMEA"
 ],
-"posted": 1786723046,
+"posted": 1786974768,
 "source": "Greenhouse",
 "title": "Customer Solutions Architect, Manager",
 "uid": "gh:fivetran:7787887003",
@@ -314783,7 +315194,7 @@
 "locations": [
 "Remote, Washington, United States, AMER"
 ],
-"posted": 1786748487,
+"posted": 1786974768,
 "source": "Greenhouse",
 "title": "Enterprise Sales Director (PNW)",
 "uid": "gh:fivetran:7787889003",
@@ -314798,11 +315209,26 @@
 "locations": [
 "Remote, California, United States, AMER"
 ],
-"posted": 1786748490,
+"posted": 1786974769,
 "source": "Greenhouse",
 "title": "Majors Sales Director (Bay Area)",
 "uid": "gh:fivetran:7787891003",
 "url": "https://www.fivetran.com/careers/job?gh_jid=7787891003"
+},
+"gh:fivetran:7787893003": {
+"category": "",
+"closed_at": null,
+"company": "Fivetran",
+"degrees": [],
+"first_seen": 1786977772,
+"locations": [
+"Spain"
+],
+"posted": 1786974769,
+"source": "Greenhouse",
+"title": "Enterprise Account Executive ",
+"uid": "gh:fivetran:7787893003",
+"url": "https://www.fivetran.com/careers/job?gh_jid=7787893003"
 },
 "gh:fivetran:7787897003": {
 "category": "",
@@ -314813,7 +315239,7 @@
 "locations": [
 "Dublin, Dublin, Ireland, EMEA"
 ],
-"posted": 1786723046,
+"posted": 1786974769,
 "source": "Greenhouse",
 "title": "Commercial Sales Director (Benelux)",
 "uid": "gh:fivetran:7787897003",
@@ -314858,7 +315284,7 @@
 "locations": [
 "Bengaluru, Karnataka, India, APAC"
 ],
-"posted": 1786723046,
+"posted": 1786974769,
 "source": "Greenhouse",
 "title": "Senior Software Engineer - Semantic Layer",
 "uid": "gh:fivetran:7787911003",
@@ -314873,7 +315299,7 @@
 "locations": [
 "Bangalore, India"
 ],
-"posted": 1786723047,
+"posted": 1786974769,
 "source": "Greenhouse",
 "title": "Staff Software Engineer - Semantic Layer",
 "uid": "gh:fivetran:7787915003",
@@ -314888,7 +315314,7 @@
 "locations": [
 "Bengaluru, Karnataka, India, APAC"
 ],
-"posted": 1786723047,
+"posted": 1786974769,
 "source": "Greenhouse",
 "title": "Staff Software Engineer - Prism",
 "uid": "gh:fivetran:7787917003",
@@ -314903,7 +315329,7 @@
 "locations": [
 "Remote, North Carolina, United States, AMER"
 ],
-"posted": 1786723047,
+"posted": 1786974769,
 "source": "Greenhouse",
 "title": "Senior Instructional Designer",
 "uid": "gh:fivetran:7787925003",
@@ -314918,7 +315344,7 @@
 "locations": [
 "Remote, Georgia, United States, AMER"
 ],
-"posted": 1786723047,
+"posted": 1786974769,
 "source": "Greenhouse",
 "title": "Senior Sales Onboarding Manager",
 "uid": "gh:fivetran:7787927003",
@@ -314933,7 +315359,7 @@
 "locations": [
 "Remote, Colorado, United States, AMER"
 ],
-"posted": 1786723047,
+"posted": 1786974769,
 "source": "Greenhouse",
 "title": "Global Alliance Lead, Accenture",
 "uid": "gh:fivetran:7787929003",
@@ -314963,7 +315389,7 @@
 "locations": [
 "Toronto, Ontario, Canada"
 ],
-"posted": 1786723047,
+"posted": 1786974769,
 "source": "Greenhouse",
 "title": "Staff Software Engineer, Fullstack",
 "uid": "gh:fivetran:7789375003",
@@ -314978,7 +315404,7 @@
 "locations": [
 "Bangalore, India"
 ],
-"posted": 1786723047,
+"posted": 1786974769,
 "source": "Greenhouse",
 "title": "Senior Software Engineer - Infrastructure",
 "uid": "gh:fivetran:7790605003",
@@ -314993,7 +315419,7 @@
 "locations": [
 "Remote, Australia, APAC"
 ],
-"posted": 1786723047,
+"posted": 1786974769,
 "source": "Greenhouse",
 "title": "Manager, Customer Support Engineering",
 "uid": "gh:fivetran:7790607003",
@@ -315008,7 +315434,7 @@
 "locations": [
 "Remote, California, United States, AMER"
 ],
-"posted": 1786723047,
+"posted": 1786974769,
 "source": "Greenhouse",
 "title": "Global Alliance Lead",
 "uid": "gh:fivetran:7790852003",
@@ -315023,7 +315449,7 @@
 "locations": [
 "Oakland, California, United States"
 ],
-"posted": 1786723047,
+"posted": 1786974770,
 "source": "Greenhouse",
 "title": "Staff Product Manager- Developer Experience",
 "uid": "gh:fivetran:7790909003",
@@ -315053,7 +315479,7 @@
 "locations": [
 "Oakland, California, United States, AMER"
 ],
-"posted": 1786723047,
+"posted": 1786974770,
 "source": "Greenhouse",
 "title": "Vice President, Investor Relations",
 "uid": "gh:fivetran:7791872003",
@@ -315083,7 +315509,7 @@
 "locations": [
 "USA - Austin (dbt)"
 ],
-"posted": 1786723048,
+"posted": 1786974770,
 "source": "Greenhouse",
 "title": "Sales Development Representative ",
 "uid": "gh:fivetran:7792160003",
@@ -315098,7 +315524,7 @@
 "locations": [
 "USA - Austin (dbt)"
 ],
-"posted": 1786723048,
+"posted": 1786974770,
 "source": "Greenhouse",
 "title": "Commercial Solutions Architect - Texas",
 "uid": "gh:fivetran:7792166003",
@@ -315113,7 +315539,7 @@
 "locations": [
 "USA - New York"
 ],
-"posted": 1786746693,
+"posted": 1786974770,
 "source": "Greenhouse",
 "title": "Senior Analyst, Field Operations",
 "uid": "gh:fivetran:7793233003",
@@ -315128,7 +315554,7 @@
 "locations": [
 "USA - Austin (dbt)"
 ],
-"posted": 1786723048,
+"posted": 1786974770,
 "source": "Greenhouse",
 "title": "Customer Solutions Architect",
 "uid": "gh:fivetran:7796439003",
@@ -315143,7 +315569,7 @@
 "locations": [
 "USA - Austin (dbt)"
 ],
-"posted": 1786723048,
+"posted": 1786974770,
 "source": "Greenhouse",
 "title": "Commercial Sales Director",
 "uid": "gh:fivetran:7796447003",
@@ -315158,7 +315584,7 @@
 "locations": [
 "USA - Austin (dbt)"
 ],
-"posted": 1786723048,
+"posted": 1786974770,
 "source": "Greenhouse",
 "title": "Customer Sales Director",
 "uid": "gh:fivetran:7796453003",
@@ -315173,7 +315599,7 @@
 "locations": [
 "Remote, Washington, United States, AMER"
 ],
-"posted": 1786723048,
+"posted": 1786974770,
 "source": "Greenhouse",
 "title": "Senior Solutions Architect, Enterprise",
 "uid": "gh:fivetran:7796528003",
@@ -315203,7 +315629,7 @@
 "locations": [
 "Dublin, Dublin, Ireland, EMEA"
 ],
-"posted": 1786723048,
+"posted": 1786974770,
 "source": "Greenhouse",
 "title": "Business Development Representative - DACH",
 "uid": "gh:fivetran:7796551003",
@@ -315233,7 +315659,7 @@
 "locations": [
 "Oakland, California, United States, AMER"
 ],
-"posted": 1786723048,
+"posted": 1786974770,
 "source": "Greenhouse",
 "title": "Global Ecosystem Technology Partner Manager",
 "uid": "gh:fivetran:7799030003",
@@ -315248,7 +315674,7 @@
 "locations": [
 "USA - Austin (dbt)"
 ],
-"posted": 1786723043,
+"posted": 1786974766,
 "source": "Greenhouse",
 "title": "Senior Technical Product Marketing Manager",
 "uid": "gh:fivetran:7799051003",
@@ -315263,7 +315689,7 @@
 "locations": [
 "Dublin, Dublin, Ireland, EMEA"
 ],
-"posted": 1786723048,
+"posted": 1786974770,
 "source": "Greenhouse",
 "title": "Staff Site Reliability Engineer",
 "uid": "gh:fivetran:7799116003",
@@ -315278,7 +315704,7 @@
 "locations": [
 "Costa Rica; CRI - Remote"
 ],
-"posted": 1786723048,
+"posted": 1786974770,
 "source": "Greenhouse",
 "title": "Deal Desk Analyst",
 "uid": "gh:fivetran:7800393003",
@@ -315308,7 +315734,7 @@
 "locations": [
 "USA - Austin (dbt)"
 ],
-"posted": 1786723046,
+"posted": 1786974768,
 "source": "Greenhouse",
 "title": "Director, GTM Strategy & Planning",
 "uid": "gh:fivetran:7801099003",
@@ -315323,7 +315749,7 @@
 "locations": [
 "USA - New York"
 ],
-"posted": 1786723046,
+"posted": 1786974768,
 "source": "Greenhouse",
 "title": "Director, GTM Strategy & Planning",
 "uid": "gh:fivetran:7801100003",
@@ -315338,7 +315764,7 @@
 "locations": [
 "Oakland, California, United States, AMER"
 ],
-"posted": 1786723046,
+"posted": 1786974768,
 "source": "Greenhouse",
 "title": "Director, GTM Strategy & Planning",
 "uid": "gh:fivetran:7801104003",
@@ -315353,7 +315779,7 @@
 "locations": [
 "Denver, Colorado, United States, AMER"
 ],
-"posted": 1786746693,
+"posted": 1786974770,
 "source": "Greenhouse",
 "title": "Senior Analyst, Field Operations",
 "uid": "gh:fivetran:7801673003",
@@ -315368,7 +315794,7 @@
 "locations": [
 "Remote, California, United States, AMER"
 ],
-"posted": 1786723048,
+"posted": 1786974770,
 "source": "Greenhouse",
 "title": "Senior Director, People Strategy & Execution",
 "uid": "gh:fivetran:7803214003",
@@ -315398,7 +315824,7 @@
 "locations": [
 "Remote, California, United States, AMER"
 ],
-"posted": 1786723047,
+"posted": 1786974769,
 "source": "Greenhouse",
 "title": "Global Alliance Lead, Accenture",
 "uid": "gh:fivetran:7805072003",
@@ -315413,7 +315839,7 @@
 "locations": [
 "Remote, Colorado, United States, AMER"
 ],
-"posted": 1786723047,
+"posted": 1786974769,
 "source": "Greenhouse",
 "title": "Global Alliance Lead",
 "uid": "gh:fivetran:7805078003",
@@ -315458,7 +315884,7 @@
 "locations": [
 "Remote, California, United States, AMER"
 ],
-"posted": 1786723048,
+"posted": 1786974770,
 "source": "Greenhouse",
 "title": "Senior Pricing Data Scientist",
 "uid": "gh:fivetran:7806295003",
@@ -315473,7 +315899,7 @@
 "locations": [
 "Dublin, Dublin, Ireland, EMEA"
 ],
-"posted": 1786723049,
+"posted": 1786974771,
 "source": "Greenhouse",
 "title": "Account Executive, Commercial - Middle East/Africa",
 "uid": "gh:fivetran:7806328003",
@@ -315488,7 +315914,7 @@
 "locations": [
 "Remote, Any, United States, AMER"
 ],
-"posted": 1786723049,
+"posted": 1786974771,
 "source": "Greenhouse",
 "title": "Senior Director, Global Sales Compensation",
 "uid": "gh:fivetran:7806395003",
@@ -315503,7 +315929,7 @@
 "locations": [
 "Oakland, California, United States, AMER"
 ],
-"posted": 1786723049,
+"posted": 1786974771,
 "source": "Greenhouse",
 "title": "Staff Web Growth Marketing Manager",
 "uid": "gh:fivetran:7807040003",
@@ -315518,7 +315944,7 @@
 "locations": [
 "Denver, Colorado, United States, AMER"
 ],
-"posted": 1786723501,
+"posted": 1786974771,
 "source": "Greenhouse",
 "title": "Compliance, Employment & Litigation Counsel",
 "uid": "gh:fivetran:7807403003",
@@ -315533,7 +315959,7 @@
 "locations": [
 "Denver, Colorado, United States, AMER"
 ],
-"posted": 1786723049,
+"posted": 1786974771,
 "source": "Greenhouse",
 "title": "Commercial Counsel",
 "uid": "gh:fivetran:7807405003",
@@ -315563,7 +315989,7 @@
 "locations": [
 "Denver, Colorado, United States, AMER"
 ],
-"posted": 1786723049,
+"posted": 1786974771,
 "source": "Greenhouse",
 "title": "Staff Web Growth Marketing Manager",
 "uid": "gh:fivetran:7807482003",
@@ -315593,7 +316019,7 @@
 "locations": [
 "Oakland, California, United States, AMER"
 ],
-"posted": 1786723049,
+"posted": 1786974771,
 "source": "Greenhouse",
 "title": "Senior Product Design Manager",
 "uid": "gh:fivetran:7808191003",
@@ -315608,7 +316034,7 @@
 "locations": [
 "Bengaluru, Karnataka, India, APAC"
 ],
-"posted": 1786723049,
+"posted": 1786974771,
 "source": "Greenhouse",
 "title": "Senior Revenue Accountant",
 "uid": "gh:fivetran:7808284003",
@@ -315848,7 +316274,7 @@
 "locations": [
 "USA - Austin (dbt)"
 ],
-"posted": 1786750260,
+"posted": 1786974766,
 "source": "Greenhouse",
 "title": "Senior Marketing Operations & Technology Manager",
 "uid": "gh:fivetran:7808629003",
@@ -315863,7 +316289,7 @@
 "locations": [
 "Oakland, California, United States"
 ],
-"posted": 1786723049,
+"posted": 1786974771,
 "source": "Greenhouse",
 "title": "Commercial Counsel",
 "uid": "gh:fivetran:7808640003",
@@ -315878,7 +316304,7 @@
 "locations": [
 "USA - Austin (dbt)"
 ],
-"posted": 1786723049,
+"posted": 1786974771,
 "source": "Greenhouse",
 "title": "Commercial Counsel",
 "uid": "gh:fivetran:7808643003",
@@ -315893,7 +316319,7 @@
 "locations": [
 "USA - Philadelphia (dbt)"
 ],
-"posted": 1786723049,
+"posted": 1786974771,
 "source": "Greenhouse",
 "title": "Commercial Counsel",
 "uid": "gh:fivetran:7808646003",
@@ -315908,7 +316334,7 @@
 "locations": [
 "USA - New York"
 ],
-"posted": 1786723049,
+"posted": 1786974771,
 "source": "Greenhouse",
 "title": "Commercial Counsel",
 "uid": "gh:fivetran:7808648003",
@@ -315923,7 +316349,7 @@
 "locations": [
 "Denver, Colorado, United States, AMER"
 ],
-"posted": 1786723044,
+"posted": 1786974766,
 "source": "Greenhouse",
 "title": "Senior Marketing Insights Analyst",
 "uid": "gh:fivetran:7809734003",
@@ -315953,7 +316379,7 @@
 "locations": [
 "Oakland, California, United States, AMER"
 ],
-"posted": 1786723049,
+"posted": 1786974771,
 "source": "Greenhouse",
 "title": "Senior R&D Software Engineer, Fivetran AI",
 "uid": "gh:fivetran:7810218003",
@@ -315968,7 +316394,7 @@
 "locations": [
 "Oakland, California, United States, AMER"
 ],
-"posted": 1786723049,
+"posted": 1786974772,
 "source": "Greenhouse",
 "title": "Staff R&D Software Engineer, Fivetran AI",
 "uid": "gh:fivetran:7810220003",
@@ -315998,7 +316424,7 @@
 "locations": [
 "Oakland, California, United States, AMER"
 ],
-"posted": 1786723049,
+"posted": 1786974772,
 "source": "Greenhouse",
 "title": "Senior Staff R&D Software Engineer, Fivetran AI",
 "uid": "gh:fivetran:7810361003",
@@ -316013,7 +316439,7 @@
 "locations": [
 "Oakland, California, United States, AMER"
 ],
-"posted": 1786723050,
+"posted": 1786974772,
 "source": "Greenhouse",
 "title": "Senior Staff Systems Engineer, GTM",
 "uid": "gh:fivetran:7810381003",
@@ -316028,7 +316454,7 @@
 "locations": [
 "Dublin, Dublin, Ireland, EMEA"
 ],
-"posted": 1786723050,
+"posted": 1786974772,
 "source": "Greenhouse",
 "title": "Senior Software Engineer",
 "uid": "gh:fivetran:7810395003",
@@ -316043,7 +316469,7 @@
 "locations": [
 "USA - New York"
 ],
-"posted": 1786723047,
+"posted": 1786974770,
 "source": "Greenhouse",
 "title": "Vice President, Investor Relations",
 "uid": "gh:fivetran:7810397003",
@@ -316058,7 +316484,7 @@
 "locations": [
 "Denver, Colorado, United States, AMER"
 ],
-"posted": 1786723047,
+"posted": 1786974769,
 "source": "Greenhouse",
 "title": "Vice President, Investor Relations",
 "uid": "gh:fivetran:7810406003",
@@ -316073,7 +316499,7 @@
 "locations": [
 "USA - Austin (dbt)"
 ],
-"posted": 1786723049,
+"posted": 1786974772,
 "source": "Greenhouse",
 "title": "Senior Staff R&D Software Engineer, Fivetran AI",
 "uid": "gh:fivetran:7810446003",
@@ -316088,7 +316514,7 @@
 "locations": [
 "Denver, Colorado, United States, AMER"
 ],
-"posted": 1786723049,
+"posted": 1786974772,
 "source": "Greenhouse",
 "title": "Senior Staff R&D Software Engineer, Fivetran AI",
 "uid": "gh:fivetran:7810450003",
@@ -316103,7 +316529,7 @@
 "locations": [
 "USA - New York"
 ],
-"posted": 1786723049,
+"posted": 1786974772,
 "source": "Greenhouse",
 "title": "Senior Staff R&D Software Engineer, Fivetran AI",
 "uid": "gh:fivetran:7810451003",
@@ -316118,7 +316544,7 @@
 "locations": [
 "USA - Austin (dbt)"
 ],
-"posted": 1786723049,
+"posted": 1786974771,
 "source": "Greenhouse",
 "title": "Senior R&D Software Engineer, Fivetran AI",
 "uid": "gh:fivetran:7810466003",
@@ -316133,7 +316559,7 @@
 "locations": [
 "Denver, Colorado, United States, AMER"
 ],
-"posted": 1786723049,
+"posted": 1786974772,
 "source": "Greenhouse",
 "title": "Senior R&D Software Engineer, Fivetran AI",
 "uid": "gh:fivetran:7810467003",
@@ -316148,7 +316574,7 @@
 "locations": [
 "USA - New York"
 ],
-"posted": 1786723049,
+"posted": 1786974771,
 "source": "Greenhouse",
 "title": "Senior R&D Software Engineer, Fivetran AI",
 "uid": "gh:fivetran:7810468003",
@@ -316163,7 +316589,7 @@
 "locations": [
 "Bengaluru, Karnataka, India, APAC"
 ],
-"posted": 1786723050,
+"posted": 1786974772,
 "source": "Greenhouse",
 "title": "Strategic Finance Analyst",
 "uid": "gh:fivetran:7811646003",
@@ -316178,7 +316604,7 @@
 "locations": [
 "Oakland, California, United States, AMER"
 ],
-"posted": 1786723050,
+"posted": 1786974772,
 "source": "Greenhouse",
 "title": "Software Engineer ",
 "uid": "gh:fivetran:7811889003",
@@ -316253,7 +316679,7 @@
 "locations": [
 "USA - Austin (dbt)"
 ],
-"posted": 1786723049,
+"posted": 1786974772,
 "source": "Greenhouse",
 "title": "Staff R&D Software Engineer, Fivetran AI",
 "uid": "gh:fivetran:7811996003",
@@ -316268,7 +316694,7 @@
 "locations": [
 "Denver, Colorado, United States, AMER"
 ],
-"posted": 1786723049,
+"posted": 1786974772,
 "source": "Greenhouse",
 "title": "Staff R&D Software Engineer, Fivetran AI",
 "uid": "gh:fivetran:7812000003",
@@ -316283,7 +316709,7 @@
 "locations": [
 "USA - New York"
 ],
-"posted": 1786723050,
+"posted": 1786974772,
 "source": "Greenhouse",
 "title": "Staff R&D Software Engineer, Fivetran AI",
 "uid": "gh:fivetran:7812006003",
@@ -316298,7 +316724,7 @@
 "locations": [
 "Oakland, California, United States"
 ],
-"posted": 1786723049,
+"posted": 1786974771,
 "source": "Greenhouse",
 "title": "Compliance, Employment & Litigation Counsel",
 "uid": "gh:fivetran:7812058003",
@@ -316328,7 +316754,7 @@
 "locations": [
 "Remote, Massachusetts, United States, AMER"
 ],
-"posted": 1786723050,
+"posted": 1786974772,
 "source": "Greenhouse",
 "title": "Account Executive, Enterprise",
 "uid": "gh:fivetran:7812261003",
@@ -316343,7 +316769,7 @@
 "locations": [
 "Oakland, California, United States, AMER"
 ],
-"posted": 1786723050,
+"posted": 1786974772,
 "source": "Greenhouse",
 "title": "Principal Software Engineer, AI Tooling & Adoption",
 "uid": "gh:fivetran:7812269003",
@@ -316358,7 +316784,7 @@
 "locations": [
 "Sydney, New South Wales, Australia, APAC"
 ],
-"posted": 1786960889,
+"posted": 1786974772,
 "source": "Greenhouse",
 "title": "Business Development Rep, Commercial",
 "uid": "gh:fivetran:7812779003",
@@ -316373,7 +316799,7 @@
 "locations": [
 "Novi Sad, South Ba\u010dka, Serbia, EMEA"
 ],
-"posted": 1786723050,
+"posted": 1786974772,
 "source": "Greenhouse",
 "title": "Accountant",
 "uid": "gh:fivetran:7812903003",
@@ -316388,7 +316814,7 @@
 "locations": [
 "Denver, Colorado, United States, AMER"
 ],
-"posted": 1786723050,
+"posted": 1786974772,
 "source": "Greenhouse",
 "title": "Manager Business Development, Commercial",
 "uid": "gh:fivetran:7813005003",
@@ -316403,7 +316829,7 @@
 "locations": [
 "Dublin, Dublin, Ireland, EMEA"
 ],
-"posted": 1786723051,
+"posted": 1786974773,
 "source": "Greenhouse",
 "title": "Senior Site Reliability Engineer",
 "uid": "gh:fivetran:7814036003",
@@ -316418,7 +316844,7 @@
 "locations": [
 "Denver, Colorado, United States, AMER"
 ],
-"posted": 1786723051,
+"posted": 1786974773,
 "source": "Greenhouse",
 "title": "Organic Growth Lead, SEO & GEO",
 "uid": "gh:fivetran:7816739003",
@@ -316448,7 +316874,7 @@
 "locations": [
 "Remote, Illinois, United States, AMER"
 ],
-"posted": 1786723049,
+"posted": 1786974772,
 "source": "Greenhouse",
 "title": "Account Executive, Enterprise",
 "uid": "gh:fivetran:7818051003",
@@ -316463,7 +316889,7 @@
 "locations": [
 "Remote, Wisconsin, United States, AMER"
 ],
-"posted": 1786723050,
+"posted": 1786974772,
 "source": "Greenhouse",
 "title": "Account Executive, Enterprise",
 "uid": "gh:fivetran:7818053003",
@@ -316478,7 +316904,7 @@
 "locations": [
 "Remote, Ohio, United States, AMER"
 ],
-"posted": 1786723050,
+"posted": 1786974772,
 "source": "Greenhouse",
 "title": "Account Executive, Enterprise",
 "uid": "gh:fivetran:7818058003",
@@ -316493,7 +316919,7 @@
 "locations": [
 "Remote, Michigan, United States, AMER"
 ],
-"posted": 1786723050,
+"posted": 1786974772,
 "source": "Greenhouse",
 "title": "Account Executive, Enterprise",
 "uid": "gh:fivetran:7818063003",
@@ -316508,7 +316934,7 @@
 "locations": [
 "Bengaluru, Karnataka, India, APAC"
 ],
-"posted": 1786954572,
+"posted": 1786974773,
 "source": "Greenhouse",
 "title": "Staff Software Engineer_Fusion Adapters",
 "uid": "gh:fivetran:7818250003",
@@ -316523,7 +316949,7 @@
 "locations": [
 "Bengaluru, Karnataka, India, APAC"
 ],
-"posted": 1786723052,
+"posted": 1786974773,
 "source": "Greenhouse",
 "title": "Staff Software Engineer - Developer Productivity",
 "uid": "gh:fivetran:7818252003",
@@ -316538,7 +316964,7 @@
 "locations": [
 "Denver, Colorado, United States, AMER"
 ],
-"posted": 1786723052,
+"posted": 1786974773,
 "source": "Greenhouse",
 "title": "Program Manager, Ways of Working",
 "uid": "gh:fivetran:7818258003",
@@ -316553,7 +316979,7 @@
 "locations": [
 "Costa Rica; CRI - Remote"
 ],
-"posted": 1786723052,
+"posted": 1786974774,
 "source": "Greenhouse",
 "title": "Marketing Operations Manager",
 "uid": "gh:fivetran:7818276003",
@@ -316568,7 +316994,7 @@
 "locations": [
 "Bengaluru, Karnataka, India, APAC"
 ],
-"posted": 1786723052,
+"posted": 1786974774,
 "source": "Greenhouse",
 "title": "Staff Software Engineer - Infrastructure",
 "uid": "gh:fivetran:7818294003",
@@ -316583,7 +317009,7 @@
 "locations": [
 "USA - New York"
 ],
-"posted": 1786723052,
+"posted": 1786974774,
 "source": "Greenhouse",
 "title": "Senior Product Manager, Enterprise & Deployments",
 "uid": "gh:fivetran:7818304003",
@@ -316598,7 +317024,7 @@
 "locations": [
 "Bengaluru, Karnataka, India, APAC"
 ],
-"posted": 1786723053,
+"posted": 1786974774,
 "source": "Greenhouse",
 "title": "Senior Software Engineer - Developer Productivity",
 "uid": "gh:fivetran:7818306003",
@@ -316613,7 +317039,7 @@
 "locations": [
 "Remote, Colorado, United States, AMER"
 ],
-"posted": 1786723053,
+"posted": 1786974775,
 "source": "Greenhouse",
 "title": "Senior Community Manager",
 "uid": "gh:fivetran:7818318003",
@@ -316628,7 +317054,7 @@
 "locations": [
 "Remote, India, APAC"
 ],
-"posted": 1786723053,
+"posted": 1786974775,
 "source": "Greenhouse",
 "title": "Manager, Software Engineering",
 "uid": "gh:fivetran:7818324003",
@@ -316658,7 +317084,7 @@
 "locations": [
 "Remote, Japan, APAC"
 ],
-"posted": 1786723054,
+"posted": 1786974775,
 "source": "Greenhouse",
 "title": "Partner Sales Manager",
 "uid": "gh:fivetran:7818344003",
@@ -316673,7 +317099,7 @@
 "locations": [
 "Remote, India, APAC"
 ],
-"posted": 1786954574,
+"posted": 1786974776,
 "source": "Greenhouse",
 "title": "Staff Software Engineer_dbt core",
 "uid": "gh:fivetran:7818352003",
@@ -316688,7 +317114,7 @@
 "locations": [
 "Novi Sad, South Ba\u010dka, Serbia, EMEA"
 ],
-"posted": 1786723054,
+"posted": 1786974776,
 "source": "Greenhouse",
 "title": "Senior Software Engineer - Pricing & Buying Experience",
 "uid": "gh:fivetran:7818368003",
@@ -316703,7 +317129,7 @@
 "locations": [
 "Novi Sad, South Ba\u010dka, Serbia, EMEA"
 ],
-"posted": 1786723054,
+"posted": 1786974776,
 "source": "Greenhouse",
 "title": "Engineering Manager, Automations & Internal Tooling",
 "uid": "gh:fivetran:7818372003",
@@ -316718,7 +317144,7 @@
 "locations": [
 "Ontario, Canada"
 ],
-"posted": 1786723054,
+"posted": 1786974776,
 "source": "Greenhouse",
 "title": "Senior Software Engineer - Metadata",
 "uid": "gh:fivetran:7818374003",
@@ -316733,7 +317159,7 @@
 "locations": [
 "Remote, Japan, APAC"
 ],
-"posted": 1786723054,
+"posted": 1786974776,
 "source": "Greenhouse",
 "title": "Sales Director",
 "uid": "gh:fivetran:7818382003",
@@ -316748,7 +317174,7 @@
 "locations": [
 "Remote, Texas, United States, AMER"
 ],
-"posted": 1786723055,
+"posted": 1786974776,
 "source": "Greenhouse",
 "title": "Senior Manager, Solutions Architect",
 "uid": "gh:fivetran:7818399003",
@@ -316763,7 +317189,7 @@
 "locations": [
 "Remote, New York, United States, AMER"
 ],
-"posted": 1786748494,
+"posted": 1786974776,
 "source": "Greenhouse",
 "title": "Sales Director",
 "uid": "gh:fivetran:7818433003",
@@ -316838,7 +317264,7 @@
 "locations": [
 "Remote, Washington, United States, AMER"
 ],
-"posted": 1786723048,
+"posted": 1786974771,
 "source": "Greenhouse",
 "title": "Sales Engineer Enterprise",
 "uid": "gh:fivetran:7819682003",
@@ -316853,7 +317279,7 @@
 "locations": [
 "Oakland, California, United States, AMER"
 ],
-"posted": 1786723049,
+"posted": 1786974771,
 "source": "Greenhouse",
 "title": "Senior Revenue Accountant",
 "uid": "gh:fivetran:7819883003",
@@ -316868,7 +317294,7 @@
 "locations": [
 "Remote, United Kingdom, EMEA"
 ],
-"posted": 1786723055,
+"posted": 1786974776,
 "source": "Greenhouse",
 "title": "Staff Solutions Architect",
 "uid": "gh:fivetran:7820221003",
@@ -316883,7 +317309,7 @@
 "locations": [
 "London, England, United Kingdom"
 ],
-"posted": 1786723045,
+"posted": 1786974767,
 "source": "Greenhouse",
 "title": "Senior Sales Engineer, Commercial",
 "uid": "gh:fivetran:7820250003",
@@ -316898,7 +317324,7 @@
 "locations": [
 "Novi Sad, South Ba\u010dka, Serbia, EMEA"
 ],
-"posted": 1786723055,
+"posted": 1786974777,
 "source": "Greenhouse",
 "title": "Senior Software Engineer - Core Databases",
 "uid": "gh:fivetran:7822402003",
@@ -316913,7 +317339,7 @@
 "locations": [
 "Denver, Colorado, United States, AMER"
 ],
-"posted": 1786723049,
+"posted": 1786974771,
 "source": "Greenhouse",
 "title": "Senior Product Design Manager",
 "uid": "gh:fivetran:7822456003",
@@ -316928,7 +317354,7 @@
 "locations": [
 "Remote, Ireland, EMEA; Remote, United Kingdom, EMEA"
 ],
-"posted": 1786723055,
+"posted": 1786974777,
 "source": "Greenhouse",
 "title": "Senior Sales Engineer, Enterprise",
 "uid": "gh:fivetran:7822654003",
@@ -316943,7 +317369,7 @@
 "locations": [
 "Remote, Washington, United States, AMER"
 ],
-"posted": 1786723047,
+"posted": 1786974769,
 "source": "Greenhouse",
 "title": "Senior Business Value Engineer",
 "uid": "gh:fivetran:7822951003",
@@ -316958,7 +317384,7 @@
 "locations": [
 "Oakland, California, United States"
 ],
-"posted": 1786723051,
+"posted": 1786974772,
 "source": "Greenhouse",
 "title": "Organic Growth Lead, SEO & GEO",
 "uid": "gh:fivetran:7823099003",
@@ -316973,7 +317399,7 @@
 "locations": [
 "Oakland, California, United States"
 ],
-"posted": 1786723055,
+"posted": 1786974777,
 "source": "Greenhouse",
 "title": "Staff Software Engineer, Metadata",
 "uid": "gh:fivetran:7823193003",
@@ -316988,7 +317414,7 @@
 "locations": [
 "Denver, Colorado, United States, AMER"
 ],
-"posted": 1786723055,
+"posted": 1786974777,
 "source": "Greenhouse",
 "title": "Engineering Manager, Metadata",
 "uid": "gh:fivetran:7823195003",
@@ -317003,7 +317429,7 @@
 "locations": [
 "Denver, Colorado, United States, AMER"
 ],
-"posted": 1786723050,
+"posted": 1786974772,
 "source": "Greenhouse",
 "title": "Senior Staff Systems Engineer, GTM",
 "uid": "gh:fivetran:7826669003",
@@ -317018,7 +317444,7 @@
 "locations": [
 "SRB - Remote"
 ],
-"posted": 1786723050,
+"posted": 1786974772,
 "source": "Greenhouse",
 "title": "Accountant",
 "uid": "gh:fivetran:7827799003",
@@ -317033,7 +317459,7 @@
 "locations": [
 "Remote, New York, United States, AMER"
 ],
-"posted": 1786723055,
+"posted": 1786974777,
 "source": "Greenhouse",
 "title": "Senior Manager, Solutions Engineering",
 "uid": "gh:fivetran:7830053003",
@@ -317048,7 +317474,7 @@
 "locations": [
 "Novi Sad, South Ba\u010dka, Serbia, EMEA"
 ],
-"posted": 1786723055,
+"posted": 1786974777,
 "source": "Greenhouse",
 "title": "Senior Software Engineer - C Programmer",
 "uid": "gh:fivetran:7847762003",
@@ -317063,7 +317489,7 @@
 "locations": [
 "Remote, Oregon, United States, AMER"
 ],
-"posted": 1786723053,
+"posted": 1786974775,
 "source": "Greenhouse",
 "title": "Senior Community Manager",
 "uid": "gh:fivetran:7850542003",
@@ -317078,7 +317504,7 @@
 "locations": [
 "Remote, Utah, United States, AMER"
 ],
-"posted": 1786723053,
+"posted": 1786974775,
 "source": "Greenhouse",
 "title": "Senior Community Manager",
 "uid": "gh:fivetran:7850560003",
@@ -317093,7 +317519,7 @@
 "locations": [
 "Remote, New York, United States, AMER"
 ],
-"posted": 1786723053,
+"posted": 1786974775,
 "source": "Greenhouse",
 "title": "Senior Community Manager",
 "uid": "gh:fivetran:7850596003",
@@ -317108,7 +317534,7 @@
 "locations": [
 "Remote, Massachusetts, United States, AMER"
 ],
-"posted": 1786723053,
+"posted": 1786974775,
 "source": "Greenhouse",
 "title": "Senior Community Manager",
 "uid": "gh:fivetran:7850598003",
@@ -317123,7 +317549,7 @@
 "locations": [
 "Remote, North Carolina, United States, AMER"
 ],
-"posted": 1786723053,
+"posted": 1786974775,
 "source": "Greenhouse",
 "title": "Senior Community Manager",
 "uid": "gh:fivetran:7850655003",
@@ -317138,7 +317564,7 @@
 "locations": [
 "Remote, Washington DC, United States, AMER"
 ],
-"posted": 1786723053,
+"posted": 1786974775,
 "source": "Greenhouse",
 "title": "Senior Community Manager",
 "uid": "gh:fivetran:7850660003",
@@ -317153,7 +317579,7 @@
 "locations": [
 "Remote, Virginia, United States, AMER"
 ],
-"posted": 1786723053,
+"posted": 1786974774,
 "source": "Greenhouse",
 "title": "Senior Community Manager",
 "uid": "gh:fivetran:7851439003",
@@ -317168,7 +317594,7 @@
 "locations": [
 "Remote, Maryland, United States"
 ],
-"posted": 1786723053,
+"posted": 1786974774,
 "source": "Greenhouse",
 "title": "Senior Community Manager",
 "uid": "gh:fivetran:7851441003",
@@ -317183,7 +317609,7 @@
 "locations": [
 "Remote, Georgia, United States, AMER"
 ],
-"posted": 1786723053,
+"posted": 1786974775,
 "source": "Greenhouse",
 "title": "Senior Community Manager",
 "uid": "gh:fivetran:7851446003",
@@ -317198,7 +317624,7 @@
 "locations": [
 "Remote, Pennsylvania, United States, AMER"
 ],
-"posted": 1786723053,
+"posted": 1786974774,
 "source": "Greenhouse",
 "title": "Senior Community Manager",
 "uid": "gh:fivetran:7851487003",
@@ -317213,7 +317639,7 @@
 "locations": [
 "Remote, Illinois, United States, AMER"
 ],
-"posted": 1786723053,
+"posted": 1786974774,
 "source": "Greenhouse",
 "title": "Senior Community Manager",
 "uid": "gh:fivetran:7851489003",
@@ -317228,7 +317654,7 @@
 "locations": [
 "Remote,  Minnesota, United States, AMER"
 ],
-"posted": 1786723053,
+"posted": 1786974775,
 "source": "Greenhouse",
 "title": "Senior Community Manager",
 "uid": "gh:fivetran:7851535003",
@@ -317243,7 +317669,7 @@
 "locations": [
 "Remote, Ohio, United States, AMER"
 ],
-"posted": 1786723053,
+"posted": 1786974774,
 "source": "Greenhouse",
 "title": "Senior Community Manager",
 "uid": "gh:fivetran:7851581003",
@@ -317258,7 +317684,7 @@
 "locations": [
 "Remote, Michigan, United States, AMER"
 ],
-"posted": 1786723053,
+"posted": 1786974775,
 "source": "Greenhouse",
 "title": "Senior Community Manager",
 "uid": "gh:fivetran:7851583003",
@@ -317273,7 +317699,7 @@
 "locations": [
 "Remote, Indiana, United States, AMER"
 ],
-"posted": 1786723053,
+"posted": 1786974774,
 "source": "Greenhouse",
 "title": "Senior Community Manager",
 "uid": "gh:fivetran:7851585003",
@@ -317288,7 +317714,7 @@
 "locations": [
 "Remote, Wisconsin, United States, AMER"
 ],
-"posted": 1786723053,
+"posted": 1786974774,
 "source": "Greenhouse",
 "title": "Senior Community Manager",
 "uid": "gh:fivetran:7851595003",
@@ -317303,7 +317729,7 @@
 "locations": [
 "Remote, Missouri, United States, AMER"
 ],
-"posted": 1786723053,
+"posted": 1786974775,
 "source": "Greenhouse",
 "title": "Senior Community Manager",
 "uid": "gh:fivetran:7851633003",
@@ -317318,7 +317744,7 @@
 "locations": [
 "Remote, Texas, United States, AMER"
 ],
-"posted": 1786723053,
+"posted": 1786974774,
 "source": "Greenhouse",
 "title": "Senior Community Manager",
 "uid": "gh:fivetran:7851635003",
@@ -317333,7 +317759,7 @@
 "locations": [
 "Remote, California, United States, AMER"
 ],
-"posted": 1786723053,
+"posted": 1786974775,
 "source": "Greenhouse",
 "title": "Senior Community Manager",
 "uid": "gh:fivetran:7851682003",
@@ -317348,7 +317774,7 @@
 "locations": [
 "IRL - Dublin (dbt)"
 ],
-"posted": 1786723056,
+"posted": 1786974778,
 "source": "Greenhouse",
 "title": "Staff Software Engineer",
 "uid": "gh:fivetran:7854831003",
@@ -317363,7 +317789,7 @@
 "locations": [
 "London, England, United Kingdom"
 ],
-"posted": 1786723048,
+"posted": 1786974770,
 "source": "Greenhouse",
 "title": "Business Development Representative - DACH",
 "uid": "gh:fivetran:7857955003",
@@ -317378,7 +317804,7 @@
 "locations": [
 "Oakland, California, United States"
 ],
-"posted": 1786723055,
+"posted": 1786974777,
 "source": "Greenhouse",
 "title": "Engineering Manager, Metadata",
 "uid": "gh:fivetran:7859203003",
@@ -317408,7 +317834,7 @@
 "locations": [
 "Novi Sad, South Ba\u010dka, Serbia, EMEA"
 ],
-"posted": 1786958963,
+"posted": 1786974778,
 "source": "Greenhouse",
 "title": "Staff Technical Program Manager ",
 "uid": "gh:fivetran:7859686003",
@@ -317423,7 +317849,7 @@
 "locations": [
 "Remote, Massachusetts, United States, AMER"
 ],
-"posted": 1786723055,
+"posted": 1786974777,
 "source": "Greenhouse",
 "title": "Senior Manager, Solutions Engineering",
 "uid": "gh:fivetran:7861268003",
@@ -317438,7 +317864,7 @@
 "locations": [
 "Remote, Virginia, United States, AMER"
 ],
-"posted": 1786723056,
+"posted": 1786974777,
 "source": "Greenhouse",
 "title": "Senior Manager, Solutions Engineering",
 "uid": "gh:fivetran:7861285003",
@@ -317453,7 +317879,7 @@
 "locations": [
 "Remote, North Carolina, United States, AMER"
 ],
-"posted": 1786723056,
+"posted": 1786974777,
 "source": "Greenhouse",
 "title": "Senior Manager, Solutions Engineering",
 "uid": "gh:fivetran:7861353003",
@@ -317468,7 +317894,7 @@
 "locations": [
 "Remote, New Jersey, United States, AMER"
 ],
-"posted": 1786723055,
+"posted": 1786974777,
 "source": "Greenhouse",
 "title": "Senior Manager, Solutions Engineering",
 "uid": "gh:fivetran:7861354003",
@@ -317483,7 +317909,7 @@
 "locations": [
 "Remote, Pennsylvania, United States, AMER"
 ],
-"posted": 1786723056,
+"posted": 1786974777,
 "source": "Greenhouse",
 "title": "Senior Manager, Solutions Engineering",
 "uid": "gh:fivetran:7861356003",
@@ -317498,7 +317924,7 @@
 "locations": [
 "Remote, Washington DC, United States, AMER"
 ],
-"posted": 1786723055,
+"posted": 1786974777,
 "source": "Greenhouse",
 "title": "Senior Manager, Solutions Engineering",
 "uid": "gh:fivetran:7861358003",
@@ -317513,7 +317939,7 @@
 "locations": [
 "Remote, Maryland, United States"
 ],
-"posted": 1786723056,
+"posted": 1786974777,
 "source": "Greenhouse",
 "title": "Senior Manager, Solutions Engineering",
 "uid": "gh:fivetran:7861360003",
@@ -317528,7 +317954,7 @@
 "locations": [
 "Remote, Connecticut, United States, AMER"
 ],
-"posted": 1786723056,
+"posted": 1786974777,
 "source": "Greenhouse",
 "title": "Senior Manager, Solutions Engineering",
 "uid": "gh:fivetran:7861361003",
@@ -317543,7 +317969,7 @@
 "locations": [
 "Remote, Tennessee, United States, AMER"
 ],
-"posted": 1786723055,
+"posted": 1786974776,
 "source": "Greenhouse",
 "title": "Senior Manager, Solutions Architect",
 "uid": "gh:fivetran:7862460003",
@@ -317558,7 +317984,7 @@
 "locations": [
 "Denver, Colorado, United States, AMER"
 ],
-"posted": 1786723055,
+"posted": 1786974777,
 "source": "Greenhouse",
 "title": "Staff Software Engineer, Metadata",
 "uid": "gh:fivetran:7864598003",
@@ -317573,7 +317999,7 @@
 "locations": [
 "Toronto, Ontario, Canada"
 ],
-"posted": 1786723055,
+"posted": 1786974777,
 "source": "Greenhouse",
 "title": "Staff Software Engineer, Metadata",
 "uid": "gh:fivetran:7864668003",
@@ -317588,7 +318014,7 @@
 "locations": [
 "Toronto, Ontario, Canada"
 ],
-"posted": 1786723055,
+"posted": 1786974777,
 "source": "Greenhouse",
 "title": "Engineering Manager, Metadata",
 "uid": "gh:fivetran:7865037003",
@@ -317603,7 +318029,7 @@
 "locations": [
 "Denver, Colorado, United States, AMER"
 ],
-"posted": 1786723052,
+"posted": 1786974774,
 "source": "Greenhouse",
 "title": "Senior Product Manager, Enterprise & Deployments",
 "uid": "gh:fivetran:7865148003",
@@ -317618,7 +318044,7 @@
 "locations": [
 "Toronto, Ontario, Canada"
 ],
-"posted": 1786723052,
+"posted": 1786974774,
 "source": "Greenhouse",
 "title": "Senior Product Manager, Enterprise & Deployments",
 "uid": "gh:fivetran:7865162003",
@@ -317633,7 +318059,7 @@
 "locations": [
 "Oakland, California, United States"
 ],
-"posted": 1786723052,
+"posted": 1786974774,
 "source": "Greenhouse",
 "title": "Senior Product Manager, Enterprise & Deployments",
 "uid": "gh:fivetran:7865163003",
@@ -317648,7 +318074,7 @@
 "locations": [
 "Denver, Colorado, United States, AMER"
 ],
-"posted": 1786723054,
+"posted": 1786974776,
 "source": "Greenhouse",
 "title": "Senior Software Engineer - Metadata",
 "uid": "gh:fivetran:7865559003",
@@ -317663,7 +318089,7 @@
 "locations": [
 "Oakland, California, United States"
 ],
-"posted": 1786723054,
+"posted": 1786974776,
 "source": "Greenhouse",
 "title": "Senior Software Engineer - Metadata",
 "uid": "gh:fivetran:7865591003",
@@ -317678,7 +318104,7 @@
 "locations": [
 "Remote, Ohio, United States, AMER"
 ],
-"posted": 1786723055,
+"posted": 1786974776,
 "source": "Greenhouse",
 "title": "Senior Manager, Solutions Architect",
 "uid": "gh:fivetran:7866558003",
@@ -317693,7 +318119,7 @@
 "locations": [
 "Remote, Michigan, United States, AMER"
 ],
-"posted": 1786723055,
+"posted": 1786974776,
 "source": "Greenhouse",
 "title": "Senior Manager, Solutions Architect",
 "uid": "gh:fivetran:7866559003",
@@ -317708,7 +318134,7 @@
 "locations": [
 "Remote,  Minnesota, United States, AMER"
 ],
-"posted": 1786723055,
+"posted": 1786974776,
 "source": "Greenhouse",
 "title": "Senior Manager, Solutions Architect",
 "uid": "gh:fivetran:7866560003",
@@ -317723,7 +318149,7 @@
 "locations": [
 "Remote, Missouri, United States, AMER"
 ],
-"posted": 1786723055,
+"posted": 1786974776,
 "source": "Greenhouse",
 "title": "Senior Manager, Solutions Architect",
 "uid": "gh:fivetran:7866561003",
@@ -317738,7 +318164,7 @@
 "locations": [
 "Remote, Wisconsin, United States, AMER"
 ],
-"posted": 1786723055,
+"posted": 1786974776,
 "source": "Greenhouse",
 "title": "Senior Manager, Solutions Architect",
 "uid": "gh:fivetran:7866562003",
@@ -317753,11 +318179,26 @@
 "locations": [
 "Remote, Indiana, United States, AMER"
 ],
-"posted": 1786723055,
+"posted": 1786974776,
 "source": "Greenhouse",
 "title": "Senior Manager, Solutions Architect",
 "uid": "gh:fivetran:7866563003",
 "url": "https://www.fivetran.com/careers/job?gh_jid=7866563003"
+},
+"gh:fivetran:7868539003": {
+"category": "",
+"closed_at": null,
+"company": "Fivetran",
+"degrees": [],
+"first_seen": 1786977772,
+"locations": [
+"Bengaluru, Karnataka, India, APAC"
+],
+"posted": 1786974778,
+"source": "Greenhouse",
+"title": "Staff Program Manager",
+"uid": "gh:fivetran:7868539003",
+"url": "https://www.fivetran.com/careers/job?gh_jid=7868539003"
 },
 "gh:fivetran:7870801003": {
 "category": "",
@@ -317768,7 +318209,7 @@
 "locations": [
 "USA - New York"
 ],
-"posted": 1786723518,
+"posted": 1786974771,
 "source": "Greenhouse",
 "title": "Compliance, Employment & Litigation Counsel",
 "uid": "gh:fivetran:7870801003",
@@ -317783,7 +318224,7 @@
 "locations": [
 "USA - Austin (dbt)"
 ],
-"posted": 1786723913,
+"posted": 1786974771,
 "source": "Greenhouse",
 "title": "Compliance, Employment & Litigation Counsel",
 "uid": "gh:fivetran:7870857003",
@@ -317798,7 +318239,7 @@
 "locations": [
 "USA - Philadelphia (dbt)"
 ],
-"posted": 1786723916,
+"posted": 1786974771,
 "source": "Greenhouse",
 "title": "Compliance, Employment & Litigation Counsel",
 "uid": "gh:fivetran:7870861003",
@@ -317813,7 +318254,7 @@
 "locations": [
 "Denver, Colorado, United States, AMER"
 ],
-"posted": 1786741899,
+"posted": 1786974767,
 "source": "Greenhouse",
 "title": "Business Development Representative, Enterprise",
 "uid": "gh:fivetran:7872209003",
@@ -317828,7 +318269,7 @@
 "locations": [
 "USA - Austin (dbt)"
 ],
-"posted": 1786741906,
+"posted": 1786974767,
 "source": "Greenhouse",
 "title": "Business Development Representative, Enterprise",
 "uid": "gh:fivetran:7872211003",
@@ -324595,9 +325036,9 @@
 "locations": [
 "Remote Ireland; Remote, Germany; Remote, Netherlands; Remote, United Kingdom"
 ],
-"posted": 1786395166,
+"posted": 1786975502,
 "source": "Greenhouse",
-"title": "Business Development Representative - UKI",
+"title": "Business Development Representative - Nordics",
 "uid": "gh:gitlab:8687381002",
 "url": "https://job-boards.greenhouse.io/gitlab/jobs/8687381002"
 },
@@ -324715,7 +325156,7 @@
 "locations": [
 "Bangalore, India"
 ],
-"posted": 1786647527,
+"posted": 1786975715,
 "source": "Greenhouse",
 "title": "Director of Engineering, Organizations & Cells",
 "uid": "gh:gitlab:8696826002",
@@ -350066,7 +350507,7 @@
 "locations": [
 "San Francisco, CA"
 ],
-"posted": 1785161069,
+"posted": 1786977019,
 "source": "Greenhouse",
 "title": "Engineering Manager, Rider",
 "uid": "gh:lyft:8649938002",
@@ -350081,7 +350522,7 @@
 "locations": [
 "New York, NY"
 ],
-"posted": 1785161070,
+"posted": 1786977019,
 "source": "Greenhouse",
 "title": "Engineering Manager, Rider",
 "uid": "gh:lyft:8649950002",
@@ -350224,7 +350665,7 @@
 },
 "gh:lyft:8656826002": {
 "category": "",
-"closed_at": null,
+"closed_at": 1786977773,
 "company": "Lyft",
 "degrees": [],
 "first_seen": 1785610065,
@@ -350531,7 +350972,7 @@
 "locations": [
 "San Francisco, CA"
 ],
-"posted": 1786115795,
+"posted": 1786977033,
 "source": "Greenhouse",
 "title": "Staff Android Engineer - Rider Experience & Mobile Platform",
 "uid": "gh:lyft:8680013002",
@@ -350599,7 +351040,7 @@
 },
 "gh:lyft:8684437002": {
 "category": "",
-"closed_at": null,
+"closed_at": 1786977773,
 "company": "Lyft",
 "degrees": [],
 "first_seen": 1786464660,
@@ -350786,7 +351227,7 @@
 "locations": [
 "Washington, DC"
 ],
-"posted": 1786119880,
+"posted": 1786977026,
 "source": "Greenhouse",
 "title": "Operations Specialist, Capital Bikeshare",
 "uid": "gh:lyft:8689228002",
@@ -352996,6 +353437,21 @@
 "title": "Customer Value Architect, EMEA ",
 "uid": "gh:mixpanel:8124247",
 "url": "https://job-boards.greenhouse.io/mixpanel/jobs/8124247"
+},
+"gh:mixpanel:8132162": {
+"category": "",
+"closed_at": null,
+"company": "Mixpanel",
+"degrees": [],
+"first_seen": 1786977772,
+"locations": [
+"London, UK (Hybrid)"
+],
+"posted": 1786972386,
+"source": "Greenhouse",
+"title": "Senior Customer Strategy & Operations Manager",
+"uid": "gh:mixpanel:8132162",
+"url": "https://job-boards.greenhouse.io/mixpanel/jobs/8132162"
 },
 "gh:mongodb:5050863": {
 "category": "",
@@ -360296,7 +360752,7 @@
 "locations": [
 "Cardiff, London or Remote (UK)"
 ],
-"posted": 1779987961,
+"posted": 1786974851,
 "source": "Greenhouse",
 "title": "Lead Product Designer",
 "uid": "gh:monzo:6758088",
@@ -360881,7 +361337,7 @@
 "locations": [
 "Cardiff, London or Remote (UK)"
 ],
-"posted": 1786959420,
+"posted": 1786974799,
 "source": "Greenhouse",
 "title": "Lead Market Researcher",
 "uid": "gh:monzo:8016243",
@@ -372512,6 +372968,21 @@
 "title": "Engineering Manager of Serving Platforms",
 "uid": "gh:opentable:8650856002",
 "url": "https://job-boards.greenhouse.io/opentable/jobs/8650856002"
+},
+"gh:opentable:8651264002": {
+"category": "",
+"closed_at": null,
+"company": "Opentable",
+"degrees": [],
+"first_seen": 1786977772,
+"locations": [
+"Dublin, Ireland"
+],
+"posted": 1786977069,
+"source": "Greenhouse",
+"title": "Associate Account Manager",
+"uid": "gh:opentable:8651264002",
+"url": "https://job-boards.greenhouse.io/opentable/jobs/8651264002"
 },
 "gh:opentable:8651267002": {
 "category": "",
@@ -388656,7 +389127,7 @@
 },
 "gh:roblox:8069987": {
 "category": "",
-"closed_at": null,
+"closed_at": 1786977773,
 "company": "Roblox",
 "degrees": [],
 "first_seen": 1786395833,
@@ -396169,7 +396640,7 @@
 "locations": [
 "Remote - France"
 ],
-"posted": 1786966356,
+"posted": 1786975343,
 "source": "Greenhouse",
 "title": "Sales Manager, Mid-Market, France (Remote)",
 "uid": "gh:samsara:8079877",
@@ -431189,6 +431660,21 @@
 "uid": "gh:stripe:7576967",
 "url": "https://stripe.com/jobs/search?gh_jid=7576967"
 },
+"gh:stripe:7576999": {
+"category": "",
+"closed_at": null,
+"company": "Stripe",
+"degrees": [],
+"first_seen": 1786977772,
+"locations": [
+"Chicago"
+],
+"posted": 1786974406,
+"source": "Greenhouse",
+"title": "Account Executive, SMB (New Business)",
+"uid": "gh:stripe:7576999",
+"url": "https://stripe.com/jobs/search?gh_jid=7576999"
+},
 "gh:stripe:7577223": {
 "category": "",
 "closed_at": 1786130165,
@@ -431416,7 +431902,7 @@
 },
 "gh:stripe:7601663": {
 "category": "",
-"closed_at": null,
+"closed_at": 1786977773,
 "company": "Stripe",
 "degrees": [],
 "first_seen": 1785401837,
@@ -436343,7 +436829,7 @@
 "locations": [
 "Singapore"
 ],
-"posted": 1786693558,
+"posted": 1786974734,
 "source": "Greenhouse",
 "title": "Account Executive, Crypto/Stablecoins ",
 "uid": "gh:stripe:8041076",
@@ -438143,7 +438629,7 @@
 "locations": [
 "US-SF"
 ],
-"posted": 1786641549,
+"posted": 1786974284,
 "source": "Greenhouse",
 "title": "AV Events Manager",
 "uid": "gh:stripe:8078126",
@@ -438983,7 +439469,7 @@
 "locations": [
 "US-ATL, US-CHI"
 ],
-"posted": 1786738767,
+"posted": 1786977288,
 "source": "Greenhouse",
 "title": "Program Manager, Customer Success Efficiency and Scale   ",
 "uid": "gh:stripe:8097838",
@@ -439148,7 +439634,7 @@
 "locations": [
 "London"
 ],
-"posted": 1786374278,
+"posted": 1786977713,
 "source": "Greenhouse",
 "title": "Partner Development Manager",
 "uid": "gh:stripe:8104427",
@@ -439798,6 +440284,21 @@
 "title": "Staff Software Engineer, Financial Crimes",
 "uid": "gh:stripe:8120494",
 "url": "https://stripe.com/jobs/search?gh_jid=8120494"
+},
+"gh:stripe:8121223": {
+"category": "",
+"closed_at": null,
+"company": "Stripe",
+"degrees": [],
+"first_seen": 1786977772,
+"locations": [
+"London"
+],
+"posted": 1786976680,
+"source": "Greenhouse",
+"title": "Partner Development Manager- Alliances & Channels",
+"uid": "gh:stripe:8121223",
+"url": "https://stripe.com/jobs/search?gh_jid=8121223"
 },
 "gh:stripe:8121419": {
 "category": "",
@@ -460760,7 +461261,7 @@
 },
 "gh:upstart:8011540": {
 "category": "",
-"closed_at": null,
+"closed_at": 1786977773,
 "company": "Upstart",
 "degrees": [],
 "first_seen": 1786389514,
@@ -461517,7 +462018,7 @@
 "locations": [
 "Columbus, OH, USA"
 ],
-"posted": 1786404249,
+"posted": 1786972136,
 "source": "Greenhouse",
 "title": "Customer Experience Specialist, Home Lending",
 "uid": "gh:upstart:8120597",
@@ -465588,6 +466089,21 @@
 "title": "Senior Software Engineer (Ruby/RoR, Low-Code Apps)",
 "uid": "gh:workato:8657378002",
 "url": "https://www.workato.com/careers?gh_jid=8657378002#open-roles"
+},
+"gh:workato:8658905002": {
+"category": "",
+"closed_at": null,
+"company": "Workato",
+"degrees": [],
+"first_seen": 1786977772,
+"locations": [
+"Palo Alto, California"
+],
+"posted": 1786972215,
+"source": "Greenhouse",
+"title": "Alliances Manager",
+"uid": "gh:workato:8658905002",
+"url": "https://www.workato.com/careers?gh_jid=8658905002#open-roles"
 },
 "gh:workato:8659240002": {
 "category": "",
@@ -474171,7 +474687,7 @@
 },
 "lever:octoenergy:29632fe6-5313-4df2-8d54-dad4e3479135": {
 "category": "Engineering",
-"closed_at": null,
+"closed_at": 1786977773,
 "company": "Octoenergy",
 "degrees": [],
 "first_seen": 1785793958,
@@ -475564,6 +476080,21 @@
 "uid": "lever:octoenergy:ab15d13d-213e-4b20-9835-df81db814cf9",
 "url": "https://jobs.lever.co/octoenergy/ab15d13d-213e-4b20-9835-df81db814cf9"
 },
+"lever:octoenergy:ab8edf29-ef1a-41da-a982-cd453ffd8fbd": {
+"category": "Operations - fixed",
+"closed_at": null,
+"company": "Octoenergy",
+"degrees": [],
+"first_seen": 1786977772,
+"locations": [
+"London (GB)"
+],
+"posted": 1786973060,
+"source": "Lever",
+"title": "Finance Operations Specialist",
+"uid": "lever:octoenergy:ab8edf29-ef1a-41da-a982-cd453ffd8fbd",
+"url": "https://jobs.lever.co/octoenergy/ab8edf29-ef1a-41da-a982-cd453ffd8fbd"
+},
 "lever:octoenergy:aea86b6b-f96e-4f9d-855e-dc94bbe27a3c": {
 "category": "Handwerk",
 "closed_at": null,
@@ -475716,7 +476247,7 @@
 },
 "lever:octoenergy:b8483ed8-c111-47e8-99a1-5a28c63f8187": {
 "category": "Engineering",
-"closed_at": null,
+"closed_at": 1786977773,
 "company": "Octoenergy",
 "degrees": [],
 "first_seen": 1785793958,
@@ -483052,6 +483583,21 @@
 "title": "Senior Commercial Counsel",
 "uid": "lever:sonarsource:e3cf06d7-56d9-4b1b-aeb1-1cca91ddf5bf",
 "url": "https://jobs.lever.co/sonarsource/e3cf06d7-56d9-4b1b-aeb1-1cca91ddf5bf"
+},
+"lever:sonarsource:e503ad3d-13bc-4e9c-a141-228df320e010": {
+"category": "Agentic Code Review",
+"closed_at": null,
+"company": "Sonarsource",
+"degrees": [],
+"first_seen": 1786977772,
+"locations": [
+"San Mateo, CA"
+],
+"posted": 1784815596,
+"source": "Lever",
+"title": "Software Engineer - Agentic Code Review (Gitar)",
+"uid": "lever:sonarsource:e503ad3d-13bc-4e9c-a141-228df320e010",
+"url": "https://jobs.lever.co/sonarsource/e503ad3d-13bc-4e9c-a141-228df320e010"
 },
 "lever:sonarsource:e571fa03-8a85-49f0-b6ad-831f52b79445": {
 "category": "Solutions Engineering",
@@ -697894,7 +698440,7 @@
 },
 "smartrecruiters:Wise:744000140671444": {
 "category": "",
-"closed_at": null,
+"closed_at": 1786977773,
 "company": "Wise",
 "degrees": [],
 "first_seen": 1785793958,
@@ -701929,7 +702475,7 @@
 },
 "smartrecruiters:Wise:744000143529573": {
 "category": "",
-"closed_at": null,
+"closed_at": 1786977773,
 "company": "Wise",
 "degrees": [],
 "first_seen": 1786719984,
@@ -701944,7 +702490,7 @@
 },
 "smartrecruiters:Wise:744000143557061": {
 "category": "",
-"closed_at": null,
+"closed_at": 1786977773,
 "company": "Wise",
 "degrees": [],
 "first_seen": 1786727393,
@@ -702211,6 +702757,36 @@
 "title": "Compliance Team Assistant",
 "uid": "smartrecruiters:Wise:744000143803679",
 "url": "https://jobs.smartrecruiters.com/Wise/744000143803679"
+},
+"smartrecruiters:Wise:744000143843929": {
+"category": "",
+"closed_at": null,
+"company": "Wise",
+"degrees": [],
+"first_seen": 1786977772,
+"locations": [
+"S\u00e3o Paulo, , Brazil"
+],
+"posted": 1786975054,
+"source": "SmartRecruiters",
+"title": "AML Team Lead",
+"uid": "smartrecruiters:Wise:744000143843929",
+"url": "https://jobs.smartrecruiters.com/Wise/744000143843929"
+},
+"smartrecruiters:Wise:744000143846948": {
+"category": "",
+"closed_at": null,
+"company": "Wise",
+"degrees": [],
+"first_seen": 1786977772,
+"locations": [
+"Budapest, , Hungary"
+],
+"posted": 1786975579,
+"source": "SmartRecruiters",
+"title": "Global People Partner",
+"uid": "smartrecruiters:Wise:744000143846948",
+"url": "https://jobs.smartrecruiters.com/Wise/744000143846948"
 },
 "workable:renewhome:333727778A": {
 "category": "Engineering",
@@ -702828,6 +703404,6 @@
 "url": "https://apply.workable.com/j/F26F8B9006"
 }
 },
-"updated": "2026-08-17T14:42:16+00:00",
+"updated": "2026-08-17T14:42:55+00:00",
 "version": 2
 }
