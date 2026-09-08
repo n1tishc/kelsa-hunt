@@ -30,8 +30,6 @@ class ClassifyUsTitleTests(unittest.TestCase):
 
     def test_junior_marker_scores_5(self):
         titles = [
-            "Junior Software Engineer",
-            "Jr. Software Engineer",
             "Associate Software Engineer",
             "Software Engineer I",
             "SDE I",

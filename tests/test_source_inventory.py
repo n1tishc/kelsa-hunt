@@ -29,7 +29,7 @@ class VerifiedSourceInventoryTests(unittest.TestCase):
 
         fetches = job_alert.configured_source_fetches(sources)
         configured_names = {source.name for source in fetches}
-        self.assertEqual(len(fetches), 225)
+        self.assertEqual(len(fetches), 227)
         self.assertIn("greenhouse/zscaler", configured_names)
         self.assertIn("lever/palantir", configured_names)
         self.assertIn("ashby/openai", configured_names)
@@ -56,8 +56,8 @@ class VerifiedSourceInventoryTests(unittest.TestCase):
             names0 | names1,
             {source.name for source in fetches},
         )
-        # Neither shard should carry more than a handful extra over an even split.
-        self.assertLessEqual(abs(len(names0) - len(names1)), 5)
+        # Each platform can contribute one extra board to the first shard.
+        self.assertLessEqual(abs(len(names0) - len(names1)), len(job_alert.SHARDED_PLATFORMS))
 
 
 if __name__ == "__main__":

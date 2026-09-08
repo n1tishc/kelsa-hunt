@@ -48,6 +48,7 @@ def derived_record(record):
         view.get("title") or "",
         view.get("degrees"),
         view.get("category"),
+        view.get("experience_years"),
     )
     row = {field: view.get(field) for field in PUBLIC_FIELDS}
     row["url"] = public_url(view.get("url"))
