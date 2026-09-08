@@ -1,13 +1,13 @@
 # Bay Area new-grad job alerter
 
 Polls the Simplify and Ambicuity community new-grad feeds plus configured
-Greenhouse, Lever, Ashby, SmartRecruiters, Workable, and Recruitee boards, filters
+Greenhouse, Lever, Ashby, SmartRecruiters, Workable, Recruitee, Eightfold, and Dayforce boards, filters
 to Bay Area entry-level SWE/MLE roles, and pushes new hits to Discord.
 
 ## Setup
 
-1. **Keep the repo public.** The best-effort schedule targets about 690 runs
-   per month. Monitor actual usage against an operational ceiling of 1,000
+1. **Keep the repo public.** The best-effort schedule targets about 690 full scans plus 1,440 lightweight priority checks
+   per 30-day month. Monitor actual usage against an operational ceiling of 1,000
    runner-minutes and keep normal p95 scans under 60 seconds; the five-minute
    job timeout is failure containment, not a per-run budget. Public Actions
    runners keep that capacity outside a private-repo minutes budget.
@@ -30,22 +30,63 @@ to Bay Area entry-level SWE/MLE roles, and pushes new hits to Discord.
 
 5. Done. It runs itself from then on.
 
+## Priority companies
+
+Qualitrol and Interactive Brokers are included in `sources.json`. Qualitrol uses
+[Ralliant's Eightfold board](https://careers.ralliant.com/qualitrol/), filtered to
+Qualitrol; [Interactive Brokers' careers page](https://www.interactivebrokers.com/en/general/about/careers-splash.php)
+now links to Dayforce (the former Greenhouse `ibkr` endpoint returns 404).
+Both feeds paginate completely and reject incomplete observations, so failed or
+partial searches cannot mark existing jobs closed. Session cookies and Dayforce's
+public CSRF token are obtained afresh for each scan; no login is needed.
+
+`python job_alert.py scan --priority-only --dry-run` checks just these boards.
+The workflow adds priority-only checks at minutes 02 and 32 every hour, alongside
+the existing full scans: approximately every 15 minutes during the weekday working
+window and at least every 30 minutes otherwise, subject to GitHub Actions delays.
+New matches use the existing role, location, age, and notification-deduplication
+rules. The schedule takes effect after these changes reach the default branch.
+
+Verified on 2026-09-08: 78 Qualitrol and 193 Interactive Brokers openings fetched;
+none matched the existing notification criteria. Personal referral details are not
+stored in the public job data.
+
 ## Tuning
 
 | Flag | Effect |
 |---|---|
 | `--min-score 3` | Include the "maybe" bucket (bare `Software Engineer` etc.) |
-| `--min-score 10` | Only explicitly-labelled new-grad roles |
-| `--no-remote` | Bay Area only, drop remote listings |
+| `--min-score 10` | New-grad and Junior/Jr. priority roles |
+| `--no-remote` | Require a matching Bay Area or UK city; disable remote-only eligibility |
 | `--dry-run` | Print matches, send nothing, don't touch state |
 
-Scores: **10** = explicit new-grad wording, **5** = junior marker (`Engineer I`,
-`Associate`, MTS), **3** = bachelors-eligible only. Embed colour tracks score.
+Scores: **10** = explicit new-grad or Junior/Jr. wording, **5** = other entry
+markers (`Engineer I`, `Associate`, MTS) or explicit experience evidence with a
+minimum of 0–3 years, **3** = bachelors-eligible only. Existing combinations of
+new-grad and other entry markers can score 15. Embed colour tracks score.
 
-Location filtering fails closed: local roles need a recognized US locality, state,
-territory, or country marker, and remote roles must explicitly say US/USA/United States
-or name a US state/territory. Bare `Remote`, global, unknown, and foreign-only roles are
-stored in history but never queried or notified as Candidates.
+Experience matching reads titles plus bulk listing text from Greenhouse, Lever,
+Ashby, and Interactive Brokers/Dayforce. Only compact `experience_years` values
+are saved, never full descriptions. Plain `Software Engineer` and level II/2 roles
+can qualify with experience evidence; senior/staff/lead and higher numbered titles
+still fail. Junior/Jr. roles receive priority 10. Ranges use their lower bound
+(e.g. 2–4 years qualifies); a detected requirement above three years blocks a match,
+including when another skill asks for fewer years. This is a conservative text
+heuristic, not a complete understanding of alternative or preferred qualifications.
+Sources without listing text retain title-based matching. Existing stored records
+receive experience evidence on their next successful scan.
+
+The scanner uses the documented bulk fields in the
+[Greenhouse](https://docs.greenhouse.io/job-board.html),
+[Lever](https://github.com/lever/postings-api), and
+[Ashby](https://developers.ashbyhq.com/docs/public-job-posting-api) APIs. Greenhouse
+requests `content=true`; there are no additional per-job requests. Ashby secondary
+offices, structured country evidence, and remote flags are also included, so a
+matching secondary location no longer gets missed. Scan cadence is unchanged.
+
+Location filtering retains the configured Bay Area/US-remote and UK city/UK-remote
+criteria. Remote listings require explicit eligible-country evidence. Bare `Remote`,
+unknown, and locations outside the US/UK do not qualify for alerts.
 
 Run `--dry-run --min-score 3` for a week and watch what lands in the maybe pile
 before you tighten anything.

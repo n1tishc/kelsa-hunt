@@ -2,6 +2,8 @@ name: job-alert
 
 on:
   schedule:
+    # Extra lightweight priority-company checks, including nights/weekends.
+    - cron: "2,32 * * * *"
     # Best-effort every 30 min during weekday Bay Area working hours.
     - cron: "17,47 14-23 * * 1-5"
     # Every two hours outside that window; avoid the start of the hour.
@@ -41,7 +43,7 @@ jobs:
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         run: |
-          python job_alert.py scan --shard 0 --shard-count 2 ${{ inputs.seed && '--seed' || '' }}
+          python job_alert.py scan --shard 0 --shard-count 2 ${{ github.event.schedule == '2,32 * * * *' && '--priority-only' || '' }} ${{ inputs.seed && '--seed' || '' }}
 
       - name: Persist state
         id: persist
@@ -79,7 +81,7 @@ jobs:
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         run: |
-          python job_alert.py scan --shard 1 --shard-count 2 ${{ inputs.seed && '--seed' || '' }}
+          python job_alert.py scan --shard 1 --shard-count 2 ${{ github.event.schedule == '2,32 * * * *' && '--priority-only' || '' }} ${{ inputs.seed && '--seed' || '' }}
 
       - name: Persist state
         id: persist

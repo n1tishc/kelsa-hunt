@@ -37,6 +37,8 @@ from datetime import datetime, timezone
 from enum import Enum
 
 import growth_guardrail
+from experience import experience_years
+from company_sources import PRIORITY_SOURCES, fetch_dayforce, fetch_eightfold
 
 HERE = pathlib.Path(__file__).parent
 STORE_FILE = HERE / "jobs.json"
@@ -589,7 +591,13 @@ ROLE_MATCH = re.compile(
 MTS = re.compile(r"member\s+of\s+(the\s+)?technical\s+staff", re.I)
 
 
-def classify(title, degrees=None, category=None):
+JUNIOR_PRIORITY = re.compile(r"\b(junior|jr\.?)\b", re.I)
+# A level II/2 title may be early-career, but only explicit experience evidence
+# can override the old numeric-level exclusion.
+EARLY_LEVEL = re.compile(r"\bII\b|(?<=[ ])2\b", re.I)
+
+
+def classify(title, degrees=None, category=None, experience=None):
     """Return (keep: bool, score: int, reason: str)."""
     degrees = degrees or []
     t = (title or "").strip()
@@ -597,9 +605,13 @@ def classify(title, degrees=None, category=None):
     is_mts = bool(MTS.search(t))
     probe = MTS.sub("MTS", t) if is_mts else t
 
-    if HARD_NEG.search(probe):
+    years = list(experience or []) + experience_years(t)
+    supported_early = bool(years) and all(type(y) is int and 0 <= y <= 3 for y in years)
+    # Senior/lead titles still reject; only II/2 gets an evidence-based exception.
+    level_probe = EARLY_LEVEL.sub("", probe) if supported_early else probe
+    if HARD_NEG.search(level_probe):
         return False, 0, "senior-level title"
-    if MID_LEVEL.search(probe):
+    if MID_LEVEL.search(level_probe):
         return False, 0, "mid-level (numeric)"
     if not ROLE_MATCH.search(probe) and not is_mts:
         return False, 0, "not an eng/ML role"
@@ -608,16 +620,25 @@ def classify(title, degrees=None, category=None):
     if PHD_SIGNAL.search(probe) and "PhD" in degrees and "Bachelor's" not in degrees:
         return False, 0, "PhD research role"
 
+    if any(type(y) is int and y > 3 for y in years):
+        return False, 0, "experience requirement above 3 years"
+
     score, reasons = 0, []
     if STRONG_POS.search(probe):
         score += 10
         reasons.append("explicit new-grad")
-    if WEAK_POS.search(probe):
+    if JUNIOR_PRIORITY.search(probe):
+        score = max(score, 10)
+        reasons.append("junior priority")
+    elif WEAK_POS.search(probe):
         score += 5
         reasons.append("junior-level marker")
     if is_mts:
         score += 5
         reasons.append("MTS (lab entry title)")
+    if supported_early:
+        score = max(score, 5)
+        reasons.append("0–3 years experience evidence")
     if score == 0 and "Bachelor's" in degrees:
         score += 3
         reasons.append("bachelors-eligible")
@@ -804,7 +825,7 @@ class Store:
             if not is_notify_locality(source_rec, allow_remote):
                 continue
             keep, score, reason = classify(
-                rec["title"], rec.get("degrees"), rec.get("category"))
+                rec["title"], rec.get("degrees"), rec.get("category"), rec.get("experience_years"))
             if not keep or score < min_score:
                 continue
             # Age gate uses posted date if we have it, else when we first saw it.
@@ -1115,7 +1136,7 @@ def fetch_simplify():
 
 def fetch_greenhouse(slug):
     try:
-        data = get_json(f"https://boards-api.greenhouse.io/v1/boards/{slug}/jobs")
+        data = get_json(f"https://boards-api.greenhouse.io/v1/boards/{slug}/jobs?content=true")
     except Exception as e:
         print(f"  ! greenhouse/{slug}: {e}", file=sys.stderr)
         return [], False
@@ -1139,6 +1160,7 @@ def fetch_greenhouse(slug):
             "posted": ts,
             "degrees": [],
             "category": "",
+            "experience_years": experience_years(j.get("content", "")),
             "source": "Greenhouse",
             "feed_active": True,
         })
@@ -1165,10 +1187,31 @@ def fetch_lever(slug):
             "posted": int((j.get("createdAt") or 0) / 1000),
             "degrees": [],
             "category": cats.get("team", ""),
+            "experience_years": experience_years(" ".join([
+                j.get("descriptionPlain") or j.get("description") or "",
+                *(item.get("content") or "" for item in j.get("lists") or []),
+            ])),
             "source": "Lever",
             "feed_active": True,
         })
     return out, True
+
+
+def ashby_locations(job):
+    """Include secondary offices and explicit address/remote eligibility."""
+    locations = []
+    for entry in [job, *(job.get("secondaryLocations") or [])]:
+        address = entry.get("address") or {}
+        address = address.get("postalAddress") or address
+        parts = [entry.get("location") or ""]
+        parts.extend(address.get(key) or "" for key in
+                     ("addressLocality", "addressRegion", "addressCountry"))
+        location = ", ".join(dict.fromkeys(part for part in parts if part))
+        if job.get("isRemote") is True and location and not REMOTE_OK.search(location):
+            location = f"Remote, {location}"
+        if location and location not in locations:
+            locations.append(location)
+    return locations
 
 
 def fetch_ashby(slug):
@@ -1182,7 +1225,6 @@ def fetch_ashby(slug):
     for j in data.get("jobs", []):
         if not j.get("isListed", True):
             continue
-        loc = j.get("location", "")
         ts = 0
         if j.get("publishedAt"):
             try:
@@ -1194,11 +1236,12 @@ def fetch_ashby(slug):
             "uid": f"ashby:{slug}:{j['id']}",
             "title": j.get("title", ""),
             "company": slug.replace("-", " ").title(),
-            "locations": [loc] if loc else [],
+            "locations": ashby_locations(j),
             "url": j.get("jobUrl") or j.get("applyUrl", ""),
             "posted": ts,
             "degrees": [],
             "category": j.get("department", ""),
+            "experience_years": experience_years(j.get("descriptionPlain") or j.get("descriptionHtml") or ""),
             "source": "Ashby",
             "feed_active": True,
         })
@@ -1862,6 +1905,7 @@ def show(rows, limit=50):
 
 SHARDED_PLATFORMS = (
     "greenhouse", "lever", "ashby", "smartrecruiters", "workable", "recruitee",
+    "eightfold", "dayforce",
 )
 
 
@@ -1936,6 +1980,18 @@ def configured_source_fetches(sources):
             host=f"{slug}.recruitee.com",
             fetch=lambda slug=slug: fetch_recruitee(slug),
         ))
+    for slug in sources.get("eightfold", []):
+        fetches.append(SourceFetch(
+            name=f"eightfold/{slug}", prefix=f"eightfold:{slug.replace('/', ':')}:",
+            host=f"{slug.split('/')[0]}.eightfold.ai",
+            fetch=lambda slug=slug: fetch_eightfold(slug),
+        ))
+    for slug in sources.get("dayforce", []):
+        fetches.append(SourceFetch(
+            name=f"dayforce/{slug}", prefix=f"dayforce:{slug.replace('/', ':')}:",
+            host="jobs.dayforcehcm.com",
+            fetch=lambda slug=slug: fetch_dayforce(slug),
+        ))
     return fetches
 
 
@@ -1956,6 +2012,8 @@ def cmd_scan(args, store, source_fetches=None):
         if getattr(args, "shard", None) is not None:
             sources = shard_sources(sources, args.shard, args.shard_count)
         source_fetches = configured_source_fetches(sources)
+        if getattr(args, "priority_only", False):
+            source_fetches = [s for s in source_fetches if s.name in PRIORITY_SOURCES]
 
     previously_non_empty = {
         source.prefix
@@ -2111,7 +2169,7 @@ def cmd_export(args, store):
     rows = []
     for r in store.us_records():
         uid = r.get("uid")
-        _, score, reason = classify(r.get("title", ""), r.get("degrees"))
+        _, score, reason = classify(r.get("title", ""), r.get("degrees"), r.get("category"), r.get("experience_years"))
         rows.append((
             uid, r.get("title"), r.get("company"),
             "; ".join(r.get("locations") or []), r.get("url"), r.get("source"),
@@ -2139,6 +2197,8 @@ def main():
 
     s = sub.add_parser("scan", help="fetch, store, notify")
     common(s)
+    s.add_argument("--priority-only", action="store_true",
+                   help="fetch only priority companies")
     s.add_argument("--seed", action="store_true",
                    help="mark current matches notified without sending")
     s.add_argument("--shard", type=int, default=None,
