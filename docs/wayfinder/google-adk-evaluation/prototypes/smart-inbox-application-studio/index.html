@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Prototype — Smart Inbox to packet review</title>
+    <style>
+      :root { color-scheme: light; --ink:#17201d; --muted:#66716d; --line:#d8ddd9; --paper:#f7f5ef; --sheet:#fffefa; --green:#1f6b4f; --rust:#a95432; --blue:#315d8b; }
+      * { box-sizing:border-box; } body { margin:0; background:var(--paper); color:var(--ink); font:14px/1.45 Inter,ui-sans-serif,system-ui,sans-serif; }
+      main { width:min(1180px,calc(100% - 32px)); margin:auto; padding:42px 0 68px; }
+      .kicker { margin:0 0 8px; color:var(--rust); font-size:11px; font-weight:800; letter-spacing:.14em; text-transform:uppercase; }
+      h1,h2,h3 { font-family:Georgia,serif; font-weight:500; } h1 { margin:0; font-size:clamp(32px,6vw,54px); line-height:1; letter-spacing:-.04em; } h2 { margin:0; font-size:25px; } h3 { margin:0 0 10px; font-size:18px; }
+      .lede { max-width:720px; color:var(--muted); font-size:16px; } .notice { margin:24px 0; border:1px solid #bfd8ca; border-radius:9px; background:#e9f3ec; padding:13px 15px; color:#24513e; font-weight:700; }
+      .notice strong { color:#163f2e; } .grid { display:grid; grid-template-columns:1.05fr .95fr; gap:18px; } .panel { border:1px solid var(--line); border-radius:10px; background:var(--sheet); padding:20px; box-shadow:0 10px 30px #3240390a; }
+      .panel + .panel { margin-top:18px; } .meta { color:var(--muted); font-size:12px; } .state-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:9px; margin-top:15px; }
+      .state-grid div { min-height:68px; border:1px solid #e3e7e3; border-radius:7px; background:#fbfcf9; padding:10px; } .state-grid dt { color:var(--muted); font-size:10px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; } .state-grid dd { margin:5px 0 0; font-weight:700; }
+      .badge { display:inline-block; border-radius:999px; padding:3px 7px; font-size:11px; font-weight:800; } .green { background:#dcece3; color:#24513e; } .blue { background:#dce8f6; color:var(--blue); } .rust { background:#f2e4d2; color:#80512e; } .gray { background:#eaedeb; color:#5c6762; }
+      .inbox { display:grid; gap:9px; margin-top:14px; } .role { width:100%; border:1px solid #dbe0dc; border-radius:8px; background:#fff; padding:13px; color:inherit; cursor:pointer; text-align:left; } .role:hover,.role.selected { border-color:var(--green); background:#f4f9f5; } .role strong { display:block; } .role span { color:var(--muted); font-size:12px; } .role .right { float:right; }
+      button { border:1px solid #c7cdc8; border-radius:7px; background:#fff; padding:9px 11px; color:var(--ink); cursor:pointer; font:inherit; font-weight:700; } button:hover { border-color:var(--green); color:var(--green); } button.primary { border-color:var(--green); background:var(--green); color:#fff; } button.danger { color:var(--rust); } button:disabled { cursor:default; opacity:.45; }
+      .actions { display:flex; flex-wrap:wrap; gap:8px; margin-top:14px; } .action-label { display:block; margin:18px 0 6px; color:var(--muted); font-size:10px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; }
+      .event { margin-top:14px; border-left:3px solid var(--rust); background:#fff8f4; padding:10px 12px; color:#6c402d; } .detail-list { margin:0; padding-left:19px; } .detail-list li { margin:6px 0; } .empty { color:var(--muted); font-style:italic; }
+      .stage { border-top:1px solid #e5e8e5; padding:13px 0; } .stage:first-child { border-top:0; padding-top:0; } .stage p { margin:5px 0 0; color:#46514c; } .card { border-left:3px solid var(--blue); background:#f3f7fb; padding:10px; margin:9px 0; }
+      .walkthrough-tabs { display:flex; flex-wrap:wrap; gap:7px; margin-top:14px; } .walkthrough-tabs button.active { border-color:var(--green); background:#e9f3ec; color:#24513e; } .scenario { margin-top:12px; border-top:1px solid var(--line); padding-top:14px; } .steps { display:flex; flex-wrap:wrap; gap:8px; }
+      footer { margin-top:24px; color:var(--muted); font-size:12px; } code { background:#edf0ed; padding:1px 4px; }
+      @media (max-width:820px) { main { width:min(100% - 24px,1180px); padding-top:28px; } .grid { grid-template-columns:1fr; } .state-grid { grid-template-columns:1fr; } }
+    </style>
+  </head>
+  <body>
+    <main>
+      <p class="kicker">Throwaway interaction prototype · synthetic data only</p>
+      <h1>Smart Inbox → reviewed packet</h1>
+      <p class="lede">Question: does a one-owner workspace make it obvious how an eligible public role becomes a reviewable private packet, without confusing deterministic public gates with advisory private help?</p>
+      <p class="notice"><strong>Always true in this demo:</strong> nothing has been applied for, nobody has been contacted, public notifications have not changed, and no Deterministic Gate has been altered. This file is offline—no Vertex, live job descriptions, or personal Career Profile data.</p>
+
+      <div class="grid">
+        <section>
+          <div class="panel"><h2>Current owner state</h2><p class="meta">The full relevant state changes after every action.</p><div id="state" class="state-grid"></div><div id="event" class="event"></div></div>
+          <div class="panel"><h2>Smart Inbox</h2><p class="meta">Public Records are compact references. Score is a public deterministic result; Fit Priority is private, advisory ordering only.</p><div id="inbox" class="inbox"></div><span class="action-label">Free play</span><div class="actions"><button id="open">Open selected role</button><button id="shortlist">Shortlist / unshortlist</button><button id="dismiss">Dismiss Fit Priority</button><button id="reset">Reset working preference model</button><button id="restart" class="danger">Reset whole demo</button></div></div>
+          <div class="panel"><h2>Guided walkthroughs</h2><p class="meta">Each starts from a known synthetic state. Every step is a real action.</p><div id="tabs" class="walkthrough-tabs"></div><div id="scenario" class="scenario"></div></div>
+        </section>
+        <section>
+          <div class="panel"><h2>Selected Role Snapshot</h2><div id="snapshot"></div></div>
+          <div class="panel"><h2>Relevant Profile Context</h2><div id="context"></div></div>
+          <div class="panel"><h2>Evidence Cards</h2><div id="evidence"></div></div>
+          <div class="panel"><h2>Application Studio</h2><p class="meta">The four fixed advisory stages are visible, bounded, and have no action tools.</p><div id="pipeline"></div><div class="actions"><button id="run" class="primary">Run synthetic four-stage review</button><button id="review">Mark packet reviewed</button><button id="outcome">Capture outcome: interview requested</button></div></div>
+          <div class="panel"><h2>Working Preference Model</h2><div id="preference"></div></div>
+        </section>
+      </div>
+      <footer>Prototype boundary: this is not a product UI or data contract. The decision record beside this file captures the interaction shape that survived the walkthrough.</footer>
+    </main>
+    <script>
+      // Portable, pure reducer: the prototype shell only renders and dispatches actions.
+      const roles = [
+        { id: "vector", company: "Vector Harbor", title: "Software Engineer, Platform", location: "San Francisco, CA", score: 10, fit: "High", reason: "Strong early-career platform signals; commute preference aligns.", snapshot: { url: "synthetic://vector-harbor/platform", capturedAt: "2026-08-13 10:00 PST", excerpt: "Improve reliable internal services and developer workflows." }, context: ["Project fragment: API reliability improvement", "Experience fragment: internal developer tooling", "Stated preference: Bay Area or explicit US remote"], evidence: { fit: "Platform experience aligns with reliable internal services.", gap: "Observability ownership is a discussion point, not a verified experience claim.", tailoring: "Emphasize developer-workflow impact." } },
+        { id: "northstar", company: "Northstar Systems", title: "Backend Engineer", location: "Remote · US", score: 5, fit: "Medium", reason: "Relevant systems work, but location preference is less certain.", snapshot: { url: "synthetic://northstar-systems/backend", capturedAt: "2026-08-13 10:05 PST", excerpt: "Build dependable APIs for distributed customer workflows." }, context: ["Project fragment: API delivery under changing requirements", "Experience fragment: service integration", "Stated preference: explicit US remote is acceptable"], evidence: { fit: "Service-integration experience aligns with dependable API work.", gap: "Distributed-systems ownership is a discussion point, not a verified experience claim.", tailoring: "Emphasize delivery across service boundaries." } },
+        { id: "fieldnote", company: "Fieldnote", title: "Software Engineer", location: "New York, NY", score: 3, fit: "Low", reason: "Publicly eligible but low private priority given stated location preference.", snapshot: { url: "synthetic://fieldnote/engineering", capturedAt: "2026-08-13 10:10 PST", excerpt: "Help product teams ship field-data workflows." }, context: ["Project fragment: user-facing workflow improvement", "Experience fragment: application development", "Stated preference: New York is not currently preferred"], evidence: { fit: "Workflow-improvement experience aligns with product-team delivery.", gap: "Field-data domain experience is a discussion point, not a verified experience claim.", tailoring: "Emphasize user-facing workflow outcomes." } }
+      ];
+      const initialState = () => ({ selectedId: "vector", openedId: null, shortlistedId: null, dismissedFitIds: [], pipeline: false, reviewed: false, outcome: null, preference: { location: "Bay Area or explicit US remote", focus: "early-career platform work", learned: "favours evidence-rich roles" }, last: "New synthetic inbox loaded. Select a role to inspect its two independent signals." });
+      function reduce(state, action) {
+        if (action.type === "SELECT") return { ...state, selectedId: action.id, pipeline: false, reviewed: false, outcome: null, last: "Selected a compact public Record reference; no description has been captured." };
+        if (action.type === "OPEN") return { ...state, openedId: state.selectedId, pipeline: false, reviewed: false, outcome: null, last: "Owner opened the role. A synthetic Selected Role Snapshot is now available for this role only." };
+        if (action.type === "SHORTLIST") return state.shortlistedId === state.selectedId ? { ...state, shortlistedId: null, last: "Removed from shortlist; the snapshot remains reviewable in this in-memory demo." } : { ...state, shortlistedId: state.selectedId, openedId: state.selectedId, pipeline: false, reviewed: false, outcome: null, last: "Owner shortlisted the role, authorizing its one synthetic Selected Role Snapshot; this does not notify, apply, or change public state." };
+        if (action.type === "DISMISS_FIT") return { ...state, dismissedFitIds: [...new Set([...state.dismissedFitIds, state.selectedId])], last: "Dismissed the advisory Fit Priority. Deterministic Score remains exactly the same." };
+        if (action.type === "RUN") return state.openedId === state.selectedId ? { ...state, pipeline: true, last: "Produced four synthetic advisory stage outputs with visible evidence pointers." } : { ...state, last: "Open this role first: a packet cannot be made without an owner-authorized snapshot." };
+        if (action.type === "REVIEW") return state.pipeline ? { ...state, reviewed: true, last: "Owner marked the synthetic packet reviewed. Review is not submission." } : { ...state, last: "Run the synthetic pipeline before reviewing a packet." };
+        if (action.type === "OUTCOME") return state.reviewed ? { ...state, outcome: "Interview requested", last: "Captured a private outcome. It can inform advisory preference learning, never public gates." } : { ...state, last: "Review the packet before capturing an outcome." };
+        if (action.type === "RESET_PREFERENCES") return { ...state, preference: { location: "No learned preference", focus: "No learned preference", learned: "Reset by owner" }, last: "Owner reset the Working Preference Model. Facts, Scores, and public notifications are untouched." };
+        if (action.type === "RESET") return initialState();
+        return state;
+      }
+      let state = initialState(); let activeScenario = "full";
+      const byId = (id) => document.getElementById(id); const role = () => roles.find((item) => item.id === state.selectedId);
+      const esc = (value) => String(value).replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+      function dispatch(action) { state = reduce(state, action); render(); }
+      function render() {
+        const item = role();
+        byId("state").innerHTML = [
+          ["Selected public Record", `${item.company} · ${item.title}`], ["Deterministic Score", `<span class="badge green">${item.score} · unchanged public result</span>`],
+          ["Advisory Fit Priority", state.dismissedFitIds.includes(item.id) ? `<span class="badge gray">Dismissed by owner</span>` : `<span class="badge blue">${item.fit} · private advisory</span>`], ["Owner workspace", `${state.openedId === item.id ? "Opened" : "Not opened"}${state.shortlistedId === item.id ? " · shortlisted" : ""}`],
+          ["Packet review", state.reviewed ? `<span class="badge green">Reviewed</span>` : state.pipeline ? `<span class="badge rust">Needs owner review</span>` : "Not created"], ["Outcome", state.outcome || "Not captured"]
+        ].map(([term, value]) => `<div><dt>${term}</dt><dd>${value}</dd></div>`).join("");
+        byId("event").textContent = state.last;
+        byId("inbox").innerHTML = roles.map((item) => `<button class="role ${item.id === state.selectedId ? "selected" : ""}" data-role="${item.id}"><strong>${esc(item.title)} <span class="right"><span class="badge green">Score ${item.score}</span> <span class="badge blue">Fit ${item.fit}</span></span></strong><span>${esc(item.company)} · ${esc(item.location)} · ${esc(item.reason)}</span></button>`).join("");
+        document.querySelectorAll("[data-role]").forEach((button) => button.addEventListener("click", () => dispatch({ type:"SELECT", id:button.dataset.role })));
+        const opened = state.openedId === item.id;
+        byId("snapshot").innerHTML = opened ? `<p><span class="badge green">Owner-created synthetic snapshot</span></p><ul class="detail-list"><li><strong>Captured at:</strong> ${esc(item.snapshot.capturedAt)}</li><li><strong>Source URL:</strong> ${esc(item.snapshot.url)}</li><li><strong>Description excerpt:</strong> “${esc(item.snapshot.excerpt)}”</li><li><strong>Boundary:</strong> one selected role, not bulk job-description acquisition.</li></ul>` : `<p class="empty">Open the selected role to create its in-memory snapshot. Selecting alone captures nothing.</p>`;
+        byId("context").innerHTML = opened ? `<p>Only the bounded, visible fragments used for this synthetic packet:</p><ul class="detail-list">${item.context.map((fragment) => `<li>${esc(fragment)}</li>`).join("")}</ul><p class="meta">No full Career Profile is shown or sent by default.</p>` : `<p class="empty">Relevant Profile Context appears only after an owner-authorized snapshot exists.</p>`;
+        byId("evidence").innerHTML = state.pipeline ? `<div class="card"><strong>Fit claim</strong><br>${esc(item.evidence.fit)} <span class="meta">Snapshot span S-1 + profile fragment P-2</span></div><div class="card"><strong>Gap claim</strong><br>${esc(item.evidence.gap)} <span class="meta">Labeled suggestion</span></div><div class="card"><strong>Tailoring claim</strong><br>${esc(item.evidence.tailoring)} <span class="meta">Snapshot S-1 + profile fragment P-2</span></div>` : `<p class="empty">Run the synthetic pipeline to expose traceable evidence cards. Unsupported claims remain suggestions.</p>`;
+        const stageOutputs = [
+          ["1 · Role Analyst", `Snapshot S-1 identifies: “${item.snapshot.excerpt}” The role-specific gap remains a question: ${item.evidence.gap}`],
+          ["2 · Career Strategist", `Uses visible context only: ${item.context[0].toLowerCase()}; ${item.context[1].toLowerCase()}. Treats ${item.context[2].toLowerCase()} as a stated preference.`],
+          ["3 · Application Writer", `Packet draft — resume bullet: “${item.evidence.tailoring}” Draft note: “I’m interested in ${item.company}'s ${item.title.toLowerCase()} work.” It sends nothing.`],
+          ["4 · Evidence Critic", `Packet review checklist — validate “${item.evidence.fit}” against S-1 and P-2; keep the gap as a suggestion; approve, revise, or reject the draft.`]
+        ];
+        byId("pipeline").innerHTML = state.pipeline ? stageOutputs.map(([title, text]) => `<div class="stage"><h3>${title}</h3><p>${esc(text)}</p></div>`).join("") : `<p class="empty">No output yet. Opening or shortlisting is owner-authorized; running these four synthetic stages is a separate explicit choice.</p>`;
+        byId("preference").innerHTML = `<dl class="state-grid"><div><dt>Visible stated / learned location</dt><dd>${esc(state.preference.location)}</dd></div><div><dt>Focus</dt><dd>${esc(state.preference.focus)}</dd></div><div><dt>Learning status</dt><dd>${esc(state.preference.learned)}</dd></div><div><dt>Control</dt><dd>Inspectable and resettable by owner</dd></div></dl>`;
+        renderScenario();
+      }
+      const scenarios = {
+        full: { label:"1 · From inbox to review", intro:"Happy path: see the owner authorize the snapshot, then make a packet reviewable before recording a private outcome.", steps:[ ["Start fresh", {type:"RESET"}], ["Open selected role", {type:"OPEN"}], ["Shortlist it", {type:"SHORTLIST"}], ["Run four-stage review", {type:"RUN"}], ["Mark packet reviewed", {type:"REVIEW"}], ["Capture interview outcome", {type:"OUTCOME"}] ] },
+        boundary: { label:"2 · Advisory is not a gate", intro:"Awkward boundary: dismiss the private recommendation and reset learned preferences. Watch the public Score remain 10 throughout.", steps:[ ["Start fresh", {type:"RESET"}], ["Dismiss Fit Priority", {type:"DISMISS_FIT"}], ["Reset preference model", {type:"RESET_PREFERENCES"}] ] },
+        order: { label:"3 · Illegal order is visible", intro:"Try to produce a packet without opening a role. The model refuses the action and explains the missing owner authorization.", steps:[ ["Start fresh", {type:"RESET"}], ["Try pipeline without opening", {type:"RUN"}], ["Try review without a packet", {type:"REVIEW"}], ["Open selected role", {type:"OPEN"}], ["Run pipeline", {type:"RUN"}] ] }
+      };
+      function renderScenario() { const scenario = scenarios[activeScenario]; byId("tabs").innerHTML = Object.entries(scenarios).map(([key, value]) => `<button data-tab="${key}" class="${key === activeScenario ? "active" : ""}">${value.label}</button>`).join(""); document.querySelectorAll("[data-tab]").forEach((button) => button.addEventListener("click", () => { activeScenario = button.dataset.tab; state = initialState(); render(); })); byId("scenario").innerHTML = `<p>${scenario.intro}</p><div class="steps">${scenario.steps.map(([label, action]) => `<button data-step='${JSON.stringify(action)}'>${label}</button>`).join("")}</div>`; document.querySelectorAll("[data-step]").forEach((button) => button.addEventListener("click", () => dispatch(JSON.parse(button.dataset.step)))); }
+      byId("open").addEventListener("click", () => dispatch({type:"OPEN"})); byId("shortlist").addEventListener("click", () => dispatch({type:"SHORTLIST"})); byId("dismiss").addEventListener("click", () => dispatch({type:"DISMISS_FIT"})); byId("reset").addEventListener("click", () => dispatch({type:"RESET_PREFERENCES"})); byId("restart").addEventListener("click", () => dispatch({type:"RESET"})); byId("run").addEventListener("click", () => dispatch({type:"RUN"})); byId("review").addEventListener("click", () => dispatch({type:"REVIEW"})); byId("outcome").addEventListener("click", () => dispatch({type:"OUTCOME"}));
+      render();
+    </script>
+  </body>
+</html>

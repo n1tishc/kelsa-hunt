@@ -134,33 +134,21 @@ class SmartRecruitersFetchTests(unittest.TestCase):
 
         self.assertEqual((records, ok), ([], False))
 
-    def test_detail_resource_fills_fields_omitted_from_the_list(self):
+    def test_never_fans_out_to_detail_when_list_fields_are_omitted(self):
         page = fixture("page-0.json")
         page["content"] = [dict(page["content"][0])]
         page["content"][0].pop("name")
         page["content"][0]["company"] = {"identifier": "ExampleCo"}
         page["content"][0]["location"] = {"country": "us"}
         page["totalFound"] = 1
-        detail = dict(fixture("details.json")["744000100000001"])
-        detail.update({
-            "name": "Software Engineer I",
-            "company": {"identifier": "ExampleCo", "name": "Example Co"},
-            "location": {
-                "fullLocation": "San Francisco, CA, United States",
-            },
-        })
-
         with mock.patch.object(
             job_alert,
             "get_json",
-            side_effect=[page, detail],
+            return_value=page,
         ):
             records, ok = job_alert.fetch_smartrecruiters("ExampleCo")
 
-        self.assertEqual(
-            (ok, records[0]["title"], records[0]["locations"]),
-            (True, "Software Engineer I", ["San Francisco, CA, United States"]),
-        )
+        self.assertEqual((records, ok), ([], False))
 
     def test_transport_failure_returns_no_closure_evidence(self):
         with (

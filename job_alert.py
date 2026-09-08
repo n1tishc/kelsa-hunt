@@ -648,6 +648,57 @@ def classify(title, degrees=None, category=None, experience=None):
     return True, score, ", ".join(reasons)
 
 
+def candidates_from_records(records, min_score=5, allow_remote=True,
+                            include_closed=False, unnotified_only=True,
+                            max_age_days=MAX_AGE_DAYS, region=None):
+    """Return the Candidate view for an in-memory public Record mapping.
+
+    This is deliberately the same deterministic policy used by ``Store``. It
+    allows a read-only consumer to derive candidates from a public snapshot
+    without receiving any mutation capability or owning a competing store.
+    """
+    out = []
+    cutoff = now() - max_age_days * 86400
+    notified_groups = {
+        dedup_key(rec)
+        for rec in records.values()
+        if rec.get("notified_at")
+    }
+    for source_rec in records.values():
+        locations = source_rec.get("locations") or []
+        eligible_regions = []
+        regions_to_check = (
+            (region,) if region is not None else list(ELIGIBLE_REGIONS)
+        )
+        for candidate_region in regions_to_check:
+            if region_locations(locations, candidate_region):
+                eligible_regions.append(candidate_region)
+        if not eligible_regions:
+            continue
+        rec = strict_region_record(source_rec, eligible_regions[0])
+        if rec is None:
+            continue
+        if rec.get("migrated") or rec.get("hidden") or not rec.get("title"):
+            continue
+        if rec.get("closed_at") and not include_closed:
+            continue
+        if unnotified_only and dedup_key(source_rec) in notified_groups:
+            continue
+        if not is_notify_locality(source_rec, allow_remote):
+            continue
+        keep, score, reason = classify(
+            rec["title"], rec.get("degrees"), rec.get("category"), rec.get("experience_years"))
+        if not keep or score < min_score:
+            continue
+        reference_time = rec.get("posted") or rec.get("first_seen") or 0
+        if max_age_days and reference_time and reference_time < cutoff:
+            continue
+        row = dict(rec)
+        row["score"], row["reason"] = score, reason
+        out.append(row)
+    return dedup(out)
+
+
 # ==========================================================================
 # Store
 # ==========================================================================
@@ -788,54 +839,15 @@ class Store:
         When region is None, returns candidates from all eligible regions.
         When region is REGION_US or REGION_UK, filters to that region only.
         """
-        out = []
-        cutoff = now() - max_age_days * 86400
-        notified_groups = {
-            dedup_key(rec)
-            for rec in self.jobs.values()
-            if rec.get("notified_at")
-        }
-        for source_rec in self.jobs.values():
-            locations = source_rec.get("locations") or []
-            # Determine eligible regions for this record by checking
-            # region_locations for each region.
-            eligible_regions = []
-            regions_to_check = (
-                (region,) if region is not None
-                else list(ELIGIBLE_REGIONS)
-            )
-            for r in regions_to_check:
-                if region_locations(locations, r):
-                    eligible_regions.append(r)
-            if not eligible_regions:
-                continue
-            # Use the first eligible region for Derived View construction
-            primary_region = eligible_regions[0]
-            rec = strict_region_record(source_rec, primary_region)
-            if rec is None:
-                continue
-            if rec.get("migrated") or rec.get("hidden"):
-                continue
-            if not rec.get("title"):
-                continue
-            if rec.get("closed_at") and not include_closed:
-                continue
-            if unnotified_only and dedup_key(source_rec) in notified_groups:
-                continue
-            if not is_notify_locality(source_rec, allow_remote):
-                continue
-            keep, score, reason = classify(
-                rec["title"], rec.get("degrees"), rec.get("category"), rec.get("experience_years"))
-            if not keep or score < min_score:
-                continue
-            # Age gate uses posted date if we have it, else when we first saw it.
-            ref = rec.get("posted") or rec.get("first_seen") or 0
-            if max_age_days and ref and ref < cutoff:
-                continue
-            row = dict(rec)
-            row["score"], row["reason"] = score, reason
-            out.append(row)
-        return dedup(out)
+        return candidates_from_records(
+            self.jobs,
+            min_score=min_score,
+            allow_remote=allow_remote,
+            include_closed=include_closed,
+            unnotified_only=unnotified_only,
+            max_age_days=max_age_days,
+            region=region,
+        )
 
     def mark_notified(self, candidates, timestamp=None):
         """Stamp every stored Cross-post represented by the Candidates."""
@@ -1272,31 +1284,19 @@ def fetch_smartrecruiters(slug, page_size=100):
         for posting in postings:
             if not isinstance(posting, dict) or not posting.get("id"):
                 raise ValueError("malformed posting")
-            # postingUrl is never present on the list endpoint (observed across all
-            # SmartRecruiters tenants), so it is deliberately excluded from this check --
-            # requiring it forced a detail fetch per posting (406 sequential requests,
-            # ~189s, for Wise alone) even though every other field is already complete.
-            needs_detail = not (
+            # A scan makes list requests only. Never use an incomplete list row as a
+            # reason to fan out into one detail request per posting: it would make the
+            # public scanner fetch descriptions and reintroduce Wise's 406 serial GET
+            # / ~189s failure. Treat this source observation as unhealthy instead, so
+            # it provides no false closure evidence.
+            if not (
                 posting.get("name")
                 and isinstance(posting.get("company"), dict)
                 and posting["company"].get("name")
                 and isinstance(posting.get("location"), dict)
-            )
-            detail = {}
-            if needs_detail:
-                ref = posting.get("ref")
-                if not isinstance(ref, str) or not ref.startswith("https://"):
-                    raise ValueError("posting has no public detail URL")
-                detail = get_json(ref)
-                if not isinstance(detail, dict):
-                    raise ValueError("malformed posting detail")
-            normalized = dict(detail)
-            normalized.update(posting)
-            for field in ("company", "location", "department"):
-                detail_value = detail.get(field)
-                posting_value = posting.get(field)
-                if isinstance(detail_value, dict) and isinstance(posting_value, dict):
-                    normalized[field] = {**detail_value, **posting_value}
+            ):
+                raise ValueError("posting list is missing required fields")
+            normalized = posting
             if (
                 not normalized.get("name")
                 or not isinstance(normalized.get("company"), dict)
