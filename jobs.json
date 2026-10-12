@@ -1,5 +1,5 @@
 {
-"count": 64686,
+"count": 64687,
 "jobs": {
 "ambicuity:1-click-logistics-software-engineer-i---md-hagerstown,-md,-us:b448a2fd309a057a38d7d41a0a41d603": {
 "aggregator_source": "JobSpy (Indeed)",
@@ -309035,7 +309035,7 @@
 },
 "dayforce:ibgllc:CANDIDATEPORTAL:2583": {
 "category": "",
-"closed_at": null,
+"closed_at": 1791783495,
 "company": "Interactive Brokers",
 "degrees": [],
 "experience_years": [],
@@ -309171,6 +309171,22 @@
 "title": "Treasury - Treasury Manager",
 "uid": "dayforce:ibgllc:CANDIDATEPORTAL:2613",
 "url": "https://jobs.dayforcehcm.com/en-US/ibgllc/CANDIDATEPORTAL/jobs/2613"
+},
+"dayforce:ibgllc:CANDIDATEPORTAL:2623": {
+"category": "",
+"closed_at": null,
+"company": "Interactive Brokers",
+"degrees": [],
+"experience_years": [],
+"first_seen": 1791783495,
+"locations": [
+"Kwun Tong, Kowloon, Hong Kong"
+],
+"posted": 1791756000,
+"source": "Dayforce",
+"title": "Compliance-APAC - Analyst - Trade Surveillance",
+"uid": "dayforce:ibgllc:CANDIDATEPORTAL:2623",
+"url": "https://jobs.dayforcehcm.com/en-US/ibgllc/CANDIDATEPORTAL/jobs/2623"
 },
 "dayforce:ibgllc:CANDIDATEPORTAL:290": {
 "category": "",
@@ -310827,7 +310843,7 @@
 },
 "eightfold:ralliant:qualitrol:1133914085767": {
 "category": "",
-"closed_at": null,
+"closed_at": 1791783495,
 "company": "Qualitrol",
 "degrees": [],
 "first_seen": 1788893219,
@@ -311496,7 +311512,7 @@
 },
 "eightfold:ralliant:qualitrol:1133914963932": {
 "category": "",
-"closed_at": null,
+"closed_at": 1791783495,
 "company": "Qualitrol",
 "degrees": [],
 "first_seen": 1788893219,
@@ -1106428,6 +1106444,6 @@
 "url": "https://apply.workable.com/j/F26F8B9006"
 }
 },
-"updated": "2026-10-11T23:40:47+00:00",
+"updated": "2026-10-12T05:38:21+00:00",
 "version": 2
 }
