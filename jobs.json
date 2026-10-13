@@ -1,5 +1,5 @@
 {
-"count": 65195,
+"count": 65197,
 "jobs": {
 "ambicuity:1-click-logistics-software-engineer-i---md-hagerstown,-md,-us:b448a2fd309a057a38d7d41a0a41d603": {
 "aggregator_source": "JobSpy (Indeed)",
@@ -310714,6 +310714,24 @@
 "uid": "dayforce:ibgllc:CANDIDATEPORTAL:2657",
 "url": "https://jobs.dayforcehcm.com/en-US/ibgllc/CANDIDATEPORTAL/jobs/2657"
 },
+"dayforce:ibgllc:CANDIDATEPORTAL:2668": {
+"category": "",
+"closed_at": null,
+"company": "Interactive Brokers",
+"degrees": [],
+"experience_years": [
+3
+],
+"first_seen": 1791914831,
+"locations": [
+"Dublin, Ireland"
+],
+"posted": 1791867600,
+"source": "Dayforce",
+"title": "Client Operations - Financial Translator I",
+"uid": "dayforce:ibgllc:CANDIDATEPORTAL:2668",
+"url": "https://jobs.dayforcehcm.com/en-US/ibgllc/CANDIDATEPORTAL/jobs/2668"
+},
 "dayforce:ibgllc:CANDIDATEPORTAL:290": {
 "category": "",
 "closed_at": null,
@@ -314044,6 +314062,21 @@
 "title": "Mechanical Engineer",
 "uid": "eightfold:ralliant:qualitrol:1133916222529",
 "url": "https://ralliant.eightfold.ai/careers/job/1133916222529"
+},
+"eightfold:ralliant:qualitrol:1133916257627": {
+"category": "",
+"closed_at": null,
+"company": "Qualitrol",
+"degrees": [],
+"first_seen": 1791914831,
+"locations": [
+"Fairport, NY, United States"
+],
+"posted": 1791911856,
+"source": "Eightfold",
+"title": "Manager, Revenue Operations",
+"uid": "eightfold:ralliant:qualitrol:1133916257627",
+"url": "https://ralliant.eightfold.ai/careers/job/1133916257627"
 },
 "gh:adyen:5359280": {
 "category": "",
@@ -1115275,6 +1115308,6 @@
 "url": "https://apply.workable.com/j/F26F8B9006"
 }
 },
-"updated": "2026-10-13T15:56:01+00:00",
+"updated": "2026-10-13T18:07:17+00:00",
 "version": 2
 }
