@@ -1,5 +1,5 @@
 {
-"count": 65010,
+"count": 65012,
 "jobs": {
 "ambicuity:1-click-logistics-software-engineer-i---md-hagerstown,-md,-us:b448a2fd309a057a38d7d41a0a41d603": {
 "aggregator_source": "JobSpy (Indeed)",
@@ -310071,6 +310071,40 @@
 "uid": "dayforce:ibgllc:CANDIDATEPORTAL:2642",
 "url": "https://jobs.dayforcehcm.com/en-US/ibgllc/CANDIDATEPORTAL/jobs/2642"
 },
+"dayforce:ibgllc:CANDIDATEPORTAL:2646": {
+"category": "",
+"closed_at": null,
+"company": "Interactive Brokers",
+"degrees": [],
+"experience_years": [],
+"first_seen": 1791889127,
+"locations": [
+"Budapest, Hungary"
+],
+"posted": 1791864000,
+"source": "Dayforce",
+"title": "C++ Software Engineer-Market Risk  ",
+"uid": "dayforce:ibgllc:CANDIDATEPORTAL:2646",
+"url": "https://jobs.dayforcehcm.com/en-US/ibgllc/CANDIDATEPORTAL/jobs/2646"
+},
+"dayforce:ibgllc:CANDIDATEPORTAL:2651": {
+"category": "",
+"closed_at": null,
+"company": "Interactive Brokers",
+"degrees": [],
+"experience_years": [
+2
+],
+"first_seen": 1791889127,
+"locations": [
+"88 Queensway, Admiralty, Hong Kong"
+],
+"posted": 1791842400,
+"source": "Dayforce",
+"title": "New Accounts - Application Services Associate",
+"uid": "dayforce:ibgllc:CANDIDATEPORTAL:2651",
+"url": "https://jobs.dayforcehcm.com/en-US/ibgllc/CANDIDATEPORTAL/jobs/2651"
+},
 "dayforce:ibgllc:CANDIDATEPORTAL:290": {
 "category": "",
 "closed_at": null,
@@ -311681,7 +311715,7 @@
 },
 "eightfold:ralliant:qualitrol:1133913972521": {
 "category": "",
-"closed_at": null,
+"closed_at": 1791889127,
 "company": "Qualitrol",
 "degrees": [],
 "first_seen": 1788893219,
@@ -312197,7 +312231,7 @@
 },
 "eightfold:ralliant:qualitrol:1133914635961": {
 "category": "",
-"closed_at": null,
+"closed_at": 1791889127,
 "company": "Qualitrol",
 "degrees": [],
 "first_seen": 1788893219,
@@ -1112027,6 +1112061,6 @@
 "url": "https://apply.workable.com/j/F26F8B9006"
 }
 },
-"updated": "2026-10-13T06:44:55+00:00",
+"updated": "2026-10-13T10:58:54+00:00",
 "version": 2
 }
