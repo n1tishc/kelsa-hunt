@@ -1,5 +1,5 @@
 {
-"count": 65518,
+"count": 65519,
 "jobs": {
 "ambicuity:1-click-logistics-software-engineer-i---md-hagerstown,-md,-us:b448a2fd309a057a38d7d41a0a41d603": {
 "aggregator_source": "JobSpy (Indeed)",
@@ -315158,6 +315158,21 @@
 "title": "Inventory Control Specialist (Water Spider)",
 "uid": "eightfold:ralliant:qualitrol:1133916088019",
 "url": "https://ralliant.eightfold.ai/careers/job/1133916088019"
+},
+"eightfold:ralliant:qualitrol:1133916092048": {
+"category": "",
+"closed_at": null,
+"company": "Qualitrol",
+"degrees": [],
+"first_seen": 1791984918,
+"locations": [
+"Mississauga, ON, Canada"
+],
+"posted": 1791980846,
+"source": "Eightfold",
+"title": "Electronics Technologist",
+"uid": "eightfold:ralliant:qualitrol:1133916092048",
+"url": "https://ralliant.eightfold.ai/careers/job/1133916092048"
 },
 "eightfold:ralliant:qualitrol:1133916097369": {
 "category": "",
@@ -1120871,6 +1120886,6 @@
 "url": "https://apply.workable.com/j/F26F8B9006"
 }
 },
-"updated": "2026-10-14T11:46:40+00:00",
+"updated": "2026-10-14T13:35:25+00:00",
 "version": 2
 }
