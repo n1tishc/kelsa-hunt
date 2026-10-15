@@ -1,5 +1,5 @@
 {
-"count": 66077,
+"count": 66081,
 "jobs": {
 "ambicuity:1-click-logistics-software-engineer-i---md-hagerstown,-md,-us:b448a2fd309a057a38d7d41a0a41d603": {
 "aggregator_source": "JobSpy (Indeed)",
@@ -316271,7 +316271,7 @@
 },
 "eightfold:ralliant:qualitrol:1133915034370": {
 "category": "",
-"closed_at": null,
+"closed_at": 1792092052,
 "company": "Qualitrol",
 "degrees": [],
 "first_seen": 1790897086,
@@ -317262,6 +317262,21 @@
 "uid": "eightfold:ralliant:qualitrol:1133916136217",
 "url": "https://ralliant.eightfold.ai/careers/job/1133916136217"
 },
+"eightfold:ralliant:qualitrol:1133916149074": {
+"category": "",
+"closed_at": null,
+"company": "Qualitrol",
+"degrees": [],
+"first_seen": 1792092052,
+"locations": [
+"Fairport, NY, United States"
+],
+"posted": 1792091068,
+"source": "Eightfold",
+"title": "Product Compliance Engineer \u2013 Product Safety & Cybersecurity",
+"uid": "eightfold:ralliant:qualitrol:1133916149074",
+"url": "https://ralliant.eightfold.ai/careers/job/1133916149074"
+},
 "eightfold:ralliant:qualitrol:1133916202784": {
 "category": "",
 "closed_at": null,
@@ -317321,6 +317336,52 @@
 "title": "Logistics & Warehouse Associate",
 "uid": "eightfold:ralliant:qualitrol:1133916265540",
 "url": "https://ralliant.eightfold.ai/careers/job/1133916265540"
+},
+"eightfold:ralliant:qualitrol:1133916277394": {
+"category": "",
+"closed_at": null,
+"company": "Qualitrol",
+"degrees": [],
+"first_seen": 1792092052,
+"locations": [
+"Fairport, NY, United States"
+],
+"posted": 1792090302,
+"source": "Eightfold",
+"title": "Sr. Hardware Engineer",
+"uid": "eightfold:ralliant:qualitrol:1133916277394",
+"url": "https://ralliant.eightfold.ai/careers/job/1133916277394"
+},
+"eightfold:ralliant:qualitrol:1133916277396": {
+"category": "",
+"closed_at": null,
+"company": "Qualitrol",
+"degrees": [],
+"first_seen": 1792092052,
+"locations": [
+"Fairport, NY, United States"
+],
+"posted": 1792089565,
+"source": "Eightfold",
+"title": "Hardware Engineer",
+"uid": "eightfold:ralliant:qualitrol:1133916277396",
+"url": "https://ralliant.eightfold.ai/careers/job/1133916277396"
+},
+"eightfold:ralliant:qualitrol:1133916337922": {
+"category": "",
+"closed_at": null,
+"company": "Qualitrol",
+"degrees": [],
+"first_seen": 1792092052,
+"locations": [
+"Fairport, NY, United States",
+"Remote, United States"
+],
+"posted": 1792089294,
+"source": "Eightfold",
+"title": "Product Application Engineer",
+"uid": "eightfold:ralliant:qualitrol:1133916337922",
+"url": "https://ralliant.eightfold.ai/careers/job/1133916337922"
 },
 "gh:adyen:5359280": {
 "category": "",
@@ -1130602,6 +1130663,6 @@
 "url": "https://apply.workable.com/j/F26F8B9006"
 }
 },
-"updated": "2026-10-15T18:16:17+00:00",
+"updated": "2026-10-15T19:20:56+00:00",
 "version": 2
 }
