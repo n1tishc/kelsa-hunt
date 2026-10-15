@@ -1,5 +1,5 @@
 {
-"count": 65761,
+"count": 65763,
 "jobs": {
 "ambicuity:1-click-logistics-software-engineer-i---md-hagerstown,-md,-us:b448a2fd309a057a38d7d41a0a41d603": {
 "aggregator_source": "JobSpy (Indeed)",
@@ -315377,6 +315377,21 @@
 "uid": "eightfold:ralliant:qualitrol:1133915072240",
 "url": "https://ralliant.eightfold.ai/careers/job/1133915072240"
 },
+"eightfold:ralliant:qualitrol:1133915085403": {
+"category": "",
+"closed_at": null,
+"company": "Qualitrol",
+"degrees": [],
+"first_seen": 1792023847,
+"locations": [
+"Fairport, NY, United States"
+],
+"posted": 1792022271,
+"source": "Eightfold",
+"title": "Production Assembly A-Shift",
+"uid": "eightfold:ralliant:qualitrol:1133915085403",
+"url": "https://ralliant.eightfold.ai/careers/job/1133915085403"
+},
 "eightfold:ralliant:qualitrol:1133915129637": {
 "category": "",
 "closed_at": null,
@@ -315721,6 +315736,21 @@
 "title": "Production Assembly A-Shift",
 "uid": "eightfold:ralliant:qualitrol:1133915784249",
 "url": "https://ralliant.eightfold.ai/careers/job/1133915784249"
+},
+"eightfold:ralliant:qualitrol:1133915784252": {
+"category": "",
+"closed_at": null,
+"company": "Qualitrol",
+"degrees": [],
+"first_seen": 1792023847,
+"locations": [
+"Fairport, NY, United States"
+],
+"posted": 1792022886,
+"source": "Eightfold",
+"title": "Production Assembly A-Shift",
+"uid": "eightfold:ralliant:qualitrol:1133915784252",
+"url": "https://ralliant.eightfold.ai/careers/job/1133915784252"
 },
 "eightfold:ralliant:qualitrol:1133915784259": {
 "category": "",
@@ -1125094,6 +1125124,6 @@
 "url": "https://apply.workable.com/j/F26F8B9006"
 }
 },
-"updated": "2026-10-14T21:57:24+00:00",
+"updated": "2026-10-15T00:24:14+00:00",
 "version": 2
 }
