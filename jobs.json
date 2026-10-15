@@ -1,5 +1,5 @@
 {
-"count": 65926,
+"count": 65927,
 "jobs": {
 "ambicuity:1-click-logistics-software-engineer-i---md-hagerstown,-md,-us:b448a2fd309a057a38d7d41a0a41d603": {
 "aggregator_source": "JobSpy (Indeed)",
@@ -313227,7 +313227,7 @@
 ],
 "posted": 1791540000,
 "source": "Dayforce",
-"title": "IT Change Management Lead Analyst",
+"title": "IT Change Management Specialist",
 "uid": "dayforce:ibgllc:CANDIDATEPORTAL:2609",
 "url": "https://jobs.dayforcehcm.com/en-US/ibgllc/CANDIDATEPORTAL/jobs/2609"
 },
@@ -313385,6 +313385,24 @@
 "title": "Client Operations - Financial Translator I",
 "uid": "dayforce:ibgllc:CANDIDATEPORTAL:2668",
 "url": "https://jobs.dayforcehcm.com/en-US/ibgllc/CANDIDATEPORTAL/jobs/2668"
+},
+"dayforce:ibgllc:CANDIDATEPORTAL:2671": {
+"category": "",
+"closed_at": null,
+"company": "Interactive Brokers",
+"degrees": [],
+"experience_years": [
+1
+],
+"first_seen": 1792077476,
+"locations": [
+"Zug, Switzerland"
+],
+"posted": 1792036800,
+"source": "Dayforce",
+"title": "Institutional Services Associate",
+"uid": "dayforce:ibgllc:CANDIDATEPORTAL:2671",
+"url": "https://jobs.dayforcehcm.com/en-US/ibgllc/CANDIDATEPORTAL/jobs/2671"
 },
 "dayforce:ibgllc:CANDIDATEPORTAL:290": {
 "category": "",
@@ -1128006,6 +1128024,6 @@
 "url": "https://apply.workable.com/j/F26F8B9006"
 }
 },
-"updated": "2026-10-15T11:22:56+00:00",
+"updated": "2026-10-15T15:18:00+00:00",
 "version": 2
 }
