@@ -1,5 +1,5 @@
 {
-"count": 67020,
+"count": 67021,
 "jobs": {
 "ambicuity:1-click-logistics-software-engineer-i---md-hagerstown,-md,-us:b448a2fd309a057a38d7d41a0a41d603": {
 "aggregator_source": "JobSpy (Indeed)",
@@ -316904,6 +316904,24 @@
 "title": "Application Services Group \u2013 Associate",
 "uid": "dayforce:ibgllc:CANDIDATEPORTAL:2681",
 "url": "https://jobs.dayforcehcm.com/en-US/ibgllc/CANDIDATEPORTAL/jobs/2681"
+},
+"dayforce:ibgllc:CANDIDATEPORTAL:2685": {
+"category": "",
+"closed_at": null,
+"company": "Interactive Brokers",
+"degrees": [],
+"experience_years": [
+4
+],
+"first_seen": 1792448096,
+"locations": [
+"Greenwich, CT, USA"
+],
+"posted": 1792404000,
+"source": "Dayforce",
+"title": "Benefits Leader",
+"uid": "dayforce:ibgllc:CANDIDATEPORTAL:2685",
+"url": "https://jobs.dayforcehcm.com/en-US/ibgllc/CANDIDATEPORTAL/jobs/2685"
 },
 "dayforce:ibgllc:CANDIDATEPORTAL:290": {
 "category": "",
@@ -1147026,6 +1147044,6 @@
 "url": "https://apply.workable.com/j/F26F8B9006"
 }
 },
-"updated": "2026-10-19T19:54:26+00:00",
+"updated": "2026-10-19T22:15:02+00:00",
 "version": 2
 }
