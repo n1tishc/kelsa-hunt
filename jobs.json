@@ -1,5 +1,5 @@
 {
-"count": 67639,
+"count": 67641,
 "jobs": {
 "ambicuity:1-click-logistics-software-engineer-i---md-hagerstown,-md,-us:b448a2fd309a057a38d7d41a0a41d603": {
 "aggregator_source": "JobSpy (Indeed)",
@@ -321170,6 +321170,36 @@
 "title": "Production Supervisor",
 "uid": "eightfold:ralliant:qualitrol:1133916005585",
 "url": "https://ralliant.eightfold.ai/careers/job/1133916005585"
+},
+"eightfold:ralliant:qualitrol:1133916024535": {
+"category": "",
+"closed_at": null,
+"company": "Qualitrol",
+"degrees": [],
+"first_seen": 1792527880,
+"locations": [
+"Fairport, NY, United States"
+],
+"posted": 1792526905,
+"source": "Eightfold",
+"title": "Early Career Rotational Program (ECRP) 2027 Associate",
+"uid": "eightfold:ralliant:qualitrol:1133916024535",
+"url": "https://ralliant.eightfold.ai/careers/job/1133916024535"
+},
+"eightfold:ralliant:qualitrol:1133916024732": {
+"category": "",
+"closed_at": null,
+"company": "Qualitrol",
+"degrees": [],
+"first_seen": 1792527880,
+"locations": [
+"Fairport, NY, United States"
+],
+"posted": 1792526632,
+"source": "Eightfold",
+"title": "Early Career Rotational Program (ECRP) 2027 Associate",
+"uid": "eightfold:ralliant:qualitrol:1133916024732",
+"url": "https://ralliant.eightfold.ai/careers/job/1133916024732"
 },
 "eightfold:ralliant:qualitrol:1133916086143": {
 "category": "",
@@ -1158012,6 +1158042,6 @@
 "url": "https://apply.workable.com/j/F26F8B9006"
 }
 },
-"updated": "2026-10-20T18:27:48+00:00",
+"updated": "2026-10-20T20:24:47+00:00",
 "version": 2
 }
