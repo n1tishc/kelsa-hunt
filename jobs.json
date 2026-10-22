@@ -1,5 +1,5 @@
 {
-"count": 68449,
+"count": 68451,
 "jobs": {
 "ambicuity:1-click-logistics-software-engineer-i---md-hagerstown,-md,-us:b448a2fd309a057a38d7d41a0a41d603": {
 "aggregator_source": "JobSpy (Indeed)",
@@ -318955,7 +318955,7 @@
 },
 "dayforce:ibgllc:CANDIDATEPORTAL:1981": {
 "category": "",
-"closed_at": null,
+"closed_at": 1792688474,
 "company": "Interactive Brokers",
 "degrees": [],
 "experience_years": [],
@@ -320692,6 +320692,24 @@
 "title": "Junior Quality Assurance Engineer - Test Analyst & Automation (Python)",
 "uid": "dayforce:ibgllc:CANDIDATEPORTAL:2714",
 "url": "https://jobs.dayforcehcm.com/en-US/ibgllc/CANDIDATEPORTAL/jobs/2714"
+},
+"dayforce:ibgllc:CANDIDATEPORTAL:2716": {
+"category": "",
+"closed_at": null,
+"company": "Interactive Brokers",
+"degrees": [],
+"experience_years": [
+3
+],
+"first_seen": 1792688474,
+"locations": [
+"Budapest, Hungary"
+],
+"posted": 1792641600,
+"source": "Dayforce",
+"title": "German Financial Translator",
+"uid": "dayforce:ibgllc:CANDIDATEPORTAL:2716",
+"url": "https://jobs.dayforcehcm.com/en-US/ibgllc/CANDIDATEPORTAL/jobs/2716"
 },
 "dayforce:ibgllc:CANDIDATEPORTAL:290": {
 "category": "",
@@ -324352,6 +324370,21 @@
 "title": "Product Manager (Solutions & Services)",
 "uid": "eightfold:ralliant:qualitrol:1133916415014",
 "url": "https://ralliant.eightfold.ai/careers/job/1133916415014"
+},
+"eightfold:ralliant:qualitrol:1133916453240": {
+"category": "",
+"closed_at": null,
+"company": "Qualitrol",
+"degrees": [],
+"first_seen": 1792688474,
+"locations": [
+"Fairport, NY, United States"
+],
+"posted": 1792685653,
+"source": "Eightfold",
+"title": "Firmware Engineer",
+"uid": "eightfold:ralliant:qualitrol:1133916453240",
+"url": "https://ralliant.eightfold.ai/careers/job/1133916453240"
 },
 "gh:adyen:5359280": {
 "category": "",
@@ -1172028,6 +1172061,6 @@
 "url": "https://apply.workable.com/j/F26F8B9006"
 }
 },
-"updated": "2026-10-22T11:46:11+00:00",
+"updated": "2026-10-22T17:01:19+00:00",
 "version": 2
 }
