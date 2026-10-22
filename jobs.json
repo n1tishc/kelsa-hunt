@@ -1,5 +1,5 @@
 {
-"count": 68362,
+"count": 68363,
 "jobs": {
 "ambicuity:1-click-logistics-software-engineer-i---md-hagerstown,-md,-us:b448a2fd309a057a38d7d41a0a41d603": {
 "aggregator_source": "JobSpy (Indeed)",
@@ -319268,7 +319268,7 @@
 },
 "dayforce:ibgllc:CANDIDATEPORTAL:2203": {
 "category": "",
-"closed_at": null,
+"closed_at": 1792668968,
 "company": "Interactive Brokers",
 "degrees": [],
 "experience_years": [],
@@ -320455,6 +320455,24 @@
 "uid": "dayforce:ibgllc:CANDIDATEPORTAL:2710",
 "url": "https://jobs.dayforcehcm.com/en-US/ibgllc/CANDIDATEPORTAL/jobs/2710"
 },
+"dayforce:ibgllc:CANDIDATEPORTAL:2714": {
+"category": "",
+"closed_at": null,
+"company": "Interactive Brokers",
+"degrees": [],
+"experience_years": [
+0
+],
+"first_seen": 1792668968,
+"locations": [
+"Tallinn, Estonia"
+],
+"posted": 1792641600,
+"source": "Dayforce",
+"title": "Junior Quality Assurance Engineer - Test Analyst & Automation (Python)",
+"uid": "dayforce:ibgllc:CANDIDATEPORTAL:2714",
+"url": "https://jobs.dayforcehcm.com/en-US/ibgllc/CANDIDATEPORTAL/jobs/2714"
+},
 "dayforce:ibgllc:CANDIDATEPORTAL:290": {
 "category": "",
 "closed_at": null,
@@ -320579,7 +320597,7 @@
 },
 "dayforce:ibgllc:CANDIDATEPORTAL:36": {
 "category": "",
-"closed_at": null,
+"closed_at": 1792668968,
 "company": "Interactive Brokers",
 "degrees": [],
 "experience_years": [
@@ -1170545,6 +1170563,6 @@
 "url": "https://apply.workable.com/j/F26F8B9006"
 }
 },
-"updated": "2026-10-22T04:37:59+00:00",
+"updated": "2026-10-22T11:36:13+00:00",
 "version": 2
 }
