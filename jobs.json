@@ -1,5 +1,5 @@
 {
-"count": 69806,
+"count": 69807,
 "jobs": {
 "ambicuity:1-click-logistics-software-engineer-i---md-hagerstown,-md,-us:b448a2fd309a057a38d7d41a0a41d603": {
 "aggregator_source": "JobSpy (Indeed)",
@@ -325568,6 +325568,22 @@
 "title": "Software Engineer III",
 "uid": "dayforce:ibgllc:CANDIDATEPORTAL:2722",
 "url": "https://jobs.dayforcehcm.com/en-US/ibgllc/CANDIDATEPORTAL/jobs/2722"
+},
+"dayforce:ibgllc:CANDIDATEPORTAL:2726": {
+"category": "",
+"closed_at": null,
+"company": "Interactive Brokers",
+"degrees": [],
+"experience_years": [],
+"first_seen": 1793098299,
+"locations": [
+"HarbourFront, Singapore"
+],
+"posted": 1793048400,
+"source": "Dayforce",
+"title": "Compliance-APAC - Analyst - Trade Surveillance",
+"uid": "dayforce:ibgllc:CANDIDATEPORTAL:2726",
+"url": "https://jobs.dayforcehcm.com/en-US/ibgllc/CANDIDATEPORTAL/jobs/2726"
 },
 "dayforce:ibgllc:CANDIDATEPORTAL:290": {
 "category": "",
@@ -1196325,6 +1196341,6 @@
 "url": "https://apply.workable.com/j/F26F8B9006"
 }
 },
-"updated": "2026-10-27T04:58:38+00:00",
+"updated": "2026-10-27T10:51:43+00:00",
 "version": 2
 }
