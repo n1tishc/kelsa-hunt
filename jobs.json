@@ -1,5 +1,5 @@
 {
-"count": 70928,
+"count": 70929,
 "jobs": {
 "ambicuity:1-click-logistics-software-engineer-i---md-hagerstown,-md,-us:b448a2fd309a057a38d7d41a0a41d603": {
 "aggregator_source": "JobSpy (Indeed)",
@@ -329280,6 +329280,23 @@
 "uid": "dayforce:ibgllc:CANDIDATEPORTAL:2747",
 "url": "https://jobs.dayforcehcm.com/en-US/ibgllc/CANDIDATEPORTAL/jobs/2747"
 },
+"dayforce:ibgllc:CANDIDATEPORTAL:2749": {
+"category": "",
+"closed_at": null,
+"company": "Interactive Brokers",
+"degrees": [],
+"experience_years": [],
+"first_seen": 1793310165,
+"locations": [
+"Greenwich, CT, USA",
+"Chicago, IL, USA"
+],
+"posted": 1793264400,
+"source": "Dayforce",
+"title": "Software Engineer III",
+"uid": "dayforce:ibgllc:CANDIDATEPORTAL:2749",
+"url": "https://jobs.dayforcehcm.com/en-US/ibgllc/CANDIDATEPORTAL/jobs/2749"
+},
 "dayforce:ibgllc:CANDIDATEPORTAL:290": {
 "category": "",
 "closed_at": null,
@@ -331738,7 +331755,7 @@
 },
 "eightfold:ralliant:qualitrol:1133915085180": {
 "category": "",
-"closed_at": null,
+"closed_at": 1793310165,
 "company": "Qualitrol",
 "degrees": [],
 "first_seen": 1792439617,
@@ -1215886,6 +1215903,6 @@
 "url": "https://apply.workable.com/j/F26F8B9006"
 }
 },
-"updated": "2026-10-29T19:37:19+00:00",
+"updated": "2026-10-29T21:42:52+00:00",
 "version": 2
 }
