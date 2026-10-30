@@ -1,5 +1,5 @@
 {
-"count": 71111,
+"count": 71112,
 "jobs": {
 "ambicuity:1-click-logistics-software-engineer-i---md-hagerstown,-md,-us:b448a2fd309a057a38d7d41a0a41d603": {
 "aggregator_source": "JobSpy (Indeed)",
@@ -333568,6 +333568,21 @@
 "title": "Firmware Engineer",
 "uid": "eightfold:ralliant:qualitrol:1133916453240",
 "url": "https://ralliant.eightfold.ai/careers/job/1133916453240"
+},
+"eightfold:ralliant:qualitrol:1133916523857": {
+"category": "",
+"closed_at": null,
+"company": "Qualitrol",
+"degrees": [],
+"first_seen": 1793324921,
+"locations": [
+"Fairport, NY, United States"
+],
+"posted": 1793317031,
+"source": "Eightfold",
+"title": "Cell Leader C-Shift",
+"uid": "eightfold:ralliant:qualitrol:1133916523857",
+"url": "https://ralliant.eightfold.ai/careers/job/1133916523857"
 },
 "eightfold:ralliant:qualitrol:1133916563752": {
 "category": "",
@@ -1219109,6 +1219124,6 @@
 "url": "https://apply.workable.com/j/F26F8B9006"
 }
 },
-"updated": "2026-10-29T23:36:08+00:00",
+"updated": "2026-10-30T01:48:48+00:00",
 "version": 2
 }
