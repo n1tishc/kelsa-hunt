@@ -1,5 +1,5 @@
 {
-"count": 71783,
+"count": 71786,
 "jobs": {
 "ambicuity:1-click-logistics-software-engineer-i---md-hagerstown,-md,-us:b448a2fd309a057a38d7d41a0a41d603": {
 "aggregator_source": "JobSpy (Indeed)",
@@ -331936,6 +331936,24 @@
 "uid": "dayforce:ibgllc:CANDIDATEPORTAL:2749",
 "url": "https://jobs.dayforcehcm.com/en-US/ibgllc/CANDIDATEPORTAL/jobs/2749"
 },
+"dayforce:ibgllc:CANDIDATEPORTAL:2756": {
+"category": "",
+"closed_at": null,
+"company": "Interactive Brokers",
+"degrees": [],
+"experience_years": [
+1
+],
+"first_seen": 1793648564,
+"locations": [
+"Chicago, IL, USA"
+],
+"posted": 1793617200,
+"source": "Dayforce",
+"title": "Risk Assessment Analyst I",
+"uid": "dayforce:ibgllc:CANDIDATEPORTAL:2756",
+"url": "https://jobs.dayforcehcm.com/en-US/ibgllc/CANDIDATEPORTAL/jobs/2756"
+},
 "dayforce:ibgllc:CANDIDATEPORTAL:290": {
 "category": "",
 "closed_at": null,
@@ -333138,7 +333156,6 @@
 "locations": [
 "Greenwich, CT, USA",
 "Chicago, IL, USA",
-"New York, NY, USA",
 "Fort Lauderdale, FL, USA"
 ],
 "posted": 1782727200,
@@ -334076,7 +334093,7 @@
 },
 "eightfold:ralliant:qualitrol:1133914635964": {
 "category": "",
-"closed_at": null,
+"closed_at": 1793648564,
 "company": "Qualitrol",
 "degrees": [],
 "first_seen": 1788893219,
@@ -335383,9 +335400,24 @@
 "uid": "eightfold:ralliant:qualitrol:1133916131204",
 "url": "https://ralliant.eightfold.ai/careers/job/1133916131204"
 },
-"eightfold:ralliant:qualitrol:1133916135821": {
+"eightfold:ralliant:qualitrol:1133916135820": {
 "category": "",
 "closed_at": null,
+"company": "Qualitrol",
+"degrees": [],
+"first_seen": 1793648564,
+"locations": [
+"Fairport, NY, United States"
+],
+"posted": 1793638660,
+"source": "Eightfold",
+"title": "Senior Process Engineer",
+"uid": "eightfold:ralliant:qualitrol:1133916135820",
+"url": "https://ralliant.eightfold.ai/careers/job/1133916135820"
+},
+"eightfold:ralliant:qualitrol:1133916135821": {
+"category": "",
+"closed_at": 1793648564,
 "company": "Qualitrol",
 "degrees": [],
 "first_seen": 1791503569,
@@ -335700,6 +335732,21 @@
 "title": "Assembler",
 "uid": "eightfold:ralliant:qualitrol:1133916627931",
 "url": "https://ralliant.eightfold.ai/careers/job/1133916627931"
+},
+"eightfold:ralliant:qualitrol:1133916639505": {
+"category": "",
+"closed_at": null,
+"company": "Qualitrol",
+"degrees": [],
+"first_seen": 1793648564,
+"locations": [
+"Fairport, NY, United States"
+],
+"posted": 1793632303,
+"source": "Eightfold",
+"title": "Production Supervisor - C Shift",
+"uid": "eightfold:ralliant:qualitrol:1133916639505",
+"url": "https://ralliant.eightfold.ai/careers/job/1133916639505"
 },
 "gh:adyen:5359280": {
 "category": "",
@@ -1230837,6 +1230884,6 @@
 "url": "https://apply.workable.com/j/F26F8B9006"
 }
 },
-"updated": "2026-11-02T15:41:53+00:00",
+"updated": "2026-11-02T19:42:49+00:00",
 "version": 2
 }
