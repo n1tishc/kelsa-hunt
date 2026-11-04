@@ -1,5 +1,5 @@
 {
-"count": 72625,
+"count": 72626,
 "jobs": {
 "ambicuity:1-click-logistics-software-engineer-i---md-hagerstown,-md,-us:b448a2fd309a057a38d7d41a0a41d603": {
 "aggregator_source": "JobSpy (Indeed)",
@@ -334657,7 +334657,7 @@
 },
 "dayforce:ibgllc:CANDIDATEPORTAL:2768": {
 "category": "",
-"closed_at": null,
+"closed_at": 1793818123,
 "company": "Interactive Brokers",
 "degrees": [],
 "experience_years": [
@@ -338319,6 +338319,21 @@
 "title": "BI/Analytics Developer",
 "uid": "eightfold:ralliant:qualitrol:1133916257839",
 "url": "https://ralliant.eightfold.ai/careers/job/1133916257839"
+},
+"eightfold:ralliant:qualitrol:1133916258372": {
+"category": "",
+"closed_at": null,
+"company": "Qualitrol",
+"degrees": [],
+"first_seen": 1793818123,
+"locations": [
+"Fairport, NY, United States"
+],
+"posted": 1793804990,
+"source": "Eightfold",
+"title": "Production Assembly - C Shift",
+"uid": "eightfold:ralliant:qualitrol:1133916258372",
+"url": "https://ralliant.eightfold.ai/careers/job/1133916258372"
 },
 "eightfold:ralliant:qualitrol:1133916258375": {
 "category": "",
@@ -1245424,6 +1245439,6 @@
 "url": "https://apply.workable.com/j/F26F8B9006"
 }
 },
-"updated": "2026-11-04T14:26:42+00:00",
+"updated": "2026-11-04T18:48:47+00:00",
 "version": 2
 }
