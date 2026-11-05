@@ -1,5 +1,5 @@
 {
-"count": 72963,
+"count": 72966,
 "jobs": {
 "ambicuity:1-click-logistics-software-engineer-i---md-hagerstown,-md,-us:b448a2fd309a057a38d7d41a0a41d603": {
 "aggregator_source": "JobSpy (Indeed)",
@@ -333813,13 +333813,13 @@
 "company": "Interactive Brokers",
 "degrees": [],
 "experience_years": [
-3
+5
 ],
 "first_seen": 1788893219,
 "locations": [
 "London, UK"
 ],
-"posted": 1785474000,
+"posted": 1785470400,
 "source": "Dayforce",
 "title": "Java Server Engineer",
 "uid": "dayforce:ibgllc:CANDIDATEPORTAL:1924",
@@ -335893,6 +335893,22 @@
 "title": "IT Change Management Specialist",
 "uid": "dayforce:ibgllc:CANDIDATEPORTAL:2775",
 "url": "https://jobs.dayforcehcm.com/en-US/ibgllc/CANDIDATEPORTAL/jobs/2775"
+},
+"dayforce:ibgllc:CANDIDATEPORTAL:2784": {
+"category": "",
+"closed_at": null,
+"company": "Interactive Brokers",
+"degrees": [],
+"experience_years": [],
+"first_seen": 1793893485,
+"locations": [
+"Zug, Switzerland"
+],
+"posted": 1793854800,
+"source": "Dayforce",
+"title": "Client Services Specialist \u2013 Security Transfers",
+"uid": "dayforce:ibgllc:CANDIDATEPORTAL:2784",
+"url": "https://jobs.dayforcehcm.com/en-US/ibgllc/CANDIDATEPORTAL/jobs/2784"
 },
 "dayforce:ibgllc:CANDIDATEPORTAL:290": {
 "category": "",
@@ -339732,6 +339748,36 @@
 "title": "Electrical Assembler - A Shift",
 "uid": "eightfold:ralliant:qualitrol:1133916563761",
 "url": "https://ralliant.eightfold.ai/careers/job/1133916563761"
+},
+"eightfold:ralliant:qualitrol:1133916619253": {
+"category": "",
+"closed_at": null,
+"company": "Qualitrol",
+"degrees": [],
+"first_seen": 1793893485,
+"locations": [
+"Belfast, County Antrim, United Kingdom"
+],
+"posted": 1793878049,
+"source": "Eightfold",
+"title": "Production Operative",
+"uid": "eightfold:ralliant:qualitrol:1133916619253",
+"url": "https://ralliant.eightfold.ai/careers/job/1133916619253"
+},
+"eightfold:ralliant:qualitrol:1133916619255": {
+"category": "",
+"closed_at": null,
+"company": "Qualitrol",
+"degrees": [],
+"first_seen": 1793893485,
+"locations": [
+"Belfast, County Antrim, United Kingdom"
+],
+"posted": 1793878186,
+"source": "Eightfold",
+"title": "Production Operative",
+"uid": "eightfold:ralliant:qualitrol:1133916619255",
+"url": "https://ralliant.eightfold.ai/careers/job/1133916619255"
 },
 "eightfold:ralliant:qualitrol:1133916627931": {
 "category": "",
@@ -1251335,6 +1251381,6 @@
 "url": "https://apply.workable.com/j/F26F8B9006"
 }
 },
-"updated": "2026-11-05T06:38:52+00:00",
+"updated": "2026-11-05T15:44:51+00:00",
 "version": 2
 }
