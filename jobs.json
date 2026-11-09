@@ -1,5 +1,5 @@
 {
-"count": 74075,
+"count": 74077,
 "jobs": {
 "ambicuity:1-click-logistics-software-engineer-i---md-hagerstown,-md,-us:b448a2fd309a057a38d7d41a0a41d603": {
 "aggregator_source": "JobSpy (Indeed)",
@@ -342925,6 +342925,21 @@
 "uid": "eightfold:ralliant:qualitrol:1133915959964",
 "url": "https://ralliant.eightfold.ai/careers/job/1133915959964"
 },
+"eightfold:ralliant:qualitrol:1133915969795": {
+"category": "",
+"closed_at": null,
+"company": "Qualitrol",
+"degrees": [],
+"first_seen": 1794256643,
+"locations": [
+"Fairport, NY, United States"
+],
+"posted": 1794255056,
+"source": "Eightfold",
+"title": "Production Assembly C-Shift",
+"uid": "eightfold:ralliant:qualitrol:1133915969795",
+"url": "https://ralliant.eightfold.ai/careers/job/1133915969795"
+},
 "eightfold:ralliant:qualitrol:1133915972410": {
 "category": "",
 "closed_at": null,
@@ -343144,7 +343159,7 @@
 "locations": [
 "Fairport, NY, United States"
 ],
-"posted": 1791203282,
+"posted": 0,
 "source": "Eightfold",
 "title": "Shipping & Receiving Clerk",
 "uid": "eightfold:ralliant:qualitrol:1133916097372",
@@ -343632,6 +343647,21 @@
 "title": "Production Supervisor - C Shift",
 "uid": "eightfold:ralliant:qualitrol:1133916639505",
 "url": "https://ralliant.eightfold.ai/careers/job/1133916639505"
+},
+"eightfold:ralliant:qualitrol:1133916756940": {
+"category": "",
+"closed_at": null,
+"company": "Qualitrol",
+"degrees": [],
+"first_seen": 1794256643,
+"locations": [
+"Fairport, NY, United States"
+],
+"posted": 1794245256,
+"source": "Eightfold",
+"title": "Production Assembly - C Shift",
+"uid": "eightfold:ralliant:qualitrol:1133916756940",
+"url": "https://ralliant.eightfold.ai/careers/job/1133916756940"
 },
 "gh:adyen:5359280": {
 "category": "",
@@ -1270626,6 +1270656,6 @@
 "url": "https://apply.workable.com/j/F26F8B9006"
 }
 },
-"updated": "2026-11-09T16:25:17+00:00",
+"updated": "2026-11-09T20:37:29+00:00",
 "version": 2
 }
