@@ -343579,7 +343579,7 @@
 },
 "dayforce:ibgllc:CANDIDATEPORTAL:2218": {
 "category": "",
-"closed_at": 1793191514,
+"closed_at": null,
 "company": "Interactive Brokers",
 "degrees": [],
 "experience_years": [],
@@ -349047,7 +349047,7 @@
 },
 "eightfold:ralliant:qualitrol:1133916634925": {
 "category": "",
-"closed_at": null,
+"closed_at": 1794483827,
 "company": "Qualitrol",
 "degrees": [],
 "first_seen": 1793722294,
@@ -1292425,6 +1292425,6 @@
 "url": "https://apply.workable.com/j/F26F8B9006"
 }
 },
-"updated": "2026-11-12T07:05:25+00:00",
+"updated": "2026-11-12T11:43:55+00:00",
 "version": 2
 }
