@@ -1,5 +1,5 @@
 {
-"count": 76071,
+"count": 76073,
 "jobs": {
 "ambicuity:1-click-logistics-software-engineer-i---md-hagerstown,-md,-us:b448a2fd309a057a38d7d41a0a41d603": {
 "aggregator_source": "JobSpy (Indeed)",
@@ -351033,7 +351033,7 @@
 },
 "eightfold:ralliant:qualitrol:1133916092048": {
 "category": "",
-"closed_at": null,
+"closed_at": 1794607544,
 "company": "Qualitrol",
 "degrees": [],
 "first_seen": 1791984918,
@@ -351423,6 +351423,21 @@
 "uid": "eightfold:ralliant:qualitrol:1133916277396",
 "url": "https://ralliant.eightfold.ai/careers/job/1133916277396"
 },
+"eightfold:ralliant:qualitrol:1133916333906": {
+"category": "",
+"closed_at": null,
+"company": "Qualitrol",
+"degrees": [],
+"first_seen": 1794607544,
+"locations": [
+"Mississauga, ON, Canada"
+],
+"posted": 1794606325,
+"source": "Eightfold",
+"title": "Electronics Technologist",
+"uid": "eightfold:ralliant:qualitrol:1133916333906",
+"url": "https://ralliant.eightfold.ai/careers/job/1133916333906"
+},
 "eightfold:ralliant:qualitrol:1133916337922": {
 "category": "",
 "closed_at": null,
@@ -351708,6 +351723,21 @@
 "title": "Production Assembly - C Shift",
 "uid": "eightfold:ralliant:qualitrol:1133916756940",
 "url": "https://ralliant.eightfold.ai/careers/job/1133916756940"
+},
+"eightfold:ralliant:qualitrol:1133916756941": {
+"category": "",
+"closed_at": null,
+"company": "Qualitrol",
+"degrees": [],
+"first_seen": 1794607544,
+"locations": [
+"Fairport, NY, United States"
+],
+"posted": 1794603431,
+"source": "Eightfold",
+"title": "Production Assembly - C Shift",
+"uid": "eightfold:ralliant:qualitrol:1133916756941",
+"url": "https://ralliant.eightfold.ai/careers/job/1133916756941"
 },
 "eightfold:ralliant:qualitrol:1133916756942": {
 "category": "",
@@ -1305482,6 +1305512,6 @@
 "url": "https://apply.workable.com/j/F26F8B9006"
 }
 },
-"updated": "2026-11-13T20:54:29+00:00",
+"updated": "2026-11-13T22:05:49+00:00",
 "version": 2
 }
