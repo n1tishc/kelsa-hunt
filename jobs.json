@@ -1,5 +1,5 @@
 {
-"count": 76581,
+"count": 76582,
 "jobs": {
 "ambicuity:1-click-logistics-software-engineer-i---md-hagerstown,-md,-us:b448a2fd309a057a38d7d41a0a41d603": {
 "aggregator_source": "JobSpy (Indeed)",
@@ -352470,7 +352470,7 @@
 },
 "eightfold:ralliant:qualitrol:1133915901821": {
 "category": "",
-"closed_at": null,
+"closed_at": 1794880804,
 "company": "Qualitrol",
 "degrees": [],
 "first_seen": 1790173349,
@@ -353551,6 +353551,21 @@
 "title": "Production Assembly-C Shift",
 "uid": "eightfold:ralliant:qualitrol:1133916756942",
 "url": "https://ralliant.eightfold.ai/careers/job/1133916756942"
+},
+"eightfold:ralliant:qualitrol:1133916758132": {
+"category": "",
+"closed_at": null,
+"company": "Qualitrol",
+"degrees": [],
+"first_seen": 1794880804,
+"locations": [
+"Fairport, NY, United States"
+],
+"posted": 1794870656,
+"source": "Eightfold",
+"title": "Production Assembly C-Shift",
+"uid": "eightfold:ralliant:qualitrol:1133916758132",
+"url": "https://ralliant.eightfold.ai/careers/job/1133916758132"
 },
 "eightfold:ralliant:qualitrol:1133916788845": {
 "category": "",
@@ -1314301,6 +1314316,6 @@
 "url": "https://apply.workable.com/j/F26F8B9006"
 }
 },
-"updated": "2026-11-16T23:23:22+00:00",
+"updated": "2026-11-17T02:00:10+00:00",
 "version": 2
 }
