@@ -1,5 +1,5 @@
 {
-"count": 76883,
+"count": 76885,
 "jobs": {
 "ambicuity:1-click-logistics-software-engineer-i---md-hagerstown,-md,-us:b448a2fd309a057a38d7d41a0a41d603": {
 "aggregator_source": "JobSpy (Indeed)",
@@ -350425,6 +350425,24 @@
 "uid": "dayforce:ibgllc:CANDIDATEPORTAL:2872",
 "url": "https://jobs.dayforcehcm.com/en-US/ibgllc/CANDIDATEPORTAL/jobs/2872"
 },
+"dayforce:ibgllc:CANDIDATEPORTAL:2878": {
+"category": "",
+"closed_at": null,
+"company": "Interactive Brokers",
+"degrees": [],
+"experience_years": [
+3
+],
+"first_seen": 1794944631,
+"locations": [
+"Greenwich, CT, USA"
+],
+"posted": 1794913200,
+"source": "Dayforce",
+"title": "FIX Engineer Analyst - Client Integrations",
+"uid": "dayforce:ibgllc:CANDIDATEPORTAL:2878",
+"url": "https://jobs.dayforcehcm.com/en-US/ibgllc/CANDIDATEPORTAL/jobs/2878"
+},
 "dayforce:ibgllc:CANDIDATEPORTAL:290": {
 "category": "",
 "closed_at": null,
@@ -354085,7 +354103,7 @@
 },
 "eightfold:ralliant:qualitrol:1133916257627": {
 "category": "",
-"closed_at": null,
+"closed_at": 1794944631,
 "company": "Qualitrol",
 "degrees": [],
 "first_seen": 1791914831,
@@ -354758,6 +354776,21 @@
 "title": "Production Assembly A-Shift",
 "uid": "eightfold:ralliant:qualitrol:1133916867087",
 "url": "https://ralliant.eightfold.ai/careers/job/1133916867087"
+},
+"eightfold:ralliant:qualitrol:1133916941991": {
+"category": "",
+"closed_at": null,
+"company": "Qualitrol",
+"degrees": [],
+"first_seen": 1794944631,
+"locations": [
+"Fairport, NY, United States"
+],
+"posted": 1794940983,
+"source": "Eightfold",
+"title": "Manager, Revenue Operations",
+"uid": "eightfold:ralliant:qualitrol:1133916941991",
+"url": "https://ralliant.eightfold.ai/careers/job/1133916941991"
 },
 "gh:adyen:5359280": {
 "category": "",
@@ -1319542,6 +1319575,6 @@
 "url": "https://apply.workable.com/j/F26F8B9006"
 }
 },
-"updated": "2026-11-17T17:36:40+00:00",
+"updated": "2026-11-17T19:43:58+00:00",
 "version": 2
 }
