@@ -1,5 +1,5 @@
 {
-"count": 79261,
+"count": 79264,
 "jobs": {
 "ambicuity:1-click-logistics-software-engineer-i---md-hagerstown,-md,-us:b448a2fd309a057a38d7d41a0a41d603": {
 "aggregator_source": "JobSpy (Indeed)",
@@ -356234,9 +356234,9 @@
 ],
 "first_seen": 1788893219,
 "locations": [
-"Vancouver, BC, Canada"
+"Chicago, IL, USA"
 ],
-"posted": 1785405600,
+"posted": 1785319200,
 "source": "Dayforce",
 "title": "Client Services Associate I",
 "uid": "dayforce:ibgllc:CANDIDATEPORTAL:1914",
@@ -356425,7 +356425,7 @@
 "locations": [
 "Fort Lauderdale, FL, USA"
 ],
-"posted": 1786010400,
+"posted": 1785976200,
 "source": "Dayforce",
 "title": "Client Services Associate I (Bilingual Portuguese Fluent)",
 "uid": "dayforce:ibgllc:CANDIDATEPORTAL:1994",
@@ -356786,7 +356786,7 @@
 "locations": [
 "Chicago, IL, USA"
 ],
-"posted": 1787565600,
+"posted": 1787531400,
 "source": "Dayforce",
 "title": "Funds and Banking Associate I",
 "uid": "dayforce:ibgllc:CANDIDATEPORTAL:2178",
@@ -356985,7 +356985,7 @@
 },
 "dayforce:ibgllc:CANDIDATEPORTAL:2218": {
 "category": "",
-"closed_at": null,
+"closed_at": 1795618283,
 "company": "Interactive Brokers",
 "degrees": [],
 "experience_years": [],
@@ -357117,7 +357117,7 @@
 "locations": [
 "Fort Lauderdale, FL, USA"
 ],
-"posted": 1788429600,
+"posted": 1788395400,
 "source": "Dayforce",
 "title": "Client Services Associate I (Bilingual Spanish Fluent)",
 "uid": "dayforce:ibgllc:CANDIDATEPORTAL:2307",
@@ -357953,7 +357953,7 @@
 ],
 "first_seen": 1791906911,
 "locations": [
-"Chicago, IL, USA"
+"Vancouver, BC, Canada"
 ],
 "posted": 1791885600,
 "source": "Dayforce",
@@ -358591,6 +358591,59 @@
 "title": "Marketing Internship 2027: Prediction Markets Marketing Intern",
 "uid": "dayforce:ibgllc:CANDIDATEPORTAL:2902",
 "url": "https://jobs.dayforcehcm.com/en-US/ibgllc/CANDIDATEPORTAL/jobs/2902"
+},
+"dayforce:ibgllc:CANDIDATEPORTAL:2928": {
+"category": "",
+"closed_at": null,
+"company": "Interactive Brokers",
+"degrees": [],
+"experience_years": [
+2
+],
+"first_seen": 1795618283,
+"locations": [
+"Mumbai, Maharashtra, India"
+],
+"posted": 1795566600,
+"source": "Dayforce",
+"title": "Campus - Trade Desk Associate I",
+"uid": "dayforce:ibgllc:CANDIDATEPORTAL:2928",
+"url": "https://jobs.dayforcehcm.com/en-US/ibgllc/CANDIDATEPORTAL/jobs/2928"
+},
+"dayforce:ibgllc:CANDIDATEPORTAL:2931": {
+"category": "",
+"closed_at": null,
+"company": "Interactive Brokers",
+"degrees": [],
+"experience_years": [
+0,
+4
+],
+"first_seen": 1795618283,
+"locations": [
+"Dublin, Ireland"
+],
+"posted": 1795586400,
+"source": "Dayforce",
+"title": "Finance - Analyst - Client Assets",
+"uid": "dayforce:ibgllc:CANDIDATEPORTAL:2931",
+"url": "https://jobs.dayforcehcm.com/en-US/ibgllc/CANDIDATEPORTAL/jobs/2931"
+},
+"dayforce:ibgllc:CANDIDATEPORTAL:2943": {
+"category": "",
+"closed_at": null,
+"company": "Interactive Brokers",
+"degrees": [],
+"experience_years": [],
+"first_seen": 1795618283,
+"locations": [
+"Chicago, IL, USA"
+],
+"posted": 1795604400,
+"source": "Dayforce",
+"title": "Mailroom Clerk - Temporary",
+"uid": "dayforce:ibgllc:CANDIDATEPORTAL:2943",
+"url": "https://jobs.dayforcehcm.com/en-US/ibgllc/CANDIDATEPORTAL/jobs/2943"
 },
 "dayforce:ibgllc:CANDIDATEPORTAL:298": {
 "category": "",
@@ -359300,7 +359353,7 @@
 "Chicago, IL, USA",
 "Fort Lauderdale, FL, USA"
 ],
-"posted": 1782468000,
+"posted": 1782433800,
 "source": "Dayforce",
 "title": "Institutional Services Associate I",
 "uid": "dayforce:ibgllc:CANDIDATEPORTAL:640",
@@ -1360580,6 +1360633,6 @@
 "url": "https://apply.workable.com/j/FD5AFF31DB"
 }
 },
-"updated": "2026-11-25T08:24:20+00:00",
+"updated": "2026-11-25T14:51:27+00:00",
 "version": 2
 }
